@@ -4,20 +4,34 @@ var Routes = {};
 
 Routes.create = function(req, res, next) {
 
+  /*
   Model
     .create(req.body.username, req.body.password, req.body.name, req.body.surname)
     .then(function(model){
       res.locals.json = model;
       next();
     });
+  */
+
+  db.query('INSERT INTO users VALUES (?,?,?,?)', req.body.username, req.body.password, req.body.name, req.body.surname, function(err, rows){
+    if (err) return res.json(500, "Error creating the user");
+    res.locals.json = {status: "OK"};
+    next();
+  });
 }
 
 Routes.update = function(req, res, next) {
+  var update = {};
+  if (res.body.password) update.password = res.body.password;
+  if (res.body.name) update.name = res.body.name;
+  if (res.body.surname) update.surname = res.body.surname;
 
-  res.locals.json = {
-    message:"OK"
-  };
-  next();
+  db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, row) {
+    if (err) return res.json(500, "Error creating the user");
+    res.locals.json = {status: "OK"};
+    next();
+  })
+
 };
 
 Routes.del = function(req, res, next) {
