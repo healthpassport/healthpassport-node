@@ -11,7 +11,7 @@ var db = connection;
 async.waterfall([
   function(cb) {
     console.log(1);
-    db.query('CREATE DATABASE IF NOT EXISTS healthpass', cb)
+    db.query('CREATE DATABASE IF NOT EXISTS '+ process.env.MYSQL_DATABASE, cb)
   },
   function(){
     var cb = arguments[arguments.length-1];
