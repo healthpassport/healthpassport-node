@@ -1,6 +1,7 @@
 var Model = require('../models/user');
 var db = require('../classes/mysql');
 var Routes = {};
+var __ = require('underscore');
 
 Routes.create = function(req, res, next) {
 
@@ -31,6 +32,13 @@ Routes.update = function(req, res, next) {
   if (req.body.password) update.password = req.body.password;
   if (req.body.name) update.name = req.body.name;
   if (req.body.surname) update.surname = req.body.surname;
+
+  console.log(update);
+  if (__.keys(update).length == 0) {
+    res.locals.json = {status: "OK"};
+    next();
+    return;
+  }
 
   db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
     if (err) return res.json(500, {status:"Error updating the user"});
