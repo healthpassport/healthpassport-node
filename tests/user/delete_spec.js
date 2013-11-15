@@ -20,9 +20,7 @@ frisby.create("Deleting an existing user with username nicolagreco")
   .toss();
 
 frisby.create("Deleting an unexisting user martinlazarov")
-	.delete('http://127.0.0.1:3000/api/v1/users/martinlazarov')
-	.expectStatus(200)
-	.expectJSON({status:"OK"})
-	.toss();
-
-	
+  .delete('http://127.0.0.1:3000/api/v1/users/martinlazarov')
+  .expectStatus(200)
+  .expectJSON({status:"OK"})
+  .toss();

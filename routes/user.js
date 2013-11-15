@@ -2,6 +2,8 @@ var Model = require('../models/user');
 var db = require('../classes/mysql');
 var Routes = {};
 var __ = require('underscore');
+var async = require('async');
+var bcrypt = require('bcrypt');
 
 Routes.create = function(req, res, next) {
 
@@ -33,19 +35,41 @@ Routes.update = function(req, res, next) {
   if (req.body.name) update.name = req.body.name;
   if (req.body.surname) update.surname = req.body.surname;
 
-  console.log(update);
   if (__.keys(update).length == 0) {
     res.locals.json = {status: "OK"};
     next();
     return;
   }
 
-  db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
-    if (err) return res.json(500, {status:"Error updating the user"});
-    if (rows.affectedRows == 0) return res.json(500, {status:"User not found"});
-    res.locals.json = {status: "OK"};
+  async.waterfall([
+    function(cb) {
+      if (!update.password) return cb(null, update);
+
+      bcrypt.genSalt(10, function(err, salt) {
+        if (err) return cb(err, "Cannot update password");
+
+        bcrypt.hash(update.password, salt, function(err, hash) {
+          if (err) return cb(err, "Cannot update password");
+
+          update.password = hash;
+          cb(null, update);
+        });
+      });
+    },
+    function(update, cb) {
+    console.log(req.params.username, update);
+      db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
+        if (err) return cb(err, {status:"Error updating the user"});
+        if (rows.affectedRows == 0) return cb(true, {status:"User not found"});
+        cb(null, {status: "OK"});
+      })
+    }
+  ],
+  function (err, result) {
+    if (err) return res.json(500, result);
+    res.locals.json = result;
     next();
-  })
+  });
 
 };
 

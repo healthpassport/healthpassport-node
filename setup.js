@@ -20,10 +20,11 @@ async.waterfall([
     db.query('CREATE TABLE IF NOT EXISTS users \
              ( \
               username VARCHAR(30) PRIMARY KEY, \
-              password VARCHAR(30), \
+              password VARCHAR(60), \
               name     VARCHAR(30), \
               surname  VARCHAR(30)  \
              );', cb);
+    db.query("ALTER TABLE users MODIFY COLUMN password VARCHAR(60)")
   },
   function() {
     var cb = arguments[arguments.length-1];
@@ -33,3 +34,4 @@ async.waterfall([
 ], function(err, result) {
   console.log(err, !err ? "Done" : null);
 });
+
