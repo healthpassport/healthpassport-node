@@ -10,6 +10,7 @@ REST API infrastructure for Healthpassport project UCL/NHS
 - Install mysql
 - Run setup script with `node setup.js`
 - Set global vars
+
 ```
 export MYSQL_HOST='localhost'
 export MYSQL_USER='root'
