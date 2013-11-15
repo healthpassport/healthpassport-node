@@ -13,3 +13,10 @@ frisby.create("Updating an existing user nicolagreco")
   
   })
   .toss()
+
+
+frisby.create("Updating an unexisting user martinlazarov")
+  .put("http://127.0.0.1:3000/api/v1/users/martinlazarov",{name:"Martinn"})
+  .expectStatus(500)
+  .expectJSON({status:"User not found"})
+  .toss()

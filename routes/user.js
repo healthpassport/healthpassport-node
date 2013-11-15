@@ -32,8 +32,9 @@ Routes.update = function(req, res, next) {
   if (req.body.name) update.name = req.body.name;
   if (req.body.surname) update.surname = req.body.surname;
 
-  db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, row) {
-    if (err) return res.json(500, "Error creating the user");
+  db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
+    if (err) return res.json(500, {status:"Error updating the user"});
+    if (rows.affectedRows == 0) return res.json(500, {status:"User not found"});
     res.locals.json = {status: "OK"};
     next();
   })
