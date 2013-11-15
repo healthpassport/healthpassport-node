@@ -17,3 +17,13 @@ frisby.create('Create user')
     db.query('DELETE FROM users WHERE username="Raluca"');
   })
   .toss();
+
+
+frisby.create('Create user with empty params')
+  .post('http://127.0.0.1:3000/api/v1/users', {})
+  .expectStatus(500)
+  .expectHeaderContains('content-type', 'application/json')
+  .expectJSON({
+    status: "Error creating the user"
+  })
+  .toss();

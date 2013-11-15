@@ -20,7 +20,7 @@ Routes.create = function(req, res, next) {
   };
 
   db.query('INSERT INTO users SET ?;', values, function(err, rows){
-    if (err) return res.json(500, "Error creating the user");
+    if (err) return res.json(500, {status:"Error creating the user"});
     res.locals.json = {status: "OK"};
     next();
   });
