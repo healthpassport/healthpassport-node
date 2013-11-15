@@ -53,8 +53,8 @@ Routes.del = function(req, res, next) {
 Routes.get = function(req, res, next) {
 
   db.query('SELECT username,name,surname FROM users WHERE username = ?', req.params.username, function(err, rows){
-    if (err) return res.json(500, {error:"Error in finding a user in DB"});
-    if (rows.length == 0) return res.json(500, {error:"User not found"});
+    if (err) return res.json(500, {status:"Error in finding a user in DB"});
+    if (rows.length == 0) return res.json(500, {status:"User not found"});
 
     res.locals.json = rows[0];
     next();
