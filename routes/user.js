@@ -52,7 +52,7 @@ Routes.del = function(req, res, next) {
 
 Routes.get = function(req, res, next) {
 
-  db.query('SELECT DISTINCT * FROM users WHERE username = ?', req.params.username, function(err, rows){
+  db.query('SELECT username,name,surname FROM users WHERE username = ?', req.params.username, function(err, rows){
     if (err) return res.json(500, {error:"Error in finding a user in DB"});
     if (rows.length == 0) return res.json(500, {error:"User not found"});
 
@@ -71,7 +71,7 @@ Routes.query = function(req, res, next) {
    * })
    */
 
-  db.query('SELECT * FROM users', function(err, rows) {
+  db.query('SELECT username,name,surname FROM users', function(err, rows) {
     if (err) return res.json(500, {error:"Error in listing the users"})
     res.locals.json = rows;
     next();
