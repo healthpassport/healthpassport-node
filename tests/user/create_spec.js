@@ -1,5 +1,5 @@
 var frisby = require('frisby');
-var db = require('../classes/mysql');
+var db = require('../../classes/mysql');
 
 frisby.create('Create user')
   .post('http://127.0.0.1:3000/api/v1/users', {
