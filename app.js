@@ -10,7 +10,23 @@ var db = require('./classes/mysql');
 var api = require('./routes/api');
 var user = require('./routes/user');
 
+app.configure(function(){
+  app.use(express.bodyParser());
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(app.router);
+  if ('development' == app.get('env')) {
+    app.use(express.errorHandler());
+  }
+});
+
 app.get('/', function(req, res){
+  console.log(app.routes);
   res.json(__.map(app.routes, function(routeSet){
     return __.map(routeSet, function(route) {
       return {path: route.path, method:route.method}
@@ -18,20 +34,6 @@ app.get('/', function(req, res){
   }));
 });
 
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
 
 // Users
 app.get('/api/v1/users', user.query, api.json);
