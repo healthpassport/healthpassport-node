@@ -14,6 +14,11 @@ frisby.create('Create user')
     status: "OK"
   })
   .afterJSON(function(user) {
+    db.query('SELECT * FROM users WHERE username="Raluca"', function(err, rows) {
+      var raluca = rows[0];
+      expect(raluca.password.length).toBe(60);
+      expect(raluca.password).not.toBe("asd");
+    })
     db.query('DELETE FROM users WHERE username="Raluca"');
   })
   .toss();
