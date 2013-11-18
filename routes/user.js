@@ -5,16 +5,9 @@ var __ = require('underscore');
 var async = require('async');
 var bcrypt = require('bcrypt');
 
+
 Routes.create = function(req, res, next) {
 
-  /*
-  Model
-    .create(req.body.username, req.body.password, req.body.name, req.body.surname)
-    .then(function(model){
-      res.locals.json = model;
-      next();
-    });
-  */
   var values = {
     username: req.body.username,
     password: req.body.password,
@@ -22,9 +15,31 @@ Routes.create = function(req, res, next) {
     surname: req.body.surname
   };
 
-  db.query('INSERT INTO users SET ?;', values, function(err, rows){
-    if (err) return res.json(500, {status:"Error creating the user"});
-    res.locals.json = {status: "OK"};
+  if (!values.password || !values.username || !values.name || !values.surname) {
+    return res.json(500, {status: "Parameters missing for creating the user"});
+  }
+  async.waterfall([
+    function(cb) {
+      bcrypt.genSalt(10, function(err, salt) {
+        if (err) return cb(err, "Cannot update password");
+        bcrypt.hash(values.password, salt, function(err, hash) {
+          if (err) return cb(err, "Cannot update password");
+          values.password = hash;
+          cb(null, values);
+        });
+      });
+    },
+    function(values, cb) {
+      db.query('INSERT INTO users SET ?;', values, function(err, rows){
+        if (err) return res.json(500, {status:"Error creating the user"});
+        res.locals.json = {status: "OK"};
+        next();
+      });
+    }
+  ],
+  function (err, result) {
+    if (err) return res.json(500, result);
+    res.locals.json = result;
     next();
   });
 }

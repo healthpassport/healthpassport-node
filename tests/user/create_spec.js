@@ -24,6 +24,6 @@ frisby.create('Create user with empty params')
   .expectStatus(500)
   .expectHeaderContains('content-type', 'application/json')
   .expectJSON({
-    status: "Error creating the user"
+    status: "Parameters missing for creating the user"
   })
   .toss();
