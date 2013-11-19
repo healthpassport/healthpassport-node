@@ -1,5 +1,3 @@
-console.log("yey")
-
 var frisby= require('frisby');
 frisby.create("Get existing user with username nicolagreco")
   .get('http://127.0.0.1:3000/api/v1/users/nicolagreco')

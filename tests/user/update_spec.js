@@ -6,8 +6,9 @@ frisby.create("Updating existing user nicolagreco")
   .expectStatus(200)
   .expectJSON({status:"OK"})
   .afterJSON( function(){
-    db.query('SELECT name from users WHERE username = "nicolagreco";', function(err,rows){
+    db.query('SELECT * from users WHERE username = "nicolagreco";', function(err,rows){
       expect(rows[0].name).toEqual("Nicolaaa");
+      expect(rows[0].surname).toEqual("Greco");
       db.query('UPDATE users SET name = "Nicola" WHERE username = "nicolagreco"');
     });
 

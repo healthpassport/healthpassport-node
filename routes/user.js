@@ -71,7 +71,6 @@ Routes.update = function(req, res, next) {
       });
     },
     function(update, cb) {
-    console.log(req.params.username, update);
       db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
         if (err) return cb(err, {status:"Error updating the user"});
         if (rows.affectedRows == 0) return cb(true, {status:"User not found"});
