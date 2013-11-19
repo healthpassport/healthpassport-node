@@ -4,9 +4,11 @@ var db = require('../../classes/mysql');
 frisby.create('Create user')
   .post('http://127.0.0.1:3000/api/v1/users', {
     username: "Raluca",
-    password: "asd",
+    password: "Raluca",
     name: "Raluca",
-    surname: "Cocioban"
+    surname: "Raluca",
+    email: "Raluca",
+    role: "Raluca"
   })
   .expectStatus(200)
   .expectHeaderContains('content-type', 'application/json')
