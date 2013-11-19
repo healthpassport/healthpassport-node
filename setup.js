@@ -17,19 +17,31 @@ async.waterfall([
     var cb = arguments[arguments.length-1];
     db = require('./classes/mysql');
     console.log(3);
-    db.query('CREATE TABLE IF NOT EXISTS users \
+    db.query('DROP TABLE users', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS users \
              ( \
               username VARCHAR(30) PRIMARY KEY, \
-              password VARCHAR(60), \
-              name     VARCHAR(30), \
-              surname  VARCHAR(30)  \
+             password VARCHAR(60), \
+             name     VARCHAR(30), \
+             surname  VARCHAR(30), \
+             email  VARCHAR(60), \
+             address_city  VARCHAR(30), \
+             address_number  VARCHAR(30), \
+             address_postcode  VARCHAR(30), \
+             address_country  VARCHAR(30), \
+             address_street  VARCHAR(30), \
+             nhs  VARCHAR(30), \
+             role  VARCHAR(30), \
+             telephone  VARCHAR(30), \
+             support_hours  VARCHAR(30) \
              );', cb);
-    db.query("ALTER TABLE users MODIFY COLUMN password VARCHAR(60)")
+
+    });
   },
   function() {
     var cb = arguments[arguments.length-1];
     console.log(4);
-    db.query('INSERT INTO users VALUES ("nicolagreco", "pass", "Nicola", "Greco");', cb);
+    db.query('INSERT INTO users SET ?', {username:"nicolagreco", password:"pass"}, cb);
   }
 ], function(err, result) {
   console.log(err, !err ? "Done" : null);

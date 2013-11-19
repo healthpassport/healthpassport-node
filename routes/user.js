@@ -12,10 +12,12 @@ Routes.create = function(req, res, next) {
     username: req.body.username,
     password: req.body.password,
     name: req.body.name,
-    surname: req.body.surname
+    surname: req.body.surname,
+    email: req.body.email,
+    role: req.body.role
   };
 
-  if (!values.password || !values.username || !values.name || !values.surname) {
+  if (!values.password || !values.username || !values.name || !values.surname || !values.password || !values.role) {
     return res.json(500, {status: "Parameters missing for creating the user"});
   }
   async.waterfall([
@@ -45,10 +47,7 @@ Routes.create = function(req, res, next) {
 }
 
 Routes.update = function(req, res, next) {
-  var update = {};
-  if (req.body.password) update.password = req.body.password;
-  if (req.body.name) update.name = req.body.name;
-  if (req.body.surname) update.surname = req.body.surname;
+  var update = _.pick(req.body, 'password', 'username', 'name', 'surname', 'email', 'address_street', 'address_number', 'address_city', 'address_country', 'address_postcode', 'support_hours', 'telephone', 'nhs');
 
   if (__.keys(update).length == 0) {
     res.locals.json = {status: "OK"};
@@ -100,10 +99,11 @@ Routes.del = function(req, res, next) {
 
 Routes.get = function(req, res, next) {
 
-  db.query('SELECT username,name,surname FROM users WHERE username = ?', req.params.username, function(err, rows){
+  db.query('SELECT * FROM users WHERE username = ?', req.params.username, function(err, rows){
     if (err) return res.json(500, {status:"Error in finding a user in DB"});
     if (rows.length == 0) return res.json(500, {status:"User not found"});
 
+    delete rows[0].password;
     res.locals.json = rows[0];
     next();
   });

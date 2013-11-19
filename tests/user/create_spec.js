@@ -23,7 +23,6 @@ frisby.create('Create user')
   })
   .toss();
 
-
 frisby.create('Create user with empty params')
   .post('http://127.0.0.1:3000/api/v1/users', {})
   .expectStatus(500)
