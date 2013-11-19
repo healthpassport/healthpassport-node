@@ -37,6 +37,16 @@ async.waterfall([
              );', cb);
 
     });
+
+    db.query('DROP TABLE information', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS information \
+             ( \
+              username VARCHAR(30) PRIMARY KEY, \
+             type VARCHAR(30), \
+             value VARCHAR(60) \
+             );', cb);
+
+    });
   },
   function() {
     var cb = arguments[arguments.length-1];

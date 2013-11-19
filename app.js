@@ -9,6 +9,7 @@ var app = express();
 var db = require('./classes/mysql');
 var api = require('./routes/api');
 var user = require('./routes/user');
+var info = require('./routes/info');
 
 app.configure(function(){
   app.use(express.bodyParser());
@@ -43,6 +44,15 @@ app.post('/api/v1/users', user.create, api.json);
 app.get('/api/v1/users/:username', user.get, api.json);
 app.del('/api/v1/users/:username', user.del, api.json);
 app.put('/api/v1/users/:username', user.update, api.json);
+
+// Infos
+app.get('/api/v1/users/:username/info', info.query, api.json);
+app.post('/api/v1/users/:username/info', info.create, api.json);
+
+// Info
+app.get('/api/v1/users/:username/info/:info_type', info.get, api.json);
+app.del('/api/v1/users/:username/info/:info_type', info.del, api.json);
+app.put('/api/v1/users/:username/info/:info_type', info.update, api.json);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
