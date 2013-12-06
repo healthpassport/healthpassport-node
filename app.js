@@ -3,6 +3,7 @@ var async = require('async');
 var http = require('http');
 var path = require('path');
 var __ = require('underscore');
+var ejs = require("ejs");
 
 var app = express();
 
@@ -15,7 +16,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
-  app.set('view engine', 'jade');
+  app.set("view engine", "ejs");
+  app.engine("html", ejs.renderFile);
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -26,7 +28,11 @@ app.configure(function(){
   }
 });
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
+  res.render('index.html')
+});
+
+app.get('/api', function(req, res){
   console.log(app.routes);
   res.json(__.map(app.routes, function(routeSet){
     return __.map(routeSet, function(route) {
@@ -34,7 +40,6 @@ app.get('/', function(req, res){
     });
   }));
 });
-
 
 // Users
 app.get('/api/v1/users', user.query, api.json);
