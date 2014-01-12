@@ -22,35 +22,173 @@ async.waterfall([
     db.query('DROP TABLE users', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS users \
              ( \
-             username VARCHAR(30) PRIMARY KEY, \
+             uid INT AUTO_INCREMENT PRIMARY KEY, \
+             username VARCHAR(30), \
              password VARCHAR(60), \
              name     VARCHAR(30), \
              surname  VARCHAR(30), \
              email  VARCHAR(60), \
              avatar VARCHAR(60), \
-             nhs  VARCHAR(30), \
              role  VARCHAR(30), \
              telephone  VARCHAR(30), \
-             support_hours  VARCHAR(30), \
              creation_time DATETIME, \
              update_time DATETIME \
              );', cb);
     });
   },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE patients', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS patients \
+             ( \
+             uid INT FOREIGN KEY, \
+             disability_level VARCHAR(30), \
+             understanding_level VARCHAR(60), \
+             communication_type VARCHAR(30), \
+             support_hours INT \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE allergies', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS allergies \
+             ( \
+             uid INT FOREIGN KEY, \
+             allergy_id INT AUTO_INCREMENT, \
+             name VARCHAR(30), \
+             creation_time DATETIME \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE positions', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS positions \
+             ( \
+             uid INT FOREIGN KEY, \
+             position_id INT AUTO_INCREMENT, \
+             location VARCHAR(60), \
+             date DATETIME \
+             );', cb);
+    });
+  },
+    function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE patient_relations', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS patient_relations \
+             ( \
+             uid INT FOREIGN KEY, \
+             patient_id INT AUTO_INCREMENT, \
+             kind VARCHAR(30) \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE pictures', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS pictures \
+             ( \
+             uid INT FOREIGN KEY, \
+             picture_id INT AUTO_INCREMENT, \
+             url VARCHAR(40) \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE answers', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS answers \
+             ( \
+             uid INT FOREIGN KEY, \
+             question_id INT AUTO_INCREMENT FOREIGN KEY, \
+             answer INT \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE questions', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS questions \
+             ( \
+             uid INT FOREIGN KEY, \
+             question_id INT  AUTO_INCREMENT PRIMARY KEY, \
+             title VARCHAR(30), \
+             picture VARCHAR(40) \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE events', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS events \
+             ( \
+             uid INT FOREIGN KEY, \
+             event_id INT AUTO_INCREMENT, \
+             title VARCHAR(40), \
+             kind VARCHAR(20), \
+             time DATETIME, \
+             description VARCHAR(80) \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE emotions', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS emotions \
+             ( \
+             uid INT FOREIGN KEY, \
+             emotion_id INT AUTO_INCREMENT, \
+             emotion_type VARCHAR(20), \
+             date DATETIME, \
+             time DATETIME, \
+             description VARCHAR(80) \
+             );', cb);
+    });
+  },
+   function(){
+    var cb = arguments[arguments.length-1];
+    db.query('DROP TABLE contacts', function(err, result) {
+        db.query('CREATE TABLE IF NOT EXISTS contacts \
+             ( \
+             uid INT FOREIGN KEY, \
+             contact_id INT AUTO_INCREMENT, \
+             name VARCHAR(30), \
+             surname VARCHAR(30), \
+             description VARCHAR(80), \
+             kind VARCHAR(20), \
+             telephone VARCHAR(30), \
+             picture VARCHAR(40), \
+             nickname VARCHAR(20) \
+             );', cb);
+    });
+  },
+
   function(){
     var cb = arguments[arguments.length-1];
     db.query('DROP TABLE addresses', function(err, result) {
       db.query('CREATE TABLE IF NOT EXISTS addresses \
            ( \
-           username VARCHAR(30) PRIMARY KEY, \
+           uid INT FOREIGN KEY, \
            city VARCHAR(60), \
            number VARCHAR(60), \
-           postcode VARCHAR(60), \
+           postcode VARCHAR(20), \
            country VARCHAR(60), \
            street VARCHAR(60) \
            );', cb);
     });
   },
+  function() {
+    var cb = arguments[arguments.length-1];
+    db.query('INSERT INTO addresses SET ?', {
+      uid: 1,
+      street: "Stranhope Street",
+      city: "London",
+      number: 14,
+      postcode: "NW13A",
+      country: "United Kingdom"
+    }, cb);
+  }
   function() {
     var cb = arguments[arguments.length-1];
     db.query('INSERT INTO users SET ?', {
