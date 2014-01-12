@@ -41,7 +41,7 @@ async.waterfall([
     db.query('DROP TABLE patients', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS patients \
              ( \
-             uid INT FOREIGN KEY, \
+             uid INT, \
              disability_level VARCHAR(30), \
              understanding_level VARCHAR(60), \
              communication_type VARCHAR(30), \
@@ -54,8 +54,8 @@ async.waterfall([
     db.query('DROP TABLE allergies', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS allergies \
              ( \
-             uid INT FOREIGN KEY, \
-             allergy_id INT AUTO_INCREMENT, \
+             uid INT, \
+             allergy_id INT AUTO_INCREMENT PRIMARY KEY, \
              name VARCHAR(30), \
              creation_time DATETIME \
              );', cb);
@@ -66,8 +66,8 @@ async.waterfall([
     db.query('DROP TABLE positions', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS positions \
              ( \
-             uid INT FOREIGN KEY, \
-             position_id INT AUTO_INCREMENT, \
+             uid INT, \
+             position_id INT AUTO_INCREMENT PRIMARY KEY, \
              location VARCHAR(60), \
              date DATETIME \
              );', cb);
@@ -78,8 +78,8 @@ async.waterfall([
     db.query('DROP TABLE patient_relations', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS patient_relations \
              ( \
-             uid INT FOREIGN KEY, \
-             patient_id INT AUTO_INCREMENT, \
+             uid INT, \
+             patient_id INT AUTO_INCREMENT PRIMARY KEY, \
              kind VARCHAR(30) \
              );', cb);
     });
@@ -89,8 +89,8 @@ async.waterfall([
     db.query('DROP TABLE pictures', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS pictures \
              ( \
-             uid INT FOREIGN KEY, \
-             picture_id INT AUTO_INCREMENT, \
+             uid INT, \
+             picture_id INT AUTO_INCREMENT PRIMARY KEY, \
              url VARCHAR(40) \
              );', cb);
     });
@@ -100,8 +100,8 @@ async.waterfall([
     db.query('DROP TABLE answers', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS answers \
              ( \
-             uid INT FOREIGN KEY, \
-             question_id INT AUTO_INCREMENT FOREIGN KEY, \
+             uid INT, \
+             question_id INT AUTO_INCREMENT PRIMARY KEY, \
              answer INT \
              );', cb);
     });
@@ -111,7 +111,7 @@ async.waterfall([
     db.query('DROP TABLE questions', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS questions \
              ( \
-             uid INT FOREIGN KEY, \
+             uid INT, \
              question_id INT  AUTO_INCREMENT PRIMARY KEY, \
              title VARCHAR(30), \
              picture VARCHAR(40) \
@@ -123,8 +123,8 @@ async.waterfall([
     db.query('DROP TABLE events', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS events \
              ( \
-             uid INT FOREIGN KEY, \
-             event_id INT AUTO_INCREMENT, \
+             uid INT, \
+             event_id INT AUTO_INCREMENT PRIMARY KEY, \
              title VARCHAR(40), \
              kind VARCHAR(20), \
              time DATETIME, \
@@ -137,8 +137,8 @@ async.waterfall([
     db.query('DROP TABLE emotions', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS emotions \
              ( \
-             uid INT FOREIGN KEY, \
-             emotion_id INT AUTO_INCREMENT, \
+             uid INT, \
+             emotion_id INT AUTO_INCREMENT PRIMARY KEY, \
              emotion_type VARCHAR(20), \
              date DATETIME, \
              time DATETIME, \
@@ -151,8 +151,8 @@ async.waterfall([
     db.query('DROP TABLE contacts', function(err, result) {
         db.query('CREATE TABLE IF NOT EXISTS contacts \
              ( \
-             uid INT FOREIGN KEY, \
-             contact_id INT AUTO_INCREMENT, \
+             uid INT, \
+             contact_id INT AUTO_INCREMENT PRIMARY KEY, \
              name VARCHAR(30), \
              surname VARCHAR(30), \
              description VARCHAR(80), \
@@ -169,9 +169,9 @@ async.waterfall([
     db.query('DROP TABLE addresses', function(err, result) {
       db.query('CREATE TABLE IF NOT EXISTS addresses \
            ( \
-           uid INT FOREIGN KEY, \
+           uid INT, \
            city VARCHAR(60), \
-           number VARCHAR(60), \
+           number VARCHAR(8), \
            postcode VARCHAR(20), \
            country VARCHAR(60), \
            street VARCHAR(60) \
@@ -188,7 +188,7 @@ async.waterfall([
       postcode: "NW13A",
       country: "United Kingdom"
     }, cb);
-  }
+  },
   function() {
     var cb = arguments[arguments.length-1];
     db.query('INSERT INTO users SET ?', {
