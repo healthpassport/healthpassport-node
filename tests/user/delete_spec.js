@@ -10,11 +10,15 @@ frisby.create("Deleting an existing user with username nicolagreco")
     db.query('SELECT * from users WHERE username = "nicolagreco";', function(err,rows){
       expect(rows.length).toEqual(0);
       db.query('INSERT into users SET ?;', {
-        username:"nicolagreco",
-        password:"pass",
-        name:"Nicola",
-        surname:"Greco"
-      });
+      username:"nicolagreco",
+      password:"pass",
+      name:"Nicola",
+      surname:"Greco",
+      email:"email@example.org",
+      creation_time: new Date(),
+      update_time: new Date(),
+      role: "patient"
+    });
     })
   })
   .toss();

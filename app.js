@@ -32,6 +32,10 @@ app.get('/', function(req, res) {
   res.render('index.html')
 });
 
+app.get('/test', function(req, res) {
+  res.render('test.html')
+});
+
 app.get('/api', function(req, res){
   console.log(app.routes);
   res.json(__.map(app.routes, function(routeSet){

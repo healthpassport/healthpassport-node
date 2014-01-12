@@ -3,11 +3,11 @@ var db = require('../../classes/mysql');
 
 frisby.create('Create user')
   .post('http://127.0.0.1:3000/api/v1/users', {
-    username: "Raluca",
-    password: "Raluca",
     name: "Raluca",
-    surname: "Raluca",
-    email: "Raluca",
+    surname: "Cocioban",
+    username: "Raluca",
+    password: "Cocioban",
+    email: "raluca@example.org",
     role: "Raluca"
   })
   .expectStatus(200)

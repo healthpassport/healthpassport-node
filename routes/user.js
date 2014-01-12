@@ -98,7 +98,7 @@ Routes.del = function(req, res, next) {
 
 Routes.get = function(req, res, next) {
 
-  db.query('SELECT * FROM users WHERE username = ?', req.params.username, function(err, rows){
+  db.query('SELECT u.*, a.* FROM users AS u LEFT JOIN addresses AS a ON u.username = a.username WHERE u.username = ?', req.params.username, function(err, rows){
     if (err) return res.json(500, {status:"Error in finding a user in DB"});
     if (rows.length == 0) return res.json(500, {status:"User not found"});
 
