@@ -25,7 +25,7 @@ healthpass.controller('EmotionController', function($scope, Me, Location, $locat
     data.location = Location.get();
     
     Me.user.addEmotion(data).then(function() {
-      $location.path('#/');
+      $location.path('/');
     });
   }
 
@@ -63,7 +63,7 @@ healthpass.service("$req", function(online, $remote, $local) {
 healthpass.service('Me', function(User) {
   this.user = new User();
   User
-    .get()
+    .getMe()
     .then(function(value) {
       this.user = value;
     })
@@ -82,7 +82,13 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
   }
   
   Model.get = function(uid) {
-    return $req.get('/api/v1/users/'+ (uid || '') ).then(function(response) {
+    return $req.get('/api/v1/users/'+ uid).then(function(response) {
+      return new Model(response.data)
+    })
+  }
+  
+  Model.getMe = function(uid) {
+    return $req.get('/api/v1/me').then(function(response) {
       return new Model(response.data)
     })
   }
@@ -159,7 +165,10 @@ healthpass.factory('Allergy', function($http) {
 });
 
 healthpass.factory('Emotion', function($req) {
-  var Model = function() {
+  var Model = function(json) {
+    this.description = json.description
+    this.emotion_type = json.emotion_type
+    this.location = json.location
   }
   
   Model.prototype.create = function() {

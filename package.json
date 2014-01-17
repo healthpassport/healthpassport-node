@@ -19,6 +19,8 @@
     "frisby": "~0.6.9",
     "bcrypt": "~0.7.7",
     "passport-local": "~0.1.6",
-    "passport": "~0.1.18"
+    "passport": "~0.1.18",
+    "connect-redis": "~1.4.6",
+    "redis": "~0.10.0"
   }
 }

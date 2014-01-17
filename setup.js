@@ -150,7 +150,7 @@ async.waterfall([
              FOREIGN KEY (uid) REFERENCES users (uid), \
              emotion_type VARCHAR(20), \
              date DATETIME, \
-             location VARCHAR(30), \
+             location VARCHAR(80), \
              description VARCHAR(80) \
              );', cb);
     });
