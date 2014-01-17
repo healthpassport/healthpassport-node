@@ -3,7 +3,7 @@ var db = require('../classes/mysql');
 var Routes = {};
 var __ = require('underscore');
 var async = require('async');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 
 Routes.create = function(req, res, next) {

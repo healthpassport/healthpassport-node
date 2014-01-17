@@ -1,7 +1,7 @@
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./mysql.js');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 passport.deserializeUser(function (id, done) {
   console.log("THE ID",id)

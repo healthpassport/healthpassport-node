@@ -15,8 +15,12 @@ healthpass.controller('HomeController', function($scope, Me, $req) {
 healthpass.controller('LoginController', function($scope) {});
 
 healthpass.controller('SignupController', function($scope) {});
+healthpass.controller('AllergyController', function($scope){
+  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
 
+})
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {
+
   
   $scope.data = {}
   $scope.data.emotion_type = $location.path().substr(1)
