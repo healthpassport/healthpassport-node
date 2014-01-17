@@ -1,0 +1,9 @@
+<div>
+  <div ng-show="data.emotion_type == 'happy'">:)</div>
+  <div ng-show="data.emotion_type == 'sad'">:(</div>
+  <div ng-show="data.emotion_type == 'pain'">:S</div>
+  <textarea ng-model="data.description"></textarea>
+  {{data}}
+  <a href="/">Cancel</a>
+  <button ng-click="saveEmotion(data)">Save</button>
+</div>
