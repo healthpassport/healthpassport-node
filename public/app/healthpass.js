@@ -3,7 +3,7 @@ var healthpass = angular.module('healthpass', ['ngRoute']);
 healthpass.config(function($routeProvider) {
   $routeProvider
     .when('/', { templateUrl: '/app/views/home.html', controller:"HomeController" })
-    .when('/login', { templateUrl: '/app/views/login.html', controller:"LoginController" })
+    .when('/passport', { templateUrl: '/app/views/passport.html', controller:"PassportController" })
     .when('/signup', { templateUrl: '/app/views/signup.html', controller:"SignupController" })
     .when('/happy', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/sad', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
@@ -12,13 +12,19 @@ healthpass.config(function($routeProvider) {
 
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
-healthpass.controller('LoginController', function($scope) {});
 
 healthpass.controller('SignupController', function($scope) {});
 healthpass.controller('AllergyController', function($scope){
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
 
 })
+healthpass.controller('PassportController', function($scope, Me) {
+  Me.promise.then(function(user) {
+    console.log(user)
+    $scope.me = user;
+  })
+});
+
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {
 
   
@@ -66,9 +72,8 @@ healthpass.service("$req", function(online, $remote, $local) {
 
 healthpass.service('Me', function(User) {
   this.user = new User();
-  User
-    .getMe()
-    .then(function(value) {
+  this.promise = User.getMe()
+  this.promise.then(function(value) {
       this.user = value;
     })
 })
@@ -81,6 +86,14 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
   
   var Model = function(opts) {
     opts || (opts = {});
+
+    // TODO improve this with _underscore
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+      console.log(key)
+       _this[key] = opts[key];
+    })
+
     this.allergies = opts.allergies ? response_to_model(opts.allergies, Allergy) : [];
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
   }
