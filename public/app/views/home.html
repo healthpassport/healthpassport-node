@@ -1,6 +1,24 @@
-<div>
-  <div class="btn-group-vertical">
-    <a href="/#likes" class="btn btn-danger">Likes</a>
-    <a href="/#likes" class="btn btn-info">Pain</a>
+<div class="HomeContainer">
+  
+  <div class="header">
+    <div ng-click="showLogout()">{{user.avatar}}</div>
+    <div ng-click="takePicture()">Camera</div>
   </div>
+  
+  <div class="" ng-click="say('It is 12:00 AM')">12:00 AM</div>
+  
+  <div class="">
+    <a href="#/passport">My Healthpassport</a>
+  </div>
+  
+  <div class="keybuttons">
+    <a href="#/event" class="keybutton btn btn-default">Add Event</a>
+  </div>
+  
+  <div class="emotions">
+    <a class="emotion btn" href="#/happy">:)</a>
+    <a class="emotion btn" href="#/sad">:(</a>
+    <a class="emotion btn" href="#/pain">:S</a>
+  </div>
+  
 </div>

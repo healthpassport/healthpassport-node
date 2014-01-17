@@ -17,6 +17,8 @@
     "jade": "~0.35.0",
     "ejs": "~0.8.5",
     "frisby": "~0.6.9",
-    "bcrypt": "~0.7.7"
+    "bcrypt": "~0.7.7",
+    "passport-local": "~0.1.6",
+    "passport": "~0.1.18"
   }
 }
