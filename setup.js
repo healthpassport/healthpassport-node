@@ -141,7 +141,7 @@ async.waterfall([
              emotion_id INT AUTO_INCREMENT PRIMARY KEY, \
              emotion_type VARCHAR(20), \
              date DATETIME, \
-             time DATETIME, \
+             location VARCHAR(80), \
              description VARCHAR(80) \
              );', cb);
     });

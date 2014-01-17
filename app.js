@@ -12,6 +12,8 @@ var api = require('./routes/api');
 var user = require('./routes/user');
 var emotion = require('./routes/emotion');
 var passport = require("./classes/passport");
+var RedisStore     = require("connect-redis")(express);
+var store = require('./classes/redis');
 
 app.configure(function(){
   app.use(express.bodyParser());
@@ -20,6 +22,8 @@ app.configure(function(){
   app.set("view engine", "ejs");
   app.engine("html", ejs.renderFile);
   app.use(express.logger('dev'));
+  app.use(express.cookieParser("This is the answer you are looking for %&$!$%$"));
+  app.use(express.session({ store: new RedisStore({client: store}) }));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +42,8 @@ app.get('/logout', function (req, res) { req.logout(); res.redirect('/'); });
 
 
 app.get('/', function(req, res) {
-  res.render('index.html')
+  if (req.isAuthenticated()) return res.render('index.html');
+  res.redirect('/login');
 });
 
 app.get('/test', function(req, res) {
@@ -56,6 +61,7 @@ app.get('/api', function(req, res){
 
 // Users
 app.get('/api/v1/users', user.query, api.json);
+app.get('/api/v1/me', api.only_loggedin, user.me, api.json);
 app.post('/api/v1/users', user.create, api.json);
 
 // User
@@ -63,7 +69,9 @@ app.get('/api/v1/users/:username', user.get, api.json);
 app.del('/api/v1/users/:username', user.del, api.json);
 app.put('/api/v1/users/:username', user.update, api.json);
 
-app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
+//app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
+app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
+app.get('/api/v1/users/:username/emotions', emotion.query, api.json);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
