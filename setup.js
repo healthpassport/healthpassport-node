@@ -42,7 +42,6 @@ async.waterfall([
         db.query('CREATE TABLE IF NOT EXISTS patients \
              ( \
              uid INT, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              disability_level VARCHAR(30), \
              understanding_level VARCHAR(60), \
              communication_type VARCHAR(30), \
@@ -57,7 +56,6 @@ async.waterfall([
              ( \
              uid INT, \
              allergy_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              name VARCHAR(30), \
              creation_time DATETIME \
              );', cb);
@@ -70,7 +68,6 @@ async.waterfall([
              ( \
              uid INT, \
              position_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              location VARCHAR(60), \
              date DATETIME \
              );', cb);
@@ -82,7 +79,6 @@ async.waterfall([
         db.query('CREATE TABLE IF NOT EXISTS patient_relations \
              ( \
              uid INT, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              patient_id INT AUTO_INCREMENT PRIMARY KEY, \
              kind VARCHAR(30) \
              );', cb);
@@ -95,7 +91,6 @@ async.waterfall([
              ( \
              uid INT, \
              picture_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              url VARCHAR(40) \
              );', cb);
     });
@@ -107,7 +102,6 @@ async.waterfall([
              ( \
              uid INT, \
              question_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              answer INT \
              );', cb);
     });
@@ -119,7 +113,6 @@ async.waterfall([
              ( \
              uid INT, \
              question_id INT  AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              title VARCHAR(30), \
              picture VARCHAR(40) \
              );', cb);
@@ -132,7 +125,6 @@ async.waterfall([
              ( \
              uid INT, \
              event_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              title VARCHAR(40), \
              kind VARCHAR(20), \
              time DATETIME, \
@@ -147,7 +139,6 @@ async.waterfall([
              ( \
              uid INT, \
              emotion_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              emotion_type VARCHAR(20), \
              date DATETIME, \
              location VARCHAR(80), \
@@ -162,7 +153,6 @@ async.waterfall([
              ( \
              uid INT, \
              contact_id INT AUTO_INCREMENT PRIMARY KEY, \
-             FOREIGN KEY (uid) REFERENCES users (uid), \
              name VARCHAR(30), \
              surname VARCHAR(30), \
              description VARCHAR(80), \
@@ -180,7 +170,6 @@ async.waterfall([
       db.query('CREATE TABLE IF NOT EXISTS addresses \
            ( \
            uid INT, \
-           FOREIGN KEY (uid) REFERENCES users (uid), \
            city VARCHAR(60), \
            number VARCHAR(8), \
            postcode VARCHAR(20), \
