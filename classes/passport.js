@@ -18,9 +18,9 @@ passport.serializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(function(username, password, done) {
   db.query('SELECT * FROM users WHERE username=?', username, function(err, result) {
+    if (result.length == 0) return done({error: "no user"});
     var user = result[0];
     console.log("THE USER", user);
-    //TODO
     
     if (user.password == password) {
       return done(null, user)
