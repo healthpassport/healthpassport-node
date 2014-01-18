@@ -4,6 +4,7 @@ healthpass.config(function($routeProvider) {
   $routeProvider
     .when('/', { templateUrl: '/app/views/home.html', controller:"HomeController" })
     .when('/passport', { templateUrl: '/app/views/passport.html', controller:"PassportController" })
+    .when('/events', { templateUrl: '/app/views/events.html', controller:"EventsController" })
     .when('/signup', { templateUrl: '/app/views/signup.html', controller:"SignupController" })
     .when('/happy', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/sad', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
@@ -13,16 +14,26 @@ healthpass.config(function($routeProvider) {
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
+healthpass.controller('EventsController', function($scope, Me) {
+  $scope.saveEvent = function(data) {
+    Me.user.addEvent(data).then(function() {  
+    });
+  };
+});
+
 healthpass.controller('SignupController', function($scope) {});
 healthpass.controller('AllergyController', function($scope){
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
 
 })
-healthpass.controller('PassportController', function($scope, Me) {
+healthpass.controller('PassportController', function($scope) {
+});
+
+healthpass.controller('MainController', function($scope, Me) {
   Me.promise.then(function(user) {
     console.log(user)
     $scope.me = user;
-  })
+  });
 });
 
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {
@@ -78,7 +89,7 @@ healthpass.service('Me', function(User) {
     })
 })
 
-healthpass.factory('User', function($http, Allergy, $req, Emotion) {
+healthpass.factory('User', function($http, Allergy, $req, Emotion, Event) {
   
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
@@ -96,6 +107,7 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
 
     this.allergies = opts.allergies ? response_to_model(opts.allergies, Allergy) : [];
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
+    this.events = opts.emotions ? response_to_model(opts.emotions, Event) : [];
   }
   
   Model.get = function(uid) {
@@ -146,6 +158,14 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
       _user.emotions.push(emotion);
     })
   }
+  
+  Model.prototype.addEvent = function(json) {
+    var _user = this;
+    var _event = new Event(json);
+    return _event.create().then(function() {
+      _user.events.push(_event);
+    })
+  }
 
   return Model;
 });
@@ -192,6 +212,27 @@ healthpass.factory('Emotion', function($req) {
     _model = this
     return $req.post('/api/v1/emotions', _model).then(function(response) {
       _model.uid = response.data.uid;
+      return new Model(_model);
+    })
+  }
+  
+  return Model;
+});
+
+healthpass.factory('Event', function($req) {
+  var Model = function(opts) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+  }
+  
+  Model.prototype.create = function() {
+    _model = this
+    return $req.post('/api/v1/events', _model).then(function(response) {
+      _model.uid = response.data.uid;
+      _model.eventid = response.data.eventid;
       return new Model(_model);
     })
   }
