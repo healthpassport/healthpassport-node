@@ -8,12 +8,58 @@ healthpass.config(function($routeProvider) {
     .when('/happy', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/sad', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/pain', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
+    .when('/contacts', { templateUrl: '/app/views/contacts.html', controller:"ContactsController"})
+    .when ('/add_contact', { templateUrl: '/app/views/add_contact.html', controller:"AddContactController"})
+
 });
 
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
 healthpass.controller('SignupController', function($scope) {});
+
+healthpass.controller('ContactsController', function($scope, $location, Me) {
+ 
+ $scope.contactsList = [{name: 'Ana', surname: 'Banana', description: 'Best friend', kind: 'friend', telephone: '094585049540', picture: 'kjfhjfk', nickname:'banana'},
+                        {name: 'John', surname: 'Barbarian', description: 'enemy', kind: 'relative', telephone: '0945049540', picture: 'kjfhjfk', nickname:'uncleJohn'}];
+ // var _user = this;
+ // $scope.contacts = _user.contacts;
+
+ // console.log('kdfhkdfjdf' + _user.contacts[0]);
+
+  //  Me.promise.then(function(user) {
+  //   console.log(user.contacts)
+  //   $scope.me = user;
+  //   $scope.me.contacts = user.contacts;
+  // })
+
+  $scope.goHome =function(){
+  $location.path('/');
+  }
+
+  $scope.goToAddContact = function(){
+    $location.path('/add_contact');
+  };
+});
+
+
+healthpass.controller('AddContactController', function($scope, $location, Me) {
+
+$scope.data = {};
+
+$scope.goBack = function(){
+$location.path('/contacts');
+}
+
+$scope.saveContact = function(data){
+
+  Me.user.addContact(data).then(function(){
+    $location.path('/contacts');
+  });
+}
+
+});
+
 healthpass.controller('AllergyController', function($scope){
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
 
@@ -40,6 +86,9 @@ healthpass.controller('EmotionController', function($scope, Me, Location, $locat
   }
 
 });
+
+
+
 
 healthpass.service('Location', function() {
   this.get = function() {
@@ -78,7 +127,7 @@ healthpass.service('Me', function(User) {
     })
 })
 
-healthpass.factory('User', function($http, Allergy, $req, Emotion) {
+healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact) {
   
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
@@ -96,6 +145,10 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
 
     this.allergies = opts.allergies ? response_to_model(opts.allergies, Allergy) : [];
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
+    this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
+
+    console.log(this.contacts)
+
   }
   
   Model.get = function(uid) {
@@ -147,6 +200,14 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion) {
     })
   }
 
+    Model.prototype.addContact = function(json) {
+    var _user = this;
+    var contact = new Contact(json);
+    return contact.create().then(function() {
+      _user.contacts.push(contact);
+    })
+  }
+
   return Model;
 });
 
@@ -180,6 +241,43 @@ healthpass.factory('Allergy', function($http) {
   }
   return Model;
 });
+
+
+healthpass.factory('Contact', function($req) {
+var Model = function(json) {
+    this.name = json.name;
+    this.surname = json.surname;
+    this.description = json.description;
+    this.kind = json.kind;
+    this.picture = json.picture;
+    this.nickname = json.nickname;
+    this.telephone = json.telephone;
+  }
+  
+  Model.prototype.create = function() {
+    _model = this
+    return $req.post('/api/v1/contacts', _model).then(function(response) {
+      _model.uid = response.data.uid;
+      return new Model(_model);
+    })
+  }
+
+   Model.prototype.save = function(uid) {
+    $req.put('/api/v1/users/' + (this.uid || uid) + '/contacts', this).then(function(response) {
+      return response.data
+    })
+  }
+
+    Model.get = function(uid, cid) {
+    return $req.get('/api/v1/users/'+uid+'/contacts/'+cid).then(function(response) {
+      return new Model(response.data)
+    })
+  }
+  
+  return Model;
+});
+
+
 
 healthpass.factory('Emotion', function($req) {
   var Model = function(json) {

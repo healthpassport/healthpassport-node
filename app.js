@@ -11,6 +11,7 @@ var db = require('./classes/mysql');
 var api = require('./routes/api');
 var user = require('./routes/user');
 var emotion = require('./routes/emotion');
+var contact = require('./routes/contact');
 var passport = require("./classes/passport");
 var RedisStore     = require("connect-redis")(express);
 var store = require('./classes/redis');
@@ -72,6 +73,9 @@ app.put('/api/v1/users/:username', user.update, api.json);
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
 app.get('/api/v1/users/:username/emotions', emotion.query, api.json);
+
+app.post('/api/v1/contacts', api.only_loggedin, contact.create, api.json);
+app.get('/api/v1/users/:username/contacts', contact.query, api.json);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
