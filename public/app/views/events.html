@@ -1,0 +1,18 @@
+<div>
+  <div class="create">
+    <h3>Create a new event</h3>
+    <input type="text" ng-model="data.title">
+    <textarea ng-model="data.description"></textarea>
+    <div>calendar</div>
+    <div class="kind">kind</div>
+    <button ng-click="saveEvent(data)">Add event</button>
+  </div>
+  <div class="events">
+    <div ng-show="me.events.length == 0">
+      No events
+    </div>
+    <ul ng-show="me.events.length > 0">
+      <li ng-repeat="event in me.events">{{event}}</li>
+    </ul>
+  </div>
+</div>
