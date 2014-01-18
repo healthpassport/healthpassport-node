@@ -156,14 +156,10 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
 
     this.allergies = opts.allergies ? response_to_model(opts.allergies, Allergy) : [];
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
-<<<<<<< HEAD
     this.events = opts.emotions ? response_to_model(opts.emotions, Event) : [];
-=======
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
 
     console.log(this.contacts)
-
->>>>>>> 007f042f7801f681ae8717e0dae55721e764ae1d
   }
   
   Model.get = function(uid) {
