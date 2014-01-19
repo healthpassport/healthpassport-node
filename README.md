@@ -24,3 +24,9 @@ And finally:
 node app.js
 # Express server listening on port 3000
 ```
+
+Compile less with:
+
+```
+node autocompile.less.js public/app/less/ public/app/
+```
