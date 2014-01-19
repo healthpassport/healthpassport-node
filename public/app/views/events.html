@@ -12,7 +12,12 @@
       No events
     </div>
     <ul ng-show="me.events.length > 0">
-      <li ng-repeat="event in me.events">{{event}}</li>
+      <li ng-repeat="event in me.events">
+        <div>{{event.title}}</div>
+        <div>{{event.description}}</div>
+        <div>{{event.kind}}</div>
+        <div>{{event.time}}</div>
+        </li>
     </ul>
   </div>
 </div>
