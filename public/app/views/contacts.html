@@ -1,0 +1,15 @@
+<div>
+<button ng-click= "goHome()">Go Home</button>
+<button ng-click= "goToAddContact()">+(Add People)</button>
+</div>
+
+<div ng-repeat="contact in contactsList">
+{{contact.name}}
+{{contact.surname}}
+{{contact.description}} 
+{{contact.kind}} 
+{{contact.telephone}}
+{{contact.picture}}
+{{contact.nickname}}
+</div>
+
