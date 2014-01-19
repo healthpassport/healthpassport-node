@@ -52,26 +52,42 @@ healthpass.controller('AddContactController', function($scope, $location, Me) {
 
 healthpass.controller('AllergyController', function($scope, Me){
   $scope.data={};
-  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}].map(function(one) { one.active = 0; return one;});
+  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
+  $scope.notSelectedAllergies = [];
+  
   var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name)});
   
   Me.promise.then(function() {
 
-    var user_allergies = $scope.me.allergies.map(function(allergy) { return angular.copy(allergy.name); });
+    console.log($scope.notSelectedAllergies)
     
-    for (var i=0; i < preset_allergies.length; i++) {
-      var current_allergy = preset_allergies[i];
-      if (user_allergies.indexOf(current_allergy) > -1){
-         $scope.presetAllergies[i].active = 1;
+    // iterate through all the existing allergies
+    for (var i = 0; i < $scope.presetAllergies.length; i++) {
+      var current_allergy = angular.copy($scope.presetAllergies[i]);
+      console.log("current:", current_allergy.name, i)
+
+      // iterate through all the user allergies
+      var found = false;
+      for (var j = 0; j < $scope.me.allergies.length; j++) {
+        var current_user_allergy = $scope.me.allergies[j];
+        if (current_allergy.name == current_user_allergy.name) {
+          found = true;
+          break
+        }
       }
+      if (!found) $scope.notSelectedAllergies.push(current_allergy);
     }
     
   });
   
   $scope.addAllergy = function(allergy) {
     $scope.me.addAllergy(allergy).then(function() {
-      allergy.active = 1;
-      console.log("yey")
+      for (var i=0; i < $scope.notSelectedAllergies.length; i++) {
+        if (allergy.name == $scope.notSelectedAllergies[i].name) {
+          $scope.notSelectedAllergies.splice(i, 1);
+          break;
+        }
+      }
     })
   }
   
@@ -79,8 +95,7 @@ healthpass.controller('AllergyController', function($scope, Me){
     console.log("bad allergy", allergy)
     
     $scope.me.removeAllergy(allergy).then(function() {
-      var index = preset_allergies.indexOf(allergy.name);
-      $scope.presetAllergies[index].active=0;
+      $scope.notSelectedAllergies.push(allergy)
     })
   }
 
@@ -273,7 +288,7 @@ healthpass.factory('Allergy', function($req) {
     return $req.post('/api/v1/allergies', _model).then(function(response) {
       _model.uid = response.data.uid;
       _model.allergy_id = response.data.allergy_id;
-      console.log("created", _model)
+      console.log("created", _model, response.data.allergy_id)
       return new Model(_model);
     })
   }
