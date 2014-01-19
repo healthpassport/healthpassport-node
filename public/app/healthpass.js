@@ -20,7 +20,8 @@ healthpass.controller('HomeController', function($scope, Me, $req) {
 
 healthpass.controller('EventsController', function($scope, Me) {
   $scope.saveEvent = function(data) {
-    Me.user.addEvent(data).then(function() {  
+    $scope.me.addEvent(data).then(function() {  
+      $scope.data = {};
     });
   };
 });
