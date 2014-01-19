@@ -1,13 +1,13 @@
 <div>
   <a href="#/add_contact">+(Add People)</a>
 </div>
-<div ng-repeat="contact in me.contacts">
-  {{contact.name}}
-  {{contact.surname}}
-  {{contact.description}} 
-  {{contact.kind}} 
-  {{contact.telephone}}
-  {{contact.picture}}
-  {{contact.nickname}}
+<div ng-repeat="contact in me.contacts" class="contact">
+  <div class="name"><strong>{{contact.name}}</strong></div>
+  <div class="surname">{{contact.surname}}</div>
+  <div class="description">{{contact.description}}</div>
+  <div class="kind">{{contact.kind}}</div>
+  <div class="telephone">{{contact.telephone}}</div>
+  <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
+  <div class="nickname">{{contact.nickname}}</div>
 </div>
 
