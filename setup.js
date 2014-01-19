@@ -57,7 +57,8 @@ async.waterfall([
              uid INT, \
              allergy_id INT AUTO_INCREMENT PRIMARY KEY, \
              name VARCHAR(30), \
-             creation_time DATETIME \
+             creation_time DATETIME, \
+             UNIQUE (uid, name) \
              );', cb);
     });
   },
