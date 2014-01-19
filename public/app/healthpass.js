@@ -11,6 +11,7 @@ healthpass.config(function($routeProvider) {
     .when('/pain', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/contacts', { templateUrl: '/app/views/contacts.html', controller:"ContactsController"})
     .when ('/add_contact', { templateUrl: '/app/views/add_contact.html', controller:"AddContactController"})
+    .when('/allergies',{templateUrl:'/app/views/allergies.html', controller:"AllergyController"})
 
 });
 
@@ -71,7 +72,7 @@ $scope.saveContact = function(data){
 healthpass.controller('AllergyController', function($scope){
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
 
-})
+});
 healthpass.controller('PassportController', function($scope) {
 });
 
