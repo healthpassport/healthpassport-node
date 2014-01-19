@@ -51,6 +51,16 @@ healthpass.controller('AddContactController', function($scope, $location, Me) {
 
 healthpass.controller('AllergyController', function($scope){
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
+  $scope.data={};
+  $scope.selectedAllergies=[];
+  $scope.toggleAllergy=function(allergy){
+    var index=$scope.selectedAllergies.indexOf(allergy.name);
+    if(index>-1)
+      $scope.selectedAllergies.splice(index,1);
+    else
+      $scope.selectedAllergies.push(allergy.name);
+    
+  }
 
 });
 healthpass.controller('PassportController', function($scope) {

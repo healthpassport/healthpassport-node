@@ -1,6 +1,9 @@
-<div>Allergies</div>`
 <div>
-<ul ng-repeat="allergy in presetAllergies">
-	<li>{{allergy.name}}</li>
-</ul>
+	<div>Allergies</div>
+	<div ng-repeat="allergy in presetAllergies">
+		<div class="name">
+			<button class="btn" ng-class="{active:selectedAllergies.indexOf(allergy.name)>-1}" ng-click="toggleAllergy(allergy)">{{allergy.name}}</button>
+		</div>
+	</div>
+	{{selectedAllergies}}
 </div>
