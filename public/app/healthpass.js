@@ -50,20 +50,42 @@ healthpass.controller('AddContactController', function($scope, $location, Me) {
 
 });
 
-healthpass.controller('AllergyController', function($scope){
-  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
+healthpass.controller('AllergyController', function($scope, Me){
   $scope.data={};
-  $scope.selectedAllergies=[];
-  $scope.toggleAllergy=function(allergy){
-    var index=$scope.selectedAllergies.indexOf(allergy.name);
-    if(index>-1)
-      $scope.selectedAllergies.splice(index,1);
-    else
-      $scope.selectedAllergies.push(allergy.name);
+  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}].map(function(one) { one.active = 0; return one;});
+  var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name)});
+  
+  Me.promise.then(function() {
+
+    var user_allergies = $scope.me.allergies.map(function(allergy) { return angular.copy(allergy.name); });
     
+    for (var i=0; i < preset_allergies.length; i++) {
+      var current_allergy = preset_allergies[i];
+      if (user_allergies.indexOf(current_allergy) > -1){
+         $scope.presetAllergies[i].active = 1;
+      }
+    }
+    
+  });
+  
+  $scope.addAllergy = function(allergy) {
+    $scope.me.addAllergy(allergy).then(function() {
+      allergy.active = 1;
+      console.log("yey")
+    })
+  }
+  
+  $scope.removeAllergy = function(allergy) {
+    console.log("bad allergy", allergy)
+    
+    $scope.me.removeAllergy(allergy).then(function() {
+      var index = preset_allergies.indexOf(allergy.name);
+      $scope.presetAllergies[index].active=0;
+    })
   }
 
 });
+
 healthpass.controller('PassportController', function($scope) {
 });
 
@@ -192,6 +214,16 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
     })
   }
   
+  Model.prototype.removeAllergy = function(allergy) {
+    var _user = this;
+    
+    return allergy.delete().then(function() {
+      var index = _user.allergies.indexOf(allergy);
+      _user.allergies.splice(index,1)
+    });
+  };
+  
+  
   Model.prototype.addEmotion = function(json) {
     var _user = this;
     var emotion = new Emotion(json);
@@ -220,31 +252,40 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
   return Model;
 });
 
-healthpass.factory('Allergy', function($http) {
-  var Model = function() {
+healthpass.factory('Allergy', function($req) {
+  var Model = function(opts) {
+    opts || (opts = {});
+
+    // TODO improve this with _underscore
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
   }
   Model.get = function(uid, aid) {
-    return $req.get('/api/v1/user/'+uid+'/allergies/'+aid).then(function(response) {
+    return $req.get('/api/v1/users/'+uid+'/allergies/'+aid).then(function(response) {
       return new Model(response.data)
     })
   }
   
   Model.prototype.create = function() {
     _model = this
-    $req.post('/api/v1/allergies', _model).then(function(response) {
+    return $req.post('/api/v1/allergies', _model).then(function(response) {
       _model.uid = response.data.uid;
+      _model.allergy_id = response.data.allergy_id;
+      console.log("created", _model)
       return new Model(_model);
     })
   }
   
-  Model.prototype.delete = function(uid) {
-    $req.put('/api/v1/user/'+ (this.uid || uid)).then(function(response) {
+  Model.prototype.delete = function() {
+    return $req.delete('/api/v1/users/'+ this.uid +'/allergies/'+this.allergy_id).then(function(response) {
       return response.data
     })
   }
   
   Model.prototype.save = function(uid) {
-    $req.put('/api/v1/user/' + (this.uid || uid), this).then(function(response) {
+    return $req.put('/api/v1/users/' + (this.uid || uid), this).then(function(response) {
       return response.data
     })
   }
