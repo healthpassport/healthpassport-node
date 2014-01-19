@@ -104,10 +104,16 @@ healthpass.controller('AllergyController', function($scope, Me){
 healthpass.controller('PassportController', function($scope) {
 });
 
-healthpass.controller('MainController', function($scope, Me) {
+healthpass.controller('MainController', function($scope, Me, $location) {
+  
   Me.promise.then(function(user) {
     $scope.me = user;
   });
+  
+  $scope.isRoute = function(route) {
+    return $location.path() == route;
+  }
+
 });
 
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {

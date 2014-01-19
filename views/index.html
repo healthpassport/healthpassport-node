@@ -9,8 +9,13 @@
   <script type="text/javascript" charset="utf-8" src="/components/angular-route/angular-route.js"></script>
   <script type="text/javascript" charset="utf-8" src="/app/healthpass.js"></script>
   
-  <div class="container-fluid">
-    <div ng-view ng-controller="MainController"></div>
+  <div class="container-fluid" ng-controller="MainController">
+    <div class="bar">
+      <a href="#/" ng-show="!isRoute('/')">Go home</a>
+    </div>
+    <div ng-view>
+      
+    </div>
   </div>
   
   
