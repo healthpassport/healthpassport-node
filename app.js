@@ -13,6 +13,7 @@ var user = require('./routes/user');
 var _event = require('./routes/event');
 var emotion = require('./routes/emotion');
 var contact = require('./routes/contact');
+var allergy = require('./routes/allergy');
 var passport = require("./classes/passport");
 var RedisStore     = require("connect-redis")(express);
 var store = require('./classes/redis');
@@ -73,10 +74,12 @@ app.put('/api/v1/users/:username', user.update, api.json);
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
+app.post('/api/v1/allergies', api.only_loggedin, allergy.create, api.json);
+app.post('/api/v1/contacts', api.only_loggedin, contact.create, api.json);
 app.post('/api/v1/events', api.only_loggedin, _event.create, api.json);
 app.get('/api/v1/users/:username/emotions', emotion.query, api.json);
+app.del('/api/v1/users/:username/allergies/:allergyid', allergy.del, api.json);
 
-app.post('/api/v1/contacts', api.only_loggedin, contact.create, api.json);
 app.get('/api/v1/users/:username/contacts', contact.query, api.json);
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -1,9 +1,14 @@
 <div>
 	<div>Allergies</div>
-	<div ng-repeat="allergy in presetAllergies">
-		<div class="name">
-			<button class="btn" ng-class="{active:selectedAllergies.indexOf(allergy.name)>-1}" ng-click="toggleAllergy(allergy)">{{allergy.name}}</button>
-		</div>
+  {{presetAllergies}}
+  {{me.allergies}}
+	<div>Your allergies:
+    <div ng-show="me.allergies.length == 0">You have no allergies</div>
+    <div ng-repeat="allergy in me.allergies" ng-click="removeAllergy(allergy)">{{allergy.name}}</div>
 	</div>
-	{{selectedAllergies}}
+  <br>
+  <div>Choose others
+    <br>
+    <div ng-repeat="allergy in presetAllergies | filter:{active:0}" ng-click="addAllergy(allergy)">{{allergy.name}}</div>
+  </div>
 </div>
