@@ -52,8 +52,9 @@ healthpass.controller('AddContactController', function($scope, $location, Me) {
 
 healthpass.controller('AllergyController', function($scope, Me){
   $scope.data={};
+
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}].map(function(one) { one.active = 0; return one;});
-  var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name)});
+  var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name);});
   
   Me.promise.then(function() {
 
