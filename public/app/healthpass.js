@@ -20,7 +20,8 @@ healthpass.controller('HomeController', function($scope, Me, $req) {
 
 healthpass.controller('EventsController', function($scope, Me) {
   $scope.saveEvent = function(data) {
-    Me.user.addEvent(data).then(function() {  
+    $scope.me.addEvent(data).then(function() {  
+      $scope.data = {};
     });
   };
 });
@@ -145,7 +146,7 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
 
     this.allergies = opts.allergies ? response_to_model(opts.allergies, Allergy) : [];
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
-    this.events = opts.emotions ? response_to_model(opts.emotions, Event) : [];
+    this.events = opts.emotions ? response_to_model(opts.events, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
 
   }

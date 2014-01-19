@@ -1,11 +1,16 @@
 <div>
   <div>Name <input type ="text" ng-model="data.name"></div>
-  <div>Surname: <input type ="text" ng-model="data.surname"> </div>
-  <div>Description: <input type ="text" ng-model="data.description"> </div>
-  <div>Kind: <input type ="text" ng-model="data.kind"></div>
-  <div>Telephone:<input type ="text" ng-model="data.telephone"> </div>
+  <div>Surname: <input type ="text" ng-model="data.surname"></div>
+  <div>Description: <input type ="text" ng-model="data.description"></div>
+  <div>Kind: 
+    <input type="radio" value="relative" ng-model="data.kind"> Relative<br>
+    <input type="radio" value="assistant" ng-model="data.kind"> Assistant<br>
+    <input type="radio" value="friend" ng-model="data.kind"> Friend<br>
+    <input type="radio" value="doctor" ng-model="data.kind"> Doctor<br>
+  </div>
+  <div>Telephone:<input type ="text" ng-model="data.telephone"></div>
   <div>Picture: <button ng-click="">Upload</button></div>
-  <div>Nickname:<input type ="text" ng-model="data.nickname"> </div>
+  <div>Nickname:<input type ="text" ng-model="data.nickname"></div>
   <div> 
   	<button ng-click="goBack()">Cancel</button>
   	<button ng-click="saveContact(data)">Save</button>
