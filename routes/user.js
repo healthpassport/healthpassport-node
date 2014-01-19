@@ -98,21 +98,81 @@ Routes.del = function(req, res, next) {
 
 Routes.get = function(req, res, next) {
 
-  db.query('SELECT u.* FROM users AS u WHERE u.username = ?', req.params.username, function(err, rows){
+  db.query('SELECT * FROM users WHERE username = ?', req.params.username, function(err, rows){
     if (err) return res.json(500, {status:"Error in finding a user in DB"});
     if (rows.length == 0) return res.json(500, {status:"User not found"});
-
-    delete rows[0].password;
-    res.locals.json = rows[0];
-    next();
+    
+    var user = rows[0];
+    delete user.password;
+    
+    async.parallel([
+      function(done) {
+        db.query('SELECT * FROM emotions WHERE uid=?', user.uid, function(err, rows) {
+          user.emotions = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM contacts WHERE uid=?', user.uid, function(err, rows) {
+          user.contacts = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM allergies WHERE uid=?', user.uid, function(err, rows) {
+          user.allergies = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM events WHERE uid=?', user.uid, function(err, rows) {
+          user.events = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM positions WHERE uid=?', user.uid, function(err, rows) {
+          user.positions = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM patient_relations WHERE uid=?', user.uid, function(err, rows) {
+          user.patient_relations = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM pictures WHERE uid=?', user.uid, function(err, rows) {
+          user.patient_relations = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM answers WHERE uid=?', user.uid, function(err, rows) {
+          user.answers = rows;
+          done(err, rows)
+        });
+      },
+      function(done) {
+        db.query('SELECT * FROM addresses WHERE uid=?', user.uid, function(err, rows) {
+          user.address = rows[0];
+          done(err, rows)
+        });
+      }
+      ], function(err, result) {
+        res.locals.json = user;
+        next();
+    })
+    
   });
 
 };
 
 Routes.me = function(req, res, next) {
+  req.params.username = req.user.username;
+  Routes.get(req, res, next)
 
-  res.locals.json = req.user;
-  next();
 };
 
 Routes.query = function(req, res, next) {

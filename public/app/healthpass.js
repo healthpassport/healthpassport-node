@@ -28,43 +28,23 @@ healthpass.controller('SignupController', function($scope) {});
 
 healthpass.controller('ContactsController', function($scope, $location, Me) {
  
- $scope.contactsList = [{name: 'Ana', surname: 'Banana', description: 'Best friend', kind: 'friend', telephone: '094585049540', picture: 'kjfhjfk', nickname:'banana'},
-                        {name: 'John', surname: 'Barbarian', description: 'enemy', kind: 'relative', telephone: '0945049540', picture: 'kjfhjfk', nickname:'uncleJohn'}];
- // var _user = this;
- // $scope.contacts = _user.contacts;
-
- // console.log('kdfhkdfjdf' + _user.contacts[0]);
-
-  //  Me.promise.then(function(user) {
-  //   console.log(user.contacts)
-  //   $scope.me = user;
-  //   $scope.me.contacts = user.contacts;
-  // })
-
-  $scope.goHome =function(){
-  $location.path('/');
-  }
-
-  $scope.goToAddContact = function(){
-    $location.path('/add_contact');
-  };
 });
 
 
 healthpass.controller('AddContactController', function($scope, $location, Me) {
 
-$scope.data = {};
+  $scope.data = {};
 
-$scope.goBack = function(){
-$location.path('/contacts');
-}
-
-$scope.saveContact = function(data){
-
-  Me.user.addContact(data).then(function(){
+  $scope.goBack = function(){
     $location.path('/contacts');
-  });
-}
+  }
+
+  $scope.saveContact = function(data){
+
+    $scope.me.addContact(data).then(function(){
+      $location.path('/contacts');
+    });
+  }
 
 });
 
@@ -77,7 +57,6 @@ healthpass.controller('PassportController', function($scope) {
 
 healthpass.controller('MainController', function($scope, Me) {
   Me.promise.then(function(user) {
-    console.log(user)
     $scope.me = user;
   });
 });
@@ -150,7 +129,6 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
     // TODO improve this with _underscore
     var _this = this;
     Object.keys(opts).map(function(key) {
-      console.log(key)
        _this[key] = opts[key];
     })
 
@@ -159,7 +137,6 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
     this.events = opts.emotions ? response_to_model(opts.emotions, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
 
-    console.log(this.contacts)
   }
   
   Model.get = function(uid) {
@@ -222,8 +199,9 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
     Model.prototype.addContact = function(json) {
     var _user = this;
     var contact = new Contact(json);
-    return contact.create().then(function() {
-      _user.contacts.push(contact);
+    return contact.create().then(function(model) {
+      console.log(model, _user);
+      _user.contacts.push(model);
     })
   }
 
