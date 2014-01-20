@@ -1,1 +1,20 @@
-background-color:#3e9994;#bar a{color:#fff}.passport-page #bar{background-color:#3e9994}.passport-page .hp-key{background-color:#3e9994;color:#fff;font-weight:600}.passport-page .hp-value{background-color:#9ad6d3}
+#bar a {
+  color: #fff;
+}
+.passport-page #bar {
+  background-color: #3e9994;
+}
+.passport-page .hp-key {
+  background-color: #3e9994;
+  color: #fff;
+  font-weight: 600;
+}
+.passport-page .hp-value {
+  background-color: #9ad6d3;
+}
+.allergies-page #bar {
+  background-color: #f26d3c;
+}
+.contacts-page #bar {
+  background-color: #f2c633;
+}

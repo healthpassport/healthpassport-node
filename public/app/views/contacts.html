@@ -1,19 +1,21 @@
-<header>
-  <div id="bar" class="bar-contacts">
-    <a href="#/">Go home</a>
+<div class="contacts-page">  
+  <header>
+    <div id="bar" class="bar-contacts">
+      <a href="#/">Go home</a>
+    </div>
+  </header>
+
+  <div>
+    <br>
+    <a href="#/add_contact">+(Add People)</a>
   </div>
-</header>
-
-<div>
-  <a href="#/add_contact">+(Add People)</a>
+  <div ng-repeat="contact in me.contacts" class="contact">
+    <div class="name"><strong>{{contact.name}}</strong></div>
+    <div class="surname">{{contact.surname}}</div>
+    <div class="description">{{contact.description}}</div>
+    <div class="kind">{{contact.kind}}</div>
+    <div class="telephone">{{contact.telephone}}</div>
+    <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
+    <div class="nickname">{{contact.nickname}}</div>
+  </div>
 </div>
-<div ng-repeat="contact in me.contacts" class="contact">
-  <div class="name"><strong>{{contact.name}}</strong></div>
-  <div class="surname">{{contact.surname}}</div>
-  <div class="description">{{contact.description}}</div>
-  <div class="kind">{{contact.kind}}</div>
-  <div class="telephone">{{contact.telephone}}</div>
-  <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
-  <div class="nickname">{{contact.nickname}}</div>
-</div>
-

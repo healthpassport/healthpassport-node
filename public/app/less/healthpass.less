@@ -1,4 +1,6 @@
 @passportColor: #3e9994;
+@allergiesColor:#f26d3c;
+@contactsColor:#f2c633;
 #bar {
   a {
     color: #fff;
@@ -18,6 +20,15 @@
     background-color: lighten(@passportColor, 30%);
   }
 }
+.allergies-page{
+  #bar {
+    background-color:@allergiesColor;
+  }
+}
+.contacts-page{
+  #bar{
+    background-color:@contactsColor;
+  }
+}
 
-background-color: @passportColor;
 
