@@ -1,4 +1,5 @@
 @passportColor: #3e9994;
+@passportColorLight: #D9E8E8;
 @eventColor: #331336;
 @contactColor: #DC663D;
 @allergyColor: #E9B937;
@@ -7,6 +8,23 @@
   a {
     color: #fff;
   }
+}
+
+.form-group {
+  .hp-key {
+    padding-top: 10px;
+    padding-bottom:10px;
+    font-size: 1.7em;
+    .fa {
+      margin-left: 15px;
+    }
+    .fa, .title {
+      vertical-align: middle;
+    }
+  }
+  .hp-value {
+  
+  } 
 }
 
 .passport-page {
@@ -19,7 +37,7 @@
     font-weight: 600;
   }
   .hp-value {
-    background-color: lighten(@passportColor, 30%);
+    background-color: @passportColorLight;
   }
   .btn { 
   background-color: @passportColor;
@@ -38,24 +56,26 @@
     font-weight: 600;
   }
 
-
-    .btn { 
-  background-color: @eventColor;
-  .center-block();
-  width: 200px;
+  .btn { 
+    background-color: @eventColor;
+    .center-block();
+    width: 200px;
   }
 }
+
 .allergies-page{
   #bar {
     background-color:@allergyColor;
   }
 }
+
 .contacts-page{
-  #bar{
+  #bar {
     background-color:@contactColor;
   }
 }
 
+// Functions
 .center-block {
   display: block;
   margin-left: auto;
