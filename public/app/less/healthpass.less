@@ -1,8 +1,12 @@
 @passportColor: #3e9994;
 @passportColorLight: #D9E8E8;
 @eventColor: #331336;
+@eventColorLight: #C6BDC9;
+@passportColorLight: #D9E8E8;
 @contactColor: #DC663D;
+@contactColorLight: #F9E0CE;
 @allergyColor: #E9B937;
+@allergyColorLight: #FAF2D9;
 
 #bar {
   font-size: 1.7em;
@@ -17,6 +21,8 @@
     padding-top: 10px;
     padding-bottom:10px;
     font-size: 1.7em;
+    color: #fff;
+    font-weight: 600;
     .fa {
       margin-left: 15px;
     }
@@ -40,16 +46,9 @@
   }
   .hp-key {
     background-color: @passportColor;
-    color: #fff;
-    font-weight: 600;
   }
   .hp-value {
     background-color: @passportColorLight;
-  }
-  .btn { 
-  background-color: @passportColor;
-  .center-block();
-  width: 200px;
   }
 }
 
@@ -59,32 +58,34 @@
   }
   .hp-key {
     background-color: @eventColor;
-    color: #fff;
-    font-weight: 600;
   }
-
-  .btn { 
-    background-color: @eventColor;
-    .center-block();
-    width: 200px;
+  .hp-value {
+    background-color: @eventColorLight;
   }
 }
 
-.allergies-page{
+.allergies-page {
   #bar {
-    background-color:@allergyColor;
+    background-color: @allergyColor;
+  }
+  .hp-key {
+    background-color: @allergyColor;
+
+  }
+  .hp-value {
+    background-color: @allergyColorLight;
   }
 }
 
-.contacts-page{
+.contacts-page {
   #bar {
-    background-color:@contactColor;
+    background-color: @contactColor;
   }
-}
+  .hp-key {
+    background-color: @contactColor;
 
-// Functions
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  }
+  .hp-value {
+    background-color: @contactColorLight;
+  }
 }
