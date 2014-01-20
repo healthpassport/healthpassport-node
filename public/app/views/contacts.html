@@ -1,19 +1,26 @@
 <div class="contacts-page">  
-  <header>
-    <div id="bar" class="bar-contacts">
-      <a href="#/">Go home</a>
-    </div>
+  <header id="bar" class="bar-contacts">
+    <a href="#/passport"><i class="fa fa-angle-left"></i> back to passport</a>
   </header>
 
 <div>
   <div><a href="#/add_contact" class="btn btn-primary btn-block active" role="button">Add People</a></div>
 </div>
 <div ng-repeat="contact in me.contacts" class="contact">
-  <div class="name"><strong>{{contact.name}}</strong></div>
-  <div class="surname">{{contact.surname}}</div>
-  <div class="description">{{contact.description}}</div>
-  <div class="kind">{{contact.kind}}</div>
-  <div class="telephone">{{contact.telephone}}</div>
+
+
+  <div class="contact_name">
+    <h3>
+      <strong>{{contact.name}} {{contact.surname}}</strong>
+    <i class="fa fa-smile-o fa-1x" ng-show="contact.kind=='friend'"></i>
+    <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='doctor'"></i>
+    <i class="fa fa-user fa-1x" ng-show="contact.kind=='relative'"></i>
+    <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='assistant'"></i>
+     </h3>
+   </div>
+  <div class="nickname" ng-show="contact.nickname"></strong>{{contact.nickname}}</div>
+  <div class="description"><em>{{contact.description}}</em></div>
+  <div class="telephone"><abbr>{{contact.telephone}}</abbr></div>
   <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
-  <div class="nickname">{{contact.nickname}}</div>
+  <hr>
 </div>
