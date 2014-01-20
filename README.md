@@ -28,5 +28,9 @@ node app.js
 Compile less with:
 
 ```
+sudo npm install -g less
+```
+
+```
 node autocompile.less.js public/app/less/ public/app/
 ```

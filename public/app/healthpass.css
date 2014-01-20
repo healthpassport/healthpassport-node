@@ -1,1 +1,41 @@
-background-color:#3e9994;#bar a{color:#fff}.passport-page #bar{background-color:#3e9994}.passport-page .hp-key{background-color:#3e9994;color:#fff;font-weight:600}.passport-page .hp-value{background-color:#9ad6d3}
+#bar a {
+  color: #fff;
+}
+.passport-page #bar {
+  background-color: #3e9994;
+}
+.passport-page .hp-key {
+  background-color: #3e9994;
+  color: #fff;
+  font-weight: 600;
+}
+.passport-page .hp-value {
+  background-color: #9ad6d3;
+}
+.passport-page .btn {
+  background-color: #3e9994;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+.events-page #bar {
+  background-color: #331336;
+}
+.events-page .hp-key {
+  background-color: #331336;
+  color: #fff;
+  font-weight: 600;
+}
+.events-page .btn {
+  background-color: #331336;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
