@@ -1,24 +1,25 @@
 <div class="allergies-page">
-  <header>
-    <div id="bar" class="bar-allergies">
-      <a href="#/">Go home</a>
-    </div>
+  <header id="bar" class="bar-allergies">
+    <a href="#/passport"><i class="fa fa-angle-left"></i> back to passport</a>
   </header>
 
   <div>
-    <br>
-  	<div>Allergies</div>
-    ME:<span ng-repeat="allergy in me.allergies">{{allergy.name}}, </span>
-    <br>
-    NOT:<span ng-repeat="allergy in notSelectedAllergies">{{allergy.name}}, </span>
-  	<div>Your allergies:
-      <div ng-show="me.allergies.length == 0">You have no allergies</div>
-      <div ng-repeat="allergy in me.allergies" ng-click="removeAllergy(allergy)">{{allergy.name}}</div>
-  	</div>
-    <br>
-    <div>Choose others
-      <br>
-      <div ng-repeat="allergy in notSelectedAllergies" ng-click="addAllergy(allergy)">{{allergy.name}}</div>
+    
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-3 hp-key">My allergies</div>
+        <div class="col-sm-9 hp-value">
+          <div ng-show="me.allergies.length == 0">I have no allergies</div>
+          <button class="btn" ng-repeat="allergy in me.allergies" ng-click="removeAllergy(allergy)">{{allergy.name}}</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-3 hp-key">Add allergies</div>
+        <div class="col-sm-9 hp-value">
+          <button class="btn" ng-repeat="allergy in notSelectedAllergies" ng-click="addAllergy(allergy)">{{allergy.name}}</button>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>
