@@ -5,9 +5,16 @@
     </div>
   </header>
   <div class="content">
-    <h3><div ng-show="data.emotion_type == 'happy'">You are happy :)</div></h3>
-    <h3><div ng-show="data.emotion_type == 'sad'">You are sad :(</div></h3>
-    <h3><div ng-show="data.emotion_type == 'pain'">You feel pain :S</div></h3>
+    <h3 class="uppercase"><div ng-show="data.emotion_type == 'happy'">You are happy :)</div></h3>
+    <h3 class="uppercase"><div ng-show="data.emotion_type == 'sad'">You are sad :(</div></h3>
+    <h3 class="uppercase"><div ng-show="data.emotion_type == 'pain'">You feel pain :S</div></h3>
+    
+    <div class="icon">
+      <i class="fa fa-smile-o fa-5x" ng-show="data.emotion_type == 'happy'"></i>
+      <i class="fa fa-frown-o fa-5x" ng-show="data.emotion_type == 'sad'"></i>
+      <i class="fa fa-meh-o fa-5x" ng-show="data.emotion_type == 'pain'"></i>
+    </div>
+    
     <textarea class="desctiptionCls" ng-model="data.description"></textarea>
     <div class="choice">
       <a class="btn" role="button" href="/">Cancel</a>

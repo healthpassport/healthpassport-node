@@ -43,6 +43,7 @@
     }
   } 
 }
+
 .make-page(@strong, @light) {
   #bar {
     background-color: @strong;
@@ -52,7 +53,20 @@
   }
   .hp-value {
     background-color: @light;
+    color: @strong;
   }
+  .btn {
+    background-color:@strong;
+    font-size: 1.5em;
+    color: #fff
+  }
+  .btn.one_allergy {
+    margin-right: 10px;
+  }
+  .btn.one_notselected {
+    background-color: #666;
+  }
+  
 }
 .passport-page {
   .make-page(@passportColor, @passportColorLight);
@@ -61,7 +75,9 @@
 .events-page {
   .make-page(@eventColor, @eventColorLight);
 }
-
+.add-contact-page{
+  .make-page(@contactColor,@contactColorLight);
+}
 .make-emotion(@color) {
   height: 100%;
   background-color: @color;
@@ -70,8 +86,6 @@
   }
   .hp-key {
     background-color: @color;
-    color: #fff;
-    font-weight: 600;
   }
 
   .btn { 
@@ -83,9 +97,17 @@
 }
 
 .emotions-page {
+  .uppercase {
+    text-transform: uppercase;
+    font-size: 3em;
+  }
 
   h3 {
     color: #fff;
+  }
+  .icon {
+    color: #fff;
+    font-size: 1.7em;
   }
   .content {
     text-align: center;
@@ -120,6 +142,7 @@
   .make-page(@contactColor, @contactColorLight);
 }
 
+<<<<<<< HEAD
 .HomeContainer {
   height: 100%;
   text-align: center;
@@ -174,4 +197,6 @@
 
 .pain{
   
+.menu {
+
 }
