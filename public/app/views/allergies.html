@@ -16,6 +16,7 @@
       <div class="form-group">
         <div class="col-sm-3 hp-key">Add allergies</div>
         <div class="col-sm-9 hp-value">
+          <div ng-show="me.allergies.length == 4">No allergies left</div>
           <button class="btn" ng-repeat="allergy in notSelectedAllergies" ng-click="addAllergy(allergy)">{{allergy.name}}</button>
         </div>
       </div>
