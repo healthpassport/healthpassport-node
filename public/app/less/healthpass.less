@@ -183,15 +183,21 @@
 }
 
 .happy{
-  .setFaColor(@happyColor);
+  & > {
+    .setFaColor(@happyColor);
+  }
 }
 
 .sad{
-  .setFaColor(@sadColor);
+  & > {
+    .setFaColor(@sadColor);
+  }
 }
 
 .pain{
-  .setFaColor(@painColor);
+  & > {
+    .setFaColor(@painColor);
+  }
 }
 .menu {
   overflow: hidden;
