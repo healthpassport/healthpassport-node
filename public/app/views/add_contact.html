@@ -1,23 +1,63 @@
-<header>
-  <div id="bar" class="bar-add_contact">
-    <a href="#/">Go home</a>
+<div class="add-contact-page">
+  <header>
+    <div id="bar">
+      <a href="#/">Go home</a>
+    </div>
+  </header>
+  
+
+  <div class="form-horizontal">
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Name</div>
+      <div class="col-sm-9 hp-value">
+        <input type="text" ng-model="data.name">
+      </div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Surname</div>
+      <div class="col-sm-9 hp-value">
+        <input type="text" ng-model="data.surname">
+      </div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Description</div>
+        <div class="col-sm-9 hp-value"><textarea ng-model="data.description"></textarea></div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Kind:</div>
+      <div class="col-sm-9 hp-value">
+        <input type="radio" ng-model="data.kind" value="Relative"> Relative <br/>
+        <input type="radio" ng-model="data.kind" value="Assistant">  Assistant <br/>
+        <input type="radio" ng-model="data.kind" value="Friend">  Friend  <br/>
+        <input type="radio" ng-model="data.kind" value="Doctor">  Doctor  <br/>
+      </div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Telephone</div>
+      <div class="col-sm-9 hp-value">
+        <input type="text" ng-model="data.telephone">
+      </div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Picture</div>
+      <div class="col-sm-9 hp-value">
+        <div><button class="btn" ng-click="">Upload</button></div>  
+      </div>
+    </div>
+
+    <div class="form-group-add-contact">
+      <div class="col-sm-3 hp-key">Nickname</div>
+      <div class="col-sm-9 hp-value">
+        <input type="text" ng-model="data.nickname"/>
+      </div>
+    </div>
+    <div><button class="btn" ng-click="goBack()">Cancel</button></div>
+    <div><button class="btn" ng-click="saveContact(data)">Save</button></div>
   </div>
-</header>
-<div>
-  <div>Name <input type ="text" ng-model="data.name"></div>
-  <div>Surname: <input type ="text" ng-model="data.surname"></div>
-  <div>Description: <input type ="text" ng-model="data.description"></div>
-  <div>Kind: 
-    <input type="radio" value="relative" ng-model="data.kind"> Relative<br>
-    <input type="radio" value="assistant" ng-model="data.kind"> Assistant<br>
-    <input type="radio" value="friend" ng-model="data.kind"> Friend<br>
-    <input type="radio" value="doctor" ng-model="data.kind"> Doctor<br>
-  </div>
-  <div>Telephone:<input type ="text" ng-model="data.telephone"></div>
-  <div>Picture: <button ng-click="">Upload</button></div>
-  <div>Nickname:<input type ="text" ng-model="data.nickname"></div>
-  <div> 
-  	<button ng-click="goBack()">Cancel</button>
-  	<button ng-click="saveContact(data)">Save</button>
-  </div>
+
 </div>
