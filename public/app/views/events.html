@@ -2,65 +2,26 @@
   
   <header>
     <div id="bar">
-      <a href="#/">Go home</a>
+      <a href="#/"><i class="fa fa-angle-left"></i> back</a>
     </div>
   </header>
 
   <div class="content">
-  
-    <div class="create">
-      <h3>Create a new event</h3>
+    <a href="#/add_event" class="btn">Add event</a>
+    <div class="events">
+      <div ng-show="me.events.length == 0">No events</div>
 
-      <div class="form-horizontal">
-        <div class="form-group">
-          <div class="col-sm-3 hp-key">Title</div>
-          <div class="col-sm-9 hp-value">
-            <input type="text" ng-model="data.title">
-          </div>
+      <ul ng-show="me.events.length > 0">
+        <div ng-repeat="event in me.events">
+          <h3>{{event.title}}
+            <i class="fa fa-stethoscope fa-1x" ng-show="event.kind=='Appointment'"></i>
+            <i class="fa fa-calendar fa-1x" ng-show="event.kind=='Birthday'"></i>
+            <i class="fa fa-plus-square fa-1x" ng-show="event.kind=='Medicine Reminder'"></i>
+          </h3>
+          <em>{{event.description}}</em>
+          <hr>
         </div>
-  
-        <div class="form-group">
-          <div class="col-sm-3 hp-key">Description</div>
-          <div class="col-sm-9 hp-value"><textarea ng-model="data.description"></textarea></div>
-        </div>
-  
-        <div class="form-group">
-          <div class="col-sm-3 hp-key">Kind:</div>
-          <div class="col-sm-9 hp-value">
-            <input type="radio" ng-model="data.kind" value="Appointment"> Appointment <br/>
-            <input type="radio" ng-model="data.kind" value="Birthday">  Birthday <br/>
-            <input type="radio" ng-model="data.kind" value="Medicine reminder">  Medicine Reminder  <br/>
-          </div>
-        </div>
-
-
-        <div class="form-group">
-          <div class="col-sm-3 hp-key">Calendar</div>
-          <div class="col-sm-9 hp-value">
-            <div class="inside">Calendar here</div>
-          </div>
-        </div>
-    
-
-        <div><button class="btn btn-primary btn-primary btn-block" ng-click="saveEvent(data)">Save</button></div>
-  
-      </div>
-      <div class="events">
-        <div ng-show="me.events.length == 0">No events</div>
-
-        <ul ng-show="me.events.length > 0">
-          <div ng-repeat="event in me.events">
-            <h3>{{event.title}}
-              <i class="fa fa-stethoscope fa-1x" ng-show="event.kind=='Appointment'"></i>
-              <i class="fa fa-calendar fa-1x" ng-show="event.kind=='Birthday'"></i>
-              <i class="fa fa-plus-square fa-1x" ng-show="event.kind=='Medicine Reminder'"></i>
-            </h3>
-            <em>{{event.description}}</em>
-            <hr>
-          </div>
-        </ul>
-      </div>
+      </ul>
     </div>
-
   </div>
 </div>
