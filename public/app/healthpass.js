@@ -19,10 +19,10 @@ healthpass.config(function($routeProvider) {
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
-healthpass.controller('AddEventController', function($scope, Me) {
+healthpass.controller('AddEventController', function($scope, Me, $location) {
   $scope.saveEvent = function(data) {
     $scope.me.addEvent(data).then(function() {  
-      $scope.data = {};
+      $location.path("/events");
     });
   };
 });
