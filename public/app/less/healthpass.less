@@ -1,13 +1,22 @@
 @passportColor: #3e9994;
 @passportColorLight: #D9E8E8;
 @eventColor: #331336;
+@eventColorLight: #C6BDC9;
+@passportColorLight: #D9E8E8;
 @contactColor: #DC663D;
+@contactColorLight: #F9E0CE;
 @allergyColor: #E9B937;
+@happyColor: #46DB2F;
+@sadColor: #E90F1A;
+@painColor: #574849;
+@allergyColorLight: #FAF2D9;
 
 #bar {
+  font-size: 1.7em;
   a {
     color: #fff;
   }
+  border-bottom: 6px solid #aaa;
 }
 
 .form-group {
@@ -15,6 +24,8 @@
     padding-top: 10px;
     padding-bottom:10px;
     font-size: 1.7em;
+    color: #fff;
+    font-weight: 600;
     .fa {
       margin-left: 15px;
     }
@@ -23,65 +34,82 @@
     }
   }
   .hp-value {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 1.6em;
+    padding-top: 17px;
+    padding-bottom: 17px;
+    font-size: 1.7em;
     .inside {
       padding: 0px 15px;
     }
   } 
 }
-.passport-page {
+.make-page(@strong, @light) {
   #bar {
-    background-color: @passportColor;
+    background-color: @strong;
   }
   .hp-key {
-    background-color: @passportColor;
-    color: #fff;
-    font-weight: 600;
+    background-color: @strong;
   }
   .hp-value {
-    background-color: @passportColorLight;
+    background-color: @light;
   }
-  .btn { 
-  background-color: @passportColor;
-  .center-block();
-  width: 200px;
-  }
+}
+.passport-page {
+  .make-page(@passportColor, @passportColorLight);
 }
 
 .events-page {
+  .make-page(@eventColor, @eventColorLight);
+}
+
+.make-emotion(@color) {
+  height: 100%;
+  background-color: @color;
   #bar {
-    background-color: @eventColor;
+    background-color: @color;
   }
   .hp-key {
-    background-color: @eventColor;
+    background-color: @color;
     color: #fff;
     font-weight: 600;
   }
 
   .btn { 
-    background-color: @eventColor;
-    .center-block();
+    background-color: #fff;
+    font-size: 1.7em;
     width: 200px;
+    color: @color;
+  }
+}
+.emotions-page {
+  .content {
+    text-align: center;
+  }
+  textarea {
+    width: 90%;
+    height: 40%;
+    max-height: 400px;
+    min-height: 100px;
+  }
+
+  &.sad {
+    .make-emotion(@sadColor);
+  }
+
+  &.pain {
+    .make-emotion(@painColor);
+  }
+
+  &.happy {
+    .make-emotion(@happyColor);
   }
 }
 
-.allergies-page{
-  #bar {
-    background-color:@allergyColor;
-  }
+
+
+.allergies-page {
+  .make-page(@allergyColor, @allergyColorLight);
 }
 
-.contacts-page{
-  #bar {
-    background-color:@contactColor;
-  }
-}
-
-// Functions
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.contacts-page {
+  .make-page(@contactColor, @contactColorLight);
 }
