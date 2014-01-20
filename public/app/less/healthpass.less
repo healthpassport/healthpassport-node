@@ -74,7 +74,20 @@
   }
   .hp-value {
     background-color: @light;
+    color: @strong;
   }
+  .btn {
+    background-color:@strong;
+    font-size: 1.5em;
+    color: #fff
+  }
+  .btn.one_allergy {
+    margin-right: 10px;
+  }
+  .btn.one_notselected {
+    background-color: #666;
+  }
+  
 }
 .passport-page {
   .make-page(@passportColor, @passportColorLight);
@@ -94,8 +107,6 @@
   }
   .hp-key {
     background-color: @color;
-    color: #fff;
-    font-weight: 600;
   }
 
   .btn { 
@@ -105,15 +116,22 @@
     color: @color;
   }
 }
+
 .emotions-page {
+
+  h3 {
+    color: #fff;
+  }
   .content {
     text-align: center;
   }
+  
   textarea {
     width: 90%;
     height: 40%;
     max-height: 400px;
     min-height: 100px;
+    margin-bottom: 30px;
   }
 
   &.sad {
@@ -129,12 +147,14 @@
   }
 }
 
-
-
 .allergies-page {
   .make-page(@allergyColor, @allergyColorLight);
 }
 
 .contacts-page {
   .make-page(@contactColor, @contactColorLight);
+}
+
+.menu {
+  overflow: hidden;
 }

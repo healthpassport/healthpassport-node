@@ -1,12 +1,12 @@
 <div class="events-page">
   
   <header>
-    <div id="a">
+    <div id="bar">
       <a href="#/">Go home</a>
     </div>
   </header>
 
-  <div>
+  <div class="content">
   
     <div class="create">
       <h3>Create a new event</h3>
@@ -50,25 +50,17 @@
 
         <ul ng-show="me.events.length > 0">
           <div ng-repeat="event in me.events">
-
-
-            <div class="form-horizontal">
-              <div class="form-group">
-                <div class="col-xs-3 hp-key">Title</div>
-                <div class="col-xs-9 hp-value">{{event.title}}</div>
-              </div>
-  
-              <div class="form-group">
-                <div class="col-xs-3 hp-key">Description</div>
-                <div class="col-xs-9 hp-value">{{event.description}}</textarea></div>
-              </div>
-
-            </div>
-
+            <h3>{{event.title}}
+              <i class="fa fa-stethoscope fa-1x" ng-show="event.kind=='Appointment'"></i>
+              <i class="fa fa-calendar fa-1x" ng-show="event.kind=='Birthday'"></i>
+              <i class="fa fa-plus-square fa-1x" ng-show="event.kind=='Medicine Reminder'"></i>
+            </h3>
+            <em>{{event.description}}</em>
+            <hr>
           </div>
         </ul>
       </div>
-
     </div>
+
   </div>
 </div>
