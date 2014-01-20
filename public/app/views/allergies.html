@@ -1,20 +1,24 @@
-<header>
-  <div id="bar" class="bar-allergies">
-    <a href="#/">Go home</a>
-  </div>
-</header>
-<div>
-	<div>Allergies</div>
-  ME:<span ng-repeat="allergy in me.allergies">{{allergy.name}}, </span>
-  <br>
-  NOT:<span ng-repeat="allergy in notSelectedAllergies">{{allergy.name}}, </span>
-	<div>Your allergies:
-    <div ng-show="me.allergies.length == 0">You have no allergies</div>
-    <div ng-repeat="allergy in me.allergies" ng-click="removeAllergy(allergy)">{{allergy.name}}</div>
-	</div>
-  <br>
-  <div>Choose others
+<div class="allergies-page">
+  <header>
+    <div id="bar" class="bar-allergies">
+      <a href="#/">Go home</a>
+    </div>
+  </header>
+
+  <div>
     <br>
-    <div ng-repeat="allergy in notSelectedAllergies" ng-click="addAllergy(allergy)">{{allergy.name}}</div>
+  	<div>Allergies</div>
+    ME:<span ng-repeat="allergy in me.allergies">{{allergy.name}}, </span>
+    <br>
+    NOT:<span ng-repeat="allergy in notSelectedAllergies">{{allergy.name}}, </span>
+  	<div>Your allergies:
+      <div ng-show="me.allergies.length == 0">You have no allergies</div>
+      <div ng-repeat="allergy in me.allergies" ng-click="removeAllergy(allergy)">{{allergy.name}}</div>
+  	</div>
+    <br>
+    <div>Choose others
+      <br>
+      <div ng-repeat="allergy in notSelectedAllergies" ng-click="addAllergy(allergy)">{{allergy.name}}</div>
+    </div>
   </div>
 </div>
