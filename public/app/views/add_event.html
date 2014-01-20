@@ -1,0 +1,46 @@
+<div class="events-page">
+  <header>
+    <div id="bar">
+      <a href="#/events"><i class="fa fa-angle-left"></i> back to events</a>
+    </div>
+  </header>
+  
+  <h3>Create a new event</h3>
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-3 hp-key">Title</div>
+      <div class="col-sm-9 hp-value">
+        <input type="text" ng-model="data.title">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-3 hp-key">Description</div>
+      <div class="col-sm-9 hp-value"><textarea ng-model="data.description"></textarea></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-3 hp-key">Kind:</div>
+      <div class="col-sm-9 hp-value">
+        <input type="radio" ng-model="data.kind" value="Appointment"> Appointment <br/>
+        <input type="radio" ng-model="data.kind" value="Birthday">  Birthday <br/>
+        <input type="radio" ng-model="data.kind" value="Medicine reminder">  Medicine Reminder  <br/>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-3 hp-key">Calendar</div>
+      <div class="col-sm-9 hp-value">
+        <div class="inside">Calendar here</div>
+      </div>
+    </div>
+
+
+    <div>
+      <button class="btn" ng-click="saveEvent(data)">Save</button>
+    </div>
+
+  </div>
+</div>

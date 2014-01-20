@@ -11,6 +11,7 @@ healthpass.config(function($routeProvider) {
     .when('/pain', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/contacts', { templateUrl: '/app/views/contacts.html', controller:"ContactsController"})
     .when ('/add_contact', { templateUrl: '/app/views/add_contact.html', controller:"AddContactController"})
+    .when ('/add_event', { templateUrl: '/app/views/add_event.html', controller:"AddEventController"})
     .when('/allergies',{templateUrl:'/app/views/allergies.html', controller:"AllergyController"})
 
 });
@@ -18,7 +19,7 @@ healthpass.config(function($routeProvider) {
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
-healthpass.controller('EventsController', function($scope, Me) {
+healthpass.controller('AddEventController', function($scope, Me) {
   $scope.saveEvent = function(data) {
     $scope.me.addEvent(data).then(function() {  
       $scope.data = {};
@@ -29,7 +30,9 @@ healthpass.controller('EventsController', function($scope, Me) {
 healthpass.controller('SignupController', function($scope) {});
 
 healthpass.controller('ContactsController', function($scope, $location, Me) {
- 
+});
+
+healthpass.controller('EventsController', function($scope, $location, Me) {
 });
 
 
