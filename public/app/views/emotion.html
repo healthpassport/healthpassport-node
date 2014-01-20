@@ -4,12 +4,14 @@
       <a href="#/">Go home</a>
     </div>
   </header>
-  <div>
+  <div class="content">
     <h3><div ng-show="data.emotion_type == 'happy'">You are happy :)</div></h3>
     <h3><div ng-show="data.emotion_type == 'sad'">You are sad :(</div></h3>
     <h3><div ng-show="data.emotion_type == 'pain'">You feel pain :S</div></h3>
     <textarea class="desctiptionCls" ng-model="data.description"></textarea>
-    <a class="btn btn-block active" role="button" href="/">Cancel</a>
-    <button ng-click="saveEmotion(data)" class="btn btn-block">Save</button>
+    <div class="choice">
+      <a class="btn" role="button" href="/">Cancel</a>
+      <button ng-click="saveEmotion(data)" class="btn">Save</button>
+    </div>
   </div>
 </div>

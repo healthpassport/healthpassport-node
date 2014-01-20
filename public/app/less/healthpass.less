@@ -43,109 +43,74 @@
   } 
 }
 
-.passport-page {
+.make-page(@strong, @light) {
   #bar {
-    background-color: @passportColor;
+    background-color: @strong;
   }
   .hp-key {
-    background-color: @passportColor;
+    background-color: @strong;
   }
   .hp-value {
-    background-color: @passportColorLight;
+    background-color: @light;
   }
+}
+.passport-page {
+  .make-page(@passportColor, @passportColorLight);
 }
 
 .events-page {
-  #bar {
-    background-color: @eventColor;
-  }
-  .hp-key {
-    background-color: @eventColor;
-  }
-  .hp-value {
-    background-color: @eventColorLight;
-  }
+  .make-page(@eventColor, @eventColorLight);
 }
 
-.emotions-page {
-
-  &.sad {
-
-    background-color: @sadColor;
-    #bar {
-    background-color: @sadColor;
-    }
-    .hp-key {
-    background-color: #ffff;
+.make-emotion(@color) {
+  height: 100%;
+  background-color: @color;
+  #bar {
+    background-color: @color;
+  }
+  .hp-key {
+    background-color: @color;
     color: #fff;
     font-weight: 600;
-    }
+  }
 
-    .btn { 
-    background-color: #ffff;
+  .btn { 
+    background-color: #fff;
+    font-size: 1.7em;
     width: 200px;
-    }
+    color: @color;
+  }
+}
+.emotions-page {
+  .content {
+    text-align: center;
+  }
+  textarea {
+    width: 90%;
+    height: 40%;
+    max-height: 400px;
+    min-height: 100px;
+  }
+
+  &.sad {
+    .make-emotion(@sadColor);
   }
 
   &.pain {
-    background-color: @painColor;
-    #bar {
-    background-color: @painColor;
-    }
-    .hp-key {
-    background-color: @painColor;
-    color: #fff;
-    font-weight: 600;
-    }
-
-    .btn { 
-    background-color: @painColor;
-    width: 200px;
-    }
+    .make-emotion(@painColor);
   }
 
   &.happy {
-    background-color: @happyColor;
-    #bar {
-    background-color: @happyColor;
-    }
-    .hp-key {
-    background-color: @happyColor;
-    color: #fff;
-    font-weight: 600;
-   }
-
-    .btn { 
-    background-color: @happyColor;
-    width: 200px;
-    }
+    .make-emotion(@happyColor);
   }
 }
 
 
 
 .allergies-page {
-  #bar {
-    background-color: @allergyColor;
-  }
-  .hp-key {
-    background-color: @allergyColor;
-
-  }
-  .hp-value {
-    background-color: @allergyColorLight;
-  }
+  .make-page(@allergyColor, @allergyColorLight);
 }
 
 .contacts-page {
-  #bar {
-    background-color: @contactColor;
-  }
-  .hp-key {
-    background-color: @contactColor;
-
-  }
-  .hp-value {
-    background-color: @contactColorLight;
-  }
+  .make-page(@contactColor, @contactColorLight);
 }
