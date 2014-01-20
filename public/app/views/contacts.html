@@ -5,6 +5,7 @@
     </div>
   </header>
 
+<<<<<<< HEAD
   <div>
     <br>
     <a href="#/add_contact">+(Add People)</a>
@@ -18,4 +19,17 @@
     <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
     <div class="nickname">{{contact.nickname}}</div>
   </div>
+=======
+<div>
+  <div><a href="#/add_contact" class="btn btn-primary btn-block active" role="button">Add People</a></div>
+</div>
+<div ng-repeat="contact in me.contacts" class="contact">
+  <div class="name"><strong>{{contact.name}}</strong></div>
+  <div class="surname">{{contact.surname}}</div>
+  <div class="description">{{contact.description}}</div>
+  <div class="kind">{{contact.kind}}</div>
+  <div class="telephone">{{contact.telephone}}</div>
+  <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
+  <div class="nickname">{{contact.nickname}}</div>
+>>>>>>> 05e6588163b2a5040c73520b6e25314dbb50b965
 </div>
