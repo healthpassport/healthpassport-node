@@ -1,34 +1,50 @@
-<header>
-  <div id="bar" class="bar-events">
-    <a href="#/">Go home</a>
-  </div>
-</header>
-
+<div class="events-page">
+  
+  <header>
+    <div id="bar">
+      <a href="#/">Go home</a>
+    </div>
+  </header>
 
 <div>
   <div class="create">
     <h3>Create a new event</h3>
-    <input type="text" ng-model="data.title">
-    <textarea ng-model="data.description"></textarea>
-      <div class="kind">Kind:<br/>
+
+    <div class="events-page">
+      <div class="col-xs-2 hp-key">Title</div>
+      <div class="col-xs-10 hp-value"><input type="text" ng-model="data.title"></div>
+    </div>
+
+
+    <div class="events-page">
+      <div class="col-xs-2 hp-key">Description</div>
+      <div class="col-xs-10 hp-value"><textarea ng-model="data.description"></textarea></div>
+    </div>
+
+    <div class="kind">Kind:<br/>
     <input type="radio" ng-model="data.kind" value="Appointment"> Appointment <br/>
     <input type="radio" ng-model="data.kind" value="Birthday">  Birthday <br/>
     <input type="radio" ng-model="data.kind" value="Medicine reminder">  Medicine Reminder  <br/>
     </div>
+
     <div>calendar<br/></div>
+    
     <button ng-click="saveEvent(data)">Add event</button>
+  
   </div>
+
   <div class="events">
-    <div ng-show="me.events.length == 0">
-      No events
-    </div>
+    <div ng-show="me.events.length == 0">No events</div>
+
     <ul ng-show="me.events.length > 0">
       <li ng-repeat="event in me.events">
         <div class="title">{{event.title}}</div>
         <div class="description">{{event.description}}</div>
         <div class="kind">{{event.kind}}</div>
         <div class="time">{{event.time}}</div>
-        </li>
+      </li>
     </ul>
   </div>
+
+ </div>
 </div>

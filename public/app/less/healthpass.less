@@ -1,4 +1,6 @@
 @passportColor: #3e9994;
+@eventColor: #331336;
+
 #bar {
   a {
     color: #fff;
@@ -19,5 +21,30 @@
   }
 }
 
-background-color: @passportColor;
+.events-page {
+  #bar {
+    background-color: @eventColor;
+  }
+  .hp-key {
+    background-color: @eventColor;
+    color: #fff;
+    font-weight: 600;
+  }
+  .hp-value {
+    background-color: lighten(@eventColor, 30%);
+  }
+}
+
+.btn{
+  background-color: @passportColor;
+  center_block();
+
+}
+
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
