@@ -1,5 +1,7 @@
 @passportColor: #3e9994;
 @eventColor: #331336;
+@contactColor: #DC663D;
+@allergyColor: #E9B937;
 
 #bar {
   a {
@@ -19,6 +21,11 @@
   .hp-value {
     background-color: lighten(@passportColor, 30%);
   }
+  .btn { 
+  background-color: @passportColor;
+  center_block();
+  width: 200px;
+  }
 }
 
 .events-page {
@@ -35,11 +42,7 @@
   }
 }
 
-.btn{
-  background-color: @passportColor;
-  center_block();
 
-}
 
 
 .center-block {
