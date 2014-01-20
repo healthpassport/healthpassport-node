@@ -145,13 +145,13 @@
   height: 100%;
   text-align: center;
   vertical-align: center;
-
-
 }
 
 
 .setFaColor(@color){
-  
+  .fa {
+    color: @color;
+  }
 }
 
 
@@ -177,24 +177,21 @@
   background-color: @eventColor;
 }
 
-.emotions{
-  background-color: @painColor;
-}
 
 .passport{
   background-color: @passportColor;
 }
 
 .happy{
-  
+  .setFaColor(@happyColor);
 }
 
 .sad{
-  
+  .setFaColor(@sadColor);
 }
 
 .pain{
-
+  .setFaColor(@painColor);
 }
 .menu {
   overflow: hidden;
