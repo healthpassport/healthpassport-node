@@ -146,9 +146,6 @@ healthpass.controller('EmotionController', function($scope, Me, Location, $locat
 
 });
 
-
-
-
 healthpass.service('Location', function() {
   this.get = function() {
     return "1,1";
@@ -335,7 +332,7 @@ var Model = function(json) {
     this.description = json.description;
     this.kind = json.kind;
     this.picture = json.picture;
-    this.nickname = json.nickname;
+    this.username = json.username;
     this.telephone = json.telephone;
   }
   
@@ -348,7 +345,7 @@ var Model = function(json) {
   }
 
    Model.prototype.save = function(uid) {
-    $req.put('/api/v1/users/' + (this.uid || uid) + '/contacts', this).then(function(response) {
+    $req.put('/api/v1/users/' + (this.username || uid) + '/contacts', this).then(function(response) {
       return response.data
     })
   }
