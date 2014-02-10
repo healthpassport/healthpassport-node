@@ -47,7 +47,7 @@ Routes.create = function(req, res, next) {
 }
 
 Routes.update = function(req, res, next) {
-  var update = __.pick(req.body, 'password', 'username', 'name', 'surname', 'email', 'address_street', 'address_number', 'address_city', 'address_country', 'address_postcode', 'support_hours', 'telephone', 'nhs');
+  var update = __.pick(req.body, 'password', 'username', 'name', 'surname', 'email', 'address_street', 'address_number', 'address_city', 'address_country', 'address_postcode', 'support_hours', 'telephone', 'disability_level', 'communication_type', 'understanding_level');
 
   if (__.keys(update).length == 0) {
     res.locals.json = {status: "OK"};
@@ -79,7 +79,7 @@ Routes.update = function(req, res, next) {
     }
   ],
   function (err, result) {
-    if (err) return res.json(500, result);
+    if (err) return res.json(500, err);
     res.locals.json = result;
     next();
   });
