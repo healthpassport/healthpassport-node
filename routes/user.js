@@ -47,7 +47,7 @@ Routes.create = function(req, res, next) {
 }
 
 Routes.update = function(req, res, next) {
-  var update = __.pick(req.body, 'password', 'username', 'name', 'surname', 'email', 'address_street', 'address_number', 'address_city', 'address_country', 'address_postcode', 'support_hours', 'telephone', 'nhs');
+  var update = __.pick(req.body, 'password', 'username', 'name', 'surname', 'email', 'address_street', 'address_number', 'address_city', 'address_country', 'address_postcode', 'support_hours', 'telephone', 'disability_level', 'communication_type', 'understanding_level');
 
   if (__.keys(update).length == 0) {
     res.locals.json = {status: "OK"};
@@ -71,15 +71,16 @@ Routes.update = function(req, res, next) {
       });
     },
     function(update, cb) {
-      db.query('UPDATE users SET ? WHERE username = ?', [update, req.params.username], function(err, rows) {
+      db.query('UPDATE users SET ? WHERE username = ?', [__(update).pick('password', 'email', 'name','surname', 'telephone', 'email', 'avatar'), req.params.username], function(err, rows) {
         if (err) return cb(err, {status:"Error updating the user"});
-        if (rows.affectedRows == 0) return cb(true, {status:"User not found"});
+        //if (rows.affectedRows == 0) return cb(true, {status:"User not found"});
         cb(null, {status: "OK"});
       })
     }
   ],
   function (err, result) {
-    if (err) return res.json(500, result);
+    console.log(err, result, "\n- on update")
+    if (err) return res.json(500, err);
     res.locals.json = result;
     next();
   });

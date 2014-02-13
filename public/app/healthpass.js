@@ -4,6 +4,7 @@ healthpass.config(function($routeProvider) {
   $routeProvider
     .when('/', { templateUrl: '/app/views/home.html', controller:"HomeController" })
     .when('/passport', { templateUrl: '/app/views/passport.html', controller:"PassportController" })
+    .when('/passport/edit', { templateUrl: '/app/views/passport-edit.html', controller:"PassportEditController" })
     .when('/events', { templateUrl: '/app/views/events.html', controller:"EventsController" })
     .when('/signup', { templateUrl: '/app/views/signup.html', controller:"SignupController" })
     .when('/happy', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
@@ -19,10 +20,10 @@ healthpass.config(function($routeProvider) {
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
-healthpass.controller('AddEventController', function($scope, Me) {
+healthpass.controller('AddEventController', function($scope, Me, $location) {
   $scope.saveEvent = function(data) {
     $scope.me.addEvent(data).then(function() {  
-      $scope.data = {};
+      $location.path("/events");
     });
   };
 });
@@ -109,6 +110,13 @@ healthpass.controller('AllergyController', function($scope, Me){
 
 healthpass.controller('PassportController', function($scope) {
 });
+healthpass.controller('PassportEditController', function($scope) {
+  $scope.saveMe = function(me) {
+    me.save(me._id).then(function() {
+      console.log("saved");
+    })
+  }
+});
 
 healthpass.controller('MainController', function($scope, Me, $location) {
   
@@ -137,9 +145,6 @@ healthpass.controller('EmotionController', function($scope, Me, Location, $locat
   }
 
 });
-
-
-
 
 healthpass.service('Location', function() {
   this.get = function() {
@@ -327,7 +332,7 @@ var Model = function(json) {
     this.description = json.description;
     this.kind = json.kind;
     this.picture = json.picture;
-    this.nickname = json.nickname;
+    this.username = json.username;
     this.telephone = json.telephone;
   }
   
@@ -340,7 +345,7 @@ var Model = function(json) {
   }
 
    Model.prototype.save = function(uid) {
-    $req.put('/api/v1/users/' + (this.uid || uid) + '/contacts', this).then(function(response) {
+    $req.put('/api/v1/users/' + (this.username || uid) + '/contacts', this).then(function(response) {
       return response.data
     })
   }

@@ -22,81 +22,64 @@
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.name}} {{me.surname}}</div>
+        <div class="inside"><input type="text" ng-model="me.name"><input type="text" ng-model="me.surname"></div>
       </div>
     </div>
   
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.email}}</div>
+        <div class="inside"><input type="text" ng-model="me.email"></div>
       </div>
     </div>
   
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.telephone || "&nbsp;"}}</div>
+        <div class="inside"><input type="text" ng-model="me.telephone"></div>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.disability_level || "&nbsp;" }}</div>
+        <div class="inside">
+          <button class="btn btn-default" ng-click="me.disability_level=1" ng-class="{active:me.disability_level==1}">1</button>
+          <button class="btn btn-default" ng-click="me.disability_level=2" ng-class="{active:me.disability_level==2}">2</button>
+          <button class="btn btn-default" ng-click="me.disability_level=3" ng-class="{active:me.disability_level==3}">3</button>
+        </div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.understanding_level || "&nbsp;" }}</div>
+        <div class="inside">
+          <button class="btn btn-default" ng-click="me.understanding_level=1" ng-class="{active:me.understanding_level==1}">1</button>
+          <button class="btn btn-default" ng-click="me.understanding_level=2" ng-class="{active:me.understanding_level==2}">2</button>
+          <button class="btn btn-default" ng-click="me.understanding_level=3" ng-class="{active:me.understanding_level==3}">3</button>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.communication_type || "&nbsp;" }}</div>
+        <div class="inside">
+          <button class="btn btn-default" ng-click="me.communication_type=1" ng-class="{active:me.communication_type==1}">1</button>
+          <button class="btn btn-default" ng-click="me.communication_type=2" ng-class="{active:me.communication_type==2}">2</button>
+          <button class="btn btn-default" ng-click="me.communication_type=3" ng-class="{active:me.communication_type==3}">3</button>
+        </div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.support_hours || "&nbsp;"}}</div>
+        <div class="inside"><input type="text" ng-model="me.support_hours"></div>
       </div>
     </div>
 
-   <!-- Disability level: 
-     <ul>
-        <li>Low</li>
-        <li>Medium</li>
-        <li>High</li>
-      </ul>
-    </div>
-    <div>Understanding level: 
-     <ul>
-        <li>Easily</li>
-        <li>Moderate</li>
-        <li>Very Difficult</li>
-      </ul>
-    </div>
-    <div>Communication type:
-      <ul>
-        <li>Involving someone else</li>
-        <li>Easy read information</li>
-        <li>Communication Book</li>
-        <li>Pictures</li>
-        <li>Drawing</li>
-        <li>Signing/Makaton</li>
-        <li>Signing and talikng</li>
-        <li>Speaking directly to me</li>
-        <li>Look me in the face</li>
-      </ul>
-    </div>
-    <div>Support hours: 0-1 1-5 5-10{{me.support_hours}}</div>
-  -->
-    
   </div>
+  <button class="btn btn-danger" ng-click="saveMe(me)">Save</button>
 </div>
