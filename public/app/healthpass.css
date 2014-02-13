@@ -254,6 +254,9 @@
 .camera > .fa {
   color: #331336;
 }
+.camera a {
+  color: #331336;
+}
 .clock {
   background-color: #a47272;
 }
