@@ -205,6 +205,16 @@
 .contacts-page .btn.one_notselected {
   background-color: #666;
 }
+.questions-page #bar {
+  background-color: #dc663d;
+}
+.questions-page .hp-key {
+  background-color: #dc663d;
+}
+.questions-page .hp-value {
+  background-color: #f9e0ce;
+  color: #dc663d;
+}
 .HomeContainer {
   text-align: center;
 }
