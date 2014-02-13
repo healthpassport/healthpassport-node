@@ -144,7 +144,7 @@
 .HomeContainer {
   height: 100%;
   text-align: center;
-  vertical-align: center;
+  
 }
 
 
@@ -155,20 +155,30 @@
 }
 
 
-.header, .eventbuttons, .emotions, .clock, .passport{
+.eventbuttons, .emotions, .clock, .passport, .camera{
   a {
-    color: #fff;
+    color: #fff; 
   }
+
   height: 15%;
+  vertical-align: middle;
   width:100%;
   font-size: 3em;
+  padding-top: 1%;
+  
   color: #fff;
+
   .fa {
       margin-left: 15px;
       vertical-align: middle;
     }
 }
 
+.camera{
+  .setFaColor(@eventColor);
+   height: 20%;
+
+}
 .clock{
   background-color: @clockColor;
 }
