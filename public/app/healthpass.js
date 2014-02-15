@@ -18,12 +18,34 @@ healthpass.config(function($routeProvider) {
 
 });
 
+healthpass.filter('pad', function() {
+  return function(num) {
+    if(num < 10) return '0' + num;
+    else return num;
+  };
+});
+
 healthpass.controller('HomeController', function($scope, Me, $req) {
 });
 
 
 healthpass.controller('WebcamController', function($scope) {
+
+  $scope.nStre
 });
+
+function DateFormat($scope, $timeout) {
+  $scope.format = 'M/d/yy h:mm a';
+  $scope.date = new Date();
+  $scope.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  var tick = function() {
+    $scope.date = new Date();
+    $timeout(tick, 1000);
+   };
+
+  $timeout(tick, 1000);
+}
 
 healthpass.controller('AddEventController', function($scope, Me, $location) {
   $scope.saveEvent = function(data) {
