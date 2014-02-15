@@ -11,9 +11,10 @@ healthpass.config(function($routeProvider) {
     .when('/sad', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/pain', { templateUrl: '/app/views/emotion.html', controller:"EmotionController" })
     .when('/contacts', { templateUrl: '/app/views/contacts.html', controller:"ContactsController"})
-    .when ('/add_contact', { templateUrl: '/app/views/add_contact.html', controller:"AddContactController"})
-    .when ('/add_event', { templateUrl: '/app/views/add_event.html', controller:"AddEventController"})
+    .when('/add_contact', { templateUrl: '/app/views/add_contact.html', controller:"AddContactController"})
+    .when('/add_event', { templateUrl: '/app/views/add_event.html', controller:"AddEventController"})
     .when('/allergies',{templateUrl:'/app/views/allergies.html', controller:"AllergyController"})
+    .when('/questions',{templateUrl:'/app/views/questions.html', controller:"QuestionsController"})
     .when('/webcam',{templateUrl:'/app/views/webcam.html', controller:"WebcamController"})
 
 });
@@ -63,6 +64,20 @@ healthpass.controller('ContactsController', function($scope, $location, Me) {
 healthpass.controller('EventsController', function($scope, $location, Me) {
 });
 
+healthpass.controller('QuestionsController',function($scope, Question){
+  $scope.questions=[];
+  Question.query().then(function(questions){
+    $scope.questions=questions;
+  })
+});
+
+healthpass.controller('QuestionController',function($scope, Question){
+  $scope.answer=function(answer){
+    $scope.question.answer(answer).then(function(){
+
+    })
+  }
+})
 
 healthpass.controller('AddContactController', function($scope, $location, Me) {
 
@@ -371,13 +386,13 @@ var Model = function(json) {
     })
   }
 
-   Model.prototype.save = function(uid) {
+  Model.prototype.save = function(uid) {
     $req.put('/api/v1/users/' + (this.username || uid) + '/contacts', this).then(function(response) {
       return response.data
     })
   }
 
-    Model.get = function(uid, cid) {
+  Model.get = function(uid, cid) {
     return $req.get('/api/v1/users/'+uid+'/contacts/'+cid).then(function(response) {
       return new Model(response.data)
     })
@@ -385,6 +400,7 @@ var Model = function(json) {
   
   return Model;
 });
+
 
 
 
@@ -425,4 +441,37 @@ healthpass.factory('Event', function($req) {
   }
   
   return Model;
+});
+healthpass.factory('Question', function($req) {
+  var Model = function(opts) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+    return Model;
+  }
+
+  Model.get = function(question_id) {
+    return $req.get('/api/v1/questions/'+question_id).then(function(response) {
+      return new Model(response.data)
+    })
+  }
+
+  Model.query= function(){
+  return $req.get('/api/v1/questions').then(function(response) {
+      return response.data.map(function(question){
+        return new Model(question);
+      })
+    })
+
+  }
+
+  Model.prototype.answer = function(answer){
+    var _model = this;
+    return $req.post('/api/v1/questions/'+this.question_id, answer).then(function(response){
+      _model.answer = answer;
+      return _model;
+    });
+  }
 });

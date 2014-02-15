@@ -1,0 +1,15 @@
+<div class="questions-page">
+  <header id="bar" class="bar-questions">
+    <a href="#/passport"><i class="fa fa-angle-left"></i> back</a>
+  </header>
+
+  <div ng-repeat="question in questions">
+  	<div ng-controller="QuestionController">
+  		<h1>{{question.title}}</h1>
+  		<img class="img-responsive" ng-src="{{question.picture}}"/>
+  		<button class="btn btn-success glyphicon glyphicon-thumbs-down" ng-click="answer(0)">Dislike</button>
+  		<button class="btn btn-success glyphicon glyphicon-thumbs-up" ng-click="answer(1)">Like</button>
+  	</div>
+  </div>
+
+</div>
