@@ -1,4 +1,4 @@
-var healthpass = angular.module('healthpass', ['ngRoute','webcam']);
+var healthpass = angular.module('healthpass', ['ngRoute']);
 
 healthpass.config(function($routeProvider) {
   $routeProvider
@@ -15,7 +15,6 @@ healthpass.config(function($routeProvider) {
     .when('/add_event', { templateUrl: '/app/views/add_event.html', controller:"AddEventController"})
     .when('/allergies',{templateUrl:'/app/views/allergies.html', controller:"AllergyController"})
     .when('/questions',{templateUrl:'/app/views/questions.html', controller:"QuestionsController"})
-    .when('/webcam',{templateUrl:'/app/views/webcam.html', controller:"WebcamController"})
 
 });
 

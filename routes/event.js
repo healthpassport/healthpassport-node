@@ -1,5 +1,4 @@
-var Model = require('../models/user');
-var db = require('../classes/mysql');
+var db = require('../models');
 var Routes = {};
 var __ = require('underscore');
 var async = require('async');
@@ -7,16 +6,13 @@ var bcrypt = require('bcryptjs');
 
 
 Routes.create = function(req, res, next) {
-
-  var values = {
-    uid: req.user.uid,
+  db.Event.create({
+    userId: req.user.id,
     title: req.body.title,
     time: req.body.time,
     kind: req.body.kind,
     description: req.body.description
-  };
-
-  db.query('INSERT INTO events SET ?;', values, function(err, rows){
+  }).complete(function(err, result) {
     if (err) return res.json(500, {status:"Error creating the user"});
     res.locals.json = {status: "OK"};
     next();
@@ -24,9 +20,10 @@ Routes.create = function(req, res, next) {
 }
 
 Routes.query = function(req, res, next) {
-  db.query('SELECT * FROM events WHERE uid=(SELECT uid FROM users WHERE username=?);', req.params.username, function(err, result) {
+  
+  db.Event.findAll({userId: req.params.userId}, function(err, result) {
     res.locals.json = result;
-    return next(err);
+    return next(err);    
   })
 }
 
