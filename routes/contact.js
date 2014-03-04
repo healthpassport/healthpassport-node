@@ -18,7 +18,7 @@ Routes.create = function(req, res, next) {
     nickname: req.body.nickname
   }).complete(function(err, contact) {
     if (err) return res.json(500, {status:"Error creating the contact"});
-    res.locals.json = {status: "OK"};
+    res.locals.json = {status: "OK", id:contact.id};
     next();
   });
 }
