@@ -1,29 +1,29 @@
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
-var db = require('./mysql.js');
+var db = require('../models');
 var bcrypt = require('bcryptjs');
 
 passport.deserializeUser(function (id, done) {
-  console.log("THE ID",id)
-  db.query('SELECT * FROM users WHERE uid = ?;', id, function(err, result) {
-    done(err, result[0])
+  console.log("passport: THE ID",id)
+  db.User.find(id).complete(function(err, result) {
+    done(err, result)
   });
 });
 
 passport.serializeUser(function(user, done) {
-  done(null, user.uid);
+  done(null, user.id);
 });
 
 
 
 passport.use(new LocalStrategy(function(username, password, done) {
-  db.query('SELECT * FROM users WHERE username=?', username, function(err, result) {
-    if (result.length == 0) return done({error: "no user"});
-    var user = result[0];
-    console.log("THE USER", user);
+  db.User.find({where:{username: username}}).complete(function(err, user) {
+    console.log("passport: login", err, user);
+    if (!user) return done({error: "passport: no user"});
+    console.log("passport: THE USER", user.dataValues);
     
     if (user.password == password) {
-      return done(null, user)
+      return done(null, user.dataValues)
     } else {
       return done(err, false)
     }
