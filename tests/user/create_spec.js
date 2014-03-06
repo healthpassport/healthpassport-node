@@ -13,7 +13,7 @@ frisby.create('Create user')
   .expectStatus(200)
   .expectHeaderContains('content-type', 'application/json')
   .expectJSONTypes({
-    uid: Number
+    id: Number
   })
   .afterJSON(function(user) {
     db.query('SELECT * FROM users WHERE username="Raluca"', function(err, rows) {
