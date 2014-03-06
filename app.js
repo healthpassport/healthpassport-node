@@ -62,6 +62,9 @@ app.get('/api', function(req, res){
   }));
 });
 
+app.get('/chart', function(req,res){
+  res.render('chart.html');
+});
 // Users
 app.get('/api/v1/users', user.query, api.json);
 app.get('/api/v1/me', api.only_loggedin, user.me, api.json);
