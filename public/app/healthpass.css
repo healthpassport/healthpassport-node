@@ -1,5 +1,11 @@
+.avatar {
+  border-radius: 999px;
+  width: 80px;
+}
 #bar {
-  font-size: 1.7em;
+  font-size: 2em;
+  padding: 10px 0;
+  border-bottom: 6px solid #aaa;
 }
 #bar a {
   color: #fff;
@@ -38,7 +44,7 @@
 }
 .passport-page .btn {
   background-color: #3e9994;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #ffffff;
 }
 .passport-page .btn.one_allergy {
@@ -60,7 +66,7 @@
 }
 .events-page .btn {
   background-color: #331336;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #ffffff;
 }
 .events-page .btn.one_allergy {
@@ -82,7 +88,7 @@
 }
 .add-contact-page .btn {
   background-color: #dc663d;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #ffffff;
 }
 .add-contact-page .btn.one_allergy {
@@ -108,7 +114,7 @@
 }
 .emotions-page textarea {
   width: 90%;
-  height: 40%;
+  height: 25%;
   max-height: 400px;
   min-height: 100px;
   margin-bottom: 30px;
@@ -173,7 +179,7 @@
 }
 .allergies-page .btn {
   background-color: #e9b937;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #ffffff;
 }
 .allergies-page .btn.one_allergy {
@@ -195,7 +201,7 @@
 }
 .contacts-page .btn {
   background-color: #dc663d;
-  font-size: 1em;
+  font-size: 1.2em;
   color: #ffffff;
 }
 .contacts-page .btn.one_allergy {
@@ -204,16 +210,6 @@
 }
 .contacts-page .btn.one_notselected {
   background-color: #666;
-}
-.questions-page #bar {
-  background-color: #dc663d;
-}
-.questions-page .hp-key {
-  background-color: #dc663d;
-}
-.questions-page .hp-value {
-  background-color: #f9e0ce;
-  color: #dc663d;
 }
 .HomeContainer {
   text-align: center;
