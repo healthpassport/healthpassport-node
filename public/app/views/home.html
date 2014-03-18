@@ -2,15 +2,15 @@
   
   <div class="header">
     <div class="camera">
-      <i class="fa fa-user fa-2x"></i>
+      <img src="pictures/three.jpg" class="avatar"/>
       <a href="#/webcam"><i class="fa fa-camera fa-2x"></i></a>
       <div ng-click="showLogout()">{{user.avatar}}</div>
     </div>
   </div>
   
   <div class="buttons">
-    <div class="clock" ng-controller="DateFormat"  ng-click="speakDate()">
-      {{date.getDate()}} {{months[date.getMonth()]}} {{date.getFullYear()}} |  
+    <div ng-controller="DateFormat" class="clock" ng-click='speakDate()'>
+      {{date.getDate()}} {{months[date.getMonth()]}} |  
       {{date.getHours() | pad}}:{{date.getMinutes() | pad}}
 </div> 
   
