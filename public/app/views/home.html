@@ -9,7 +9,7 @@
   </div>
   
   <div class="buttons">
-    <div ng-controller="DateFormat" class="clock" ng-click='speakDate()'>
+    <div class="clock" ng-controller="DateFormat"  ng-click="speakDate()">
       {{date.getDate()}} {{months[date.getMonth()]}} {{date.getFullYear()}} |  
       {{date.getHours() | pad}}:{{date.getMinutes() | pad}}
 </div> 

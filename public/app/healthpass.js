@@ -46,7 +46,26 @@ function DateFormat($scope, $timeout) {
    };
 
   $timeout(tick, 1000);
+
+
+  $scope.speakDate = function speakDate()
+{
+  var tts = new GoogleTTS();
+  tts.play("random text", function(err){
+    console.log(err);
+  });
+  console.log("incearca");
+
+
+  var audio = new Audio();
+audio.src ='http://translate.google.com/translate_tts?ie=utf-8&tl=en&q=Hello%20World.';
+audio.play();
 }
+}
+
+
+
+
 
 healthpass.controller('AddEventController', function($scope, Me, $location) {
   $scope.saveEvent = function(data) {
