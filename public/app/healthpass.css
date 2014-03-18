@@ -76,6 +76,10 @@
 .events-page .btn.one_notselected {
   background-color: #666;
 }
+.events-page .content {
+  text-align: center;
+  margin-top: 1%;
+}
 .add-contact-page #bar {
   background-color: #dc663d;
 }
@@ -117,55 +121,61 @@
   height: 25%;
   max-height: 400px;
   min-height: 100px;
-  margin-bottom: 30px;
+}
+.emotions-page #cameraDiv {
+  height: 10%;
+  margin: 2%;
+}
+.emotions-page #cameraDiv .fa {
+  color: white;
 }
 .emotions-page.sad {
   height: 100%;
-  background-color: #e90f1a;
+  background-color: #a00000;
 }
 .emotions-page.sad #bar {
-  background-color: #e90f1a;
+  background-color: #a00000;
 }
 .emotions-page.sad .hp-key {
-  background-color: #e90f1a;
+  background-color: #a00000;
 }
 .emotions-page.sad .btn {
   background-color: #fff;
   font-size: 1.7em;
   width: 200px;
-  color: #e90f1a;
+  color: #a00000;
 }
 .emotions-page.pain {
   height: 100%;
-  background-color: #574849;
+  background-color: #003399;
 }
 .emotions-page.pain #bar {
-  background-color: #574849;
+  background-color: #003399;
 }
 .emotions-page.pain .hp-key {
-  background-color: #574849;
+  background-color: #003399;
 }
 .emotions-page.pain .btn {
   background-color: #fff;
   font-size: 1.7em;
   width: 200px;
-  color: #574849;
+  color: #003399;
 }
 .emotions-page.happy {
   height: 100%;
-  background-color: #46db2f;
+  background-color: #33cc66;
 }
 .emotions-page.happy #bar {
-  background-color: #46db2f;
+  background-color: #33cc66;
 }
 .emotions-page.happy .hp-key {
-  background-color: #46db2f;
+  background-color: #33cc66;
 }
 .emotions-page.happy .btn {
   background-color: #fff;
   font-size: 1.7em;
   width: 200px;
-  color: #46db2f;
+  color: #33cc66;
 }
 .allergies-page #bar {
   background-color: #e9b937;
@@ -210,6 +220,11 @@
 }
 .contacts-page .btn.one_notselected {
   background-color: #666;
+}
+.contacts-page .actions,
+.contacts-page .contacts {
+  text-align: center;
+  margin-top: 1%;
 }
 .HomeContainer {
   text-align: center;
@@ -263,14 +278,19 @@
   background-color: #3e9994;
 }
 .happy > .fa {
-  color: #46db2f;
+  color: #33cc66;
 }
 .sad > .fa {
-  color: #e90f1a;
+  color: #a00000;
 }
 .pain > .fa {
-  color: #574849;
+  color: #003399;
 }
 .menu {
   overflow: hidden;
+  margin: 1%;
+}
+.menu .btn {
+  margin: 1%;
+  padding: 10px 30px;
 }

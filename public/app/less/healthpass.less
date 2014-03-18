@@ -6,9 +6,9 @@
 @contactColor: #DC663D;
 @contactColorLight: #F9E0CE;
 @allergyColor: #E9B937;
-@happyColor: #46DB2F;
-@sadColor: #E90F1A; 
-@painColor: #574849;
+@happyColor: #33CC66;
+@sadColor: #A00000; 
+@painColor: #003399;
 @allergyColorLight: #FAF2D9;
 
 .avatar {
@@ -80,6 +80,11 @@
 
 .events-page {
   .make-page(@eventColor, @eventColorLight);
+
+  .content{
+  text-align: center;
+  margin-top:1%;
+  }
 }
 .add-contact-page{
   .make-page(@contactColor,@contactColorLight);
@@ -124,7 +129,14 @@
     height: 25%;
     max-height: 400px;
     min-height: 100px;
-    margin-bottom: 30px;
+  }
+
+  #cameraDiv{
+  height: 10%;
+  margin: 2%;
+    .fa{
+      color: white;
+    }
   }
 
   &.sad {
@@ -146,6 +158,12 @@
 
 .contacts-page {
   .make-page(@contactColor, @contactColorLight);
+
+  .actions, .contacts {
+    text-align:center;
+    margin-top: 1%;
+
+  }
 }
 .HomeContainer {
   text-align: center;
@@ -216,4 +234,12 @@
 }
 .menu {
   overflow: hidden;
+  margin:1%;
+
+  .btn{
+      margin: 1%;
+      padding: 10px 30px;
+  }
+
+    
 }
