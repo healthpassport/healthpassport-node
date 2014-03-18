@@ -1,4 +1,4 @@
-var healthpass = angular.module('healthpass', ['ngRoute','webcam']);
+var healthpass = angular.module('healthpass', ['ngRoute']);
 
 healthpass.config(function($routeProvider) {
   $routeProvider
@@ -15,7 +15,6 @@ healthpass.config(function($routeProvider) {
     .when('/add_event', { templateUrl: '/app/views/add_event.html', controller:"AddEventController"})
     .when('/allergies',{templateUrl:'/app/views/allergies.html', controller:"AllergyController"})
     .when('/questions',{templateUrl:'/app/views/questions.html', controller:"QuestionsController"})
-    .when('/webcam',{templateUrl:'/app/views/webcam.html', controller:"WebcamController"})
 
 });
 
@@ -266,8 +265,8 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
 
   }
   
-  Model.get = function(uid) {
-    return $req.get('/api/v1/users/'+ uid).then(function(response) {
+  Model.get = function(id) {
+    return $req.get('/api/v1/users/'+ id).then(function(response) {
       return new Model(response.data)
     })
   }
@@ -282,19 +281,19 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
   Model.prototype.create = function() {
     _model = this;
     $req.post('/api/v1/users', _model).then(function(response) {
-      _model.uid = response.data.uid;
+      _model.id = response.data.id;
       return _model;
     })
   }
   
-  Model.prototype.delete = function(uid) {
-    $req.put('/api/v1/users/'+ (this.uid || uid)).then(function(response) {
+  Model.prototype.delete = function(id) {
+    $req.put('/api/v1/users/'+ (this.id || id)).then(function(response) {
       return response.data
     })
   }
   
-  Model.prototype.save = function(uid) {
-    return $req.put('/api/v1/users/' + (this.uid || uid), this).then(function(response) {
+  Model.prototype.save = function(id) {
+    return $req.put('/api/v1/users/' + (this.id || id), this).then(function(response) {
       return response.data
     })
   }
@@ -355,8 +354,8 @@ healthpass.factory('Allergy', function($req) {
        _this[key] = opts[key];
     })
   }
-  Model.get = function(uid, aid) {
-    return $req.get('/api/v1/users/'+uid+'/allergies/'+aid).then(function(response) {
+  Model.get = function(userId, id) {
+    return $req.get('/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
       return new Model(response.data)
     })
   }
@@ -364,21 +363,21 @@ healthpass.factory('Allergy', function($req) {
   Model.prototype.create = function() {
     _model = this
     return $req.post('/api/v1/allergies', _model).then(function(response) {
-      _model.uid = response.data.uid;
-      _model.allergy_id = response.data.allergy_id;
-      console.log("created", _model, response.data.allergy_id)
+      _model.userId = response.data.userId;
+      _model.id = response.data.id;
+      console.log("created", _model, response.data.id)
       return new Model(_model);
     })
   }
   
   Model.prototype.delete = function() {
-    return $req.delete('/api/v1/users/'+ this.uid +'/allergies/'+this.allergy_id).then(function(response) {
+    return $req.delete('/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
       return response.data
     })
   }
   
-  Model.prototype.save = function(uid) {
-    return $req.put('/api/v1/users/' + (this.uid || uid), this).then(function(response) {
+  Model.prototype.save = function(userId) {
+    return $req.put('/api/v1/users/' + (this.userId || userId), this).then(function(response) {
       return response.data
     })
   }
@@ -387,7 +386,7 @@ healthpass.factory('Allergy', function($req) {
 
 
 healthpass.factory('Contact', function($req) {
-var Model = function(json) {
+  var Model = function(json) {
     this.name = json.name;
     this.surname = json.surname;
     this.description = json.description;
@@ -400,20 +399,20 @@ var Model = function(json) {
   Model.prototype.create = function() {
     _model = this
     return $req.post('/api/v1/contacts', _model).then(function(response) {
-      _model.uid = response.data.uid;
+      _model.id = response.data.id;
       return new Model(_model);
     })
   }
 
-  Model.prototype.save = function(uid) {
-    $req.put('/api/v1/users/' + (this.username || uid) + '/contacts', this).then(function(response) {
-      return response.data
+  Model.prototype.save = function(userId) {
+    $req.put('/api/v1/users/' + (this.userId || userId) + '/contacts', this).then(function(response) {
+      return response.data;
     })
   }
 
-  Model.get = function(uid, cid) {
-    return $req.get('/api/v1/users/'+uid+'/contacts/'+cid).then(function(response) {
-      return new Model(response.data)
+  Model.get = function(userId, id) {
+    return $req.get('/api/v1/users/'+userId+'/contacts/'+id).then(function(response) {
+      return new Model(response.data);
     })
   }
   
@@ -425,15 +424,15 @@ var Model = function(json) {
 
 healthpass.factory('Emotion', function($req) {
   var Model = function(json) {
-    this.description = json.description
-    this.emotion_type = json.emotion_type
-    this.location = json.location
+    this.description = json.description;
+    this.emotion_type = json.emotion_type;
+    this.location = json.location;
   }
   
   Model.prototype.create = function() {
     _model = this
     return $req.post('/api/v1/emotions', _model).then(function(response) {
-      _model.uid = response.data.uid;
+      _model.userId = response.data.userId;
       return new Model(_model);
     })
   }
@@ -453,8 +452,8 @@ healthpass.factory('Event', function($req) {
   Model.prototype.create = function() {
     _model = this
     return $req.post('/api/v1/events', _model).then(function(response) {
-      _model.uid = response.data.uid;
-      _model.eventid = response.data.eventid;
+      _model.userId = response.data.userId;
+      _model.id = response.data.id;
       return new Model(_model);
     })
   }
@@ -471,8 +470,8 @@ healthpass.factory('Question', function($req) {
     return Model;
   }
 
-  Model.get = function(question_id) {
-    return $req.get('/api/v1/questions/'+question_id).then(function(response) {
+  Model.get = function(id) {
+    return $req.get('/api/v1/questions/'+id).then(function(response) {
       return new Model(response.data)
     })
   }
@@ -488,7 +487,7 @@ healthpass.factory('Question', function($req) {
 
   Model.prototype.answer = function(answer){
     var _model = this;
-    return $req.post('/api/v1/questions/'+this.question_id, answer).then(function(response){
+    return $req.post('/api/v1/questions/'+this.id, answer).then(function(response){
       _model.answer = answer;
       return _model;
     });

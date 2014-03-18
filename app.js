@@ -4,10 +4,11 @@ var http = require('http');
 var path = require('path');
 var __ = require('underscore');
 var ejs = require("ejs");
+var db = require('./models')
 
 var app = express();
 
-var db = require('./classes/mysql');
+var db_mysql = require('./classes/mysql');
 var api = require('./routes/api');
 var user = require('./routes/user');
 var _event = require('./routes/event');
@@ -62,26 +63,50 @@ app.get('/api', function(req, res){
   }));
 });
 
+app.get('/chart', function(req,res){
+  res.render('chart.html');
+});
 // Users
 app.get('/api/v1/users', user.query, api.json);
 app.get('/api/v1/me', api.only_loggedin, user.me, api.json);
 app.post('/api/v1/users', user.create, api.json);
 
 // User
-app.get('/api/v1/users/:username', user.get, api.json);
-app.del('/api/v1/users/:username', user.del, api.json);
-app.put('/api/v1/users/:username', user.update, api.json);
+app.get('/api/v1/users/:userId', user.get, api.json);
+app.del('/api/v1/users/:userId', user.del, api.json);
+app.put('/api/v1/users/:userId', user.update, api.json);
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
 app.post('/api/v1/allergies', api.only_loggedin, allergy.create, api.json);
 app.post('/api/v1/contacts', api.only_loggedin, contact.create, api.json);
 app.post('/api/v1/events', api.only_loggedin, _event.create, api.json);
-app.get('/api/v1/users/:username/emotions', emotion.query, api.json);
-app.del('/api/v1/users/:username/allergies/:allergyid', allergy.del, api.json);
+app.get('/api/v1/users/:userId/emotions', emotion.query, api.json);
+app.del('/api/v1/users/:userId/allergies/:allergyId', allergy.del, api.json);
 
-app.get('/api/v1/users/:username/contacts', contact.query, api.json);
+app.get('/api/v1/users/:userId/contacts', contact.query, api.json);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+db
+  .sequelize
+  .sync({ force: true })
+  .complete(function(err) {
+    
+    db.User.findOrCreate({
+      username:"nicolagreco",
+      password:"pass",
+      name:"Nicola",
+      surname:"Greco",
+      email:"email@example.org",
+      role: "patient"
+    }).complete(function(err, msg) {
+      console.log("done");
+    })
+    
+    if (err) {
+      throw err
+    } else {
+      http.createServer(app).listen(app.get('port'), function(){
+        console.log('Express server listening on port ' + app.get('port'));
+      });
+    }
+  })

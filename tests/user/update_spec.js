@@ -2,7 +2,7 @@ var frisby= require('frisby');
 var db = require('../../classes/mysql');
 
 frisby.create("Updating existing user nicolagreco")
-  .put("http://127.0.0.1:3000/api/v1/users/nicolagreco",{name:"Nicolaaa"})
+  .put("http://127.0.0.1:3000/api/v1/users/1",{name:"Nicolaaa"})
   .expectStatus(200)
   .expectJSON({status:"OK"})
   .afterJSON( function(){
@@ -16,7 +16,7 @@ frisby.create("Updating existing user nicolagreco")
   .toss()
 
 frisby.create("Updating existing user nicolagreco's password")
-  .put("http://127.0.0.1:3000/api/v1/users/nicolagreco",{password:"hello"})
+  .put("http://127.0.0.1:3000/api/v1/users/1",{password:"hello"})
   .expectStatus(200)
   .expectJSON({status:"OK"})
   .afterJSON( function(){
@@ -28,13 +28,13 @@ frisby.create("Updating existing user nicolagreco's password")
   .toss()
 
 frisby.create("Updating an unexisting user martinlazarov")
-  .put("http://127.0.0.1:3000/api/v1/users/martinlazarov",{name:"Martinn"})
+  .put("http://127.0.0.1:3000/api/v1/users/0",{name:"Martinn"})
   .expectStatus(500)
   .expectJSON({status:"User not found"})
   .toss()
 
 frisby.create("Updating existing user nicolagreco with empty params")
-  .put("http://127.0.0.1:3000/api/v1/users/nicolagreco",{})
+  .put("http://127.0.0.1:3000/api/v1/users/1",{})
   .expectStatus(200)
   .expectJSON({status:"OK"})
   .toss()
