@@ -1,11 +1,35 @@
 
 google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
 google.setOnLoadCallback(function () {
-    angular.bootstrap(document.body, ['chartApp']);
+    angular.bootstrap(document.body, ['chartApp','healthpass']);
+    console.log("LOADING");
 });
 
-var chartApp=angular.module('chartApp',[]);
+var chartApp=angular.module('chartApp',['ngRoute']);
 
+chartApp.config(function($routeProvider) {
+  $routeProvider
+    .when('/dashboard', { templateUrl: '/app/views/dashboard.html', controller:"DashboardController" })
+    .when('/patients/:patientId',{templateUrl:'/app/views/patientDetails.html', controller: "PatientController"})
+    .when('/admin',{templateUrl: '/app/views/admin.html', controller: "AdminController"})
+
+});
+chartApp.controller('DashboardController', function($scope, User){
+  $scope.users=User.get().then(function(user){
+    console.log("user",user.name);
+  });
+});
+
+chartApp.controller('PatientController', function($scope, $routeParams, User){
+  console.log($routeParams.patientId);
+  User.get($routeParams.patientId).then(function(user){
+    console.log("user",user.name);
+  });
+});
+
+chartApp.controller('AdminController', function($scope){
+console.log("HELLO Admin");
+});
 chartApp.controller('ChartController',function($scope,$http) {
   $scope.url="emotions.json";
   $scope.dataG=new Array([]);
@@ -48,7 +72,7 @@ var dashboard = new google.visualization.Dashboard(
          });
       
          var chart = new google.visualization.ChartWrapper({
-           'chartType': 'ColumnChart',
+           'chartType': 'LineChart',
            'containerId': 'chart_div',
            'options': {
              // Use the same chart area width as the control for axis alignment.

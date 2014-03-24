@@ -1,0 +1,9 @@
+		<div>
+	<div class="checkbox" ng-repeat="user in users">
+		<label> 
+			<input type="checkbox" ng-click="displayChartForUser(user.id)" ng-show="user.name!=null&&user.role=='patient'">{{user.name}}
+		</label>
+	</div>
+</div>
+
+IN DASHBOARRD HTML PAGE

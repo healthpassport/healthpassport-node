@@ -1,0 +1,10 @@
+<div>
+Hello, {{name}}
+Upload Picture: <div ng-click="uploadPicture(document.getElementById('image-file'))"></div>
+<input id="image-file" type="file" />
+Patient's name: <input type="text" ng-model="patientName">
+Doctor's name: <input type="text" ng-model="doctorName">
+
+<a role="button" ng-click="relate()">Relate</a>
+
+</div>
