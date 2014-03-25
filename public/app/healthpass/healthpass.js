@@ -27,26 +27,7 @@ function DateFormat($scope, $timeout) {
    };
 
   $timeout(tick, 1000);
-
-
-  $scope.speakDate = function speakDate()
-{
-  var tts = new GoogleTTS();
-  tts.play("random text", function(err){
-    console.log(err);
-  });
-  console.log("incearca");
-
-
-  var audio = new Audio();
-audio.src ='http://translate.google.com/translate_tts?ie=utf-8&tl=en&q=Hello%20World.';
-audio.play();
 }
-}
-
-
-
-
 
 healthpass.controller('AddEventController', function($scope, Me, $location) {
   $scope.saveEvent = function(data) {
@@ -158,6 +139,18 @@ healthpass.controller('PassportEditController', function($scope) {
       console.log("saved");
     })
   }
+});
+
+healthpass.controller('MainController', function($scope, Me, $location) {
+  
+  Me.promise.then(function(user) {
+    $scope.me = user;
+  });
+  
+  $scope.isRoute = function(route) {
+    return $location.path() == route;
+  }
+
 });
 
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {

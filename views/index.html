@@ -4,18 +4,21 @@
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
-  <link rel="stylesheet" href="/app/healthpass.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/app/healthpass/healthpass.css" type="text/css" media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-  <script type="text/javascript" charset="utf-8" src="/components/angular/angular.js"></script>
-  <script type="text/javascript" charset="utf-8" src="/components/angular-route/angular-route.js"></script>
-  <script type="text/javascript" charset="utf-8" src="/app/healthpass.js"></script>
-  <script type="text/javascript" src="https://rawgithub.com/hiddentao/google-tts/master/google-tts.min.js"></script>
   
   <div class="container-fluid" ng-controller="MainController">
     <div ng-view>
     </div>
   </div>
+
+  <script type="text/javascript" charset="utf-8" src="/components/angular/angular.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/components/angular-route/angular-route.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/app/healthpass/healthpass.factories.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/app/healthpass/healthpass.routes.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/app/healthpass/healthpass.controllers.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/app/healthpass/healthpass.js"></script>
   
   
 </body>
