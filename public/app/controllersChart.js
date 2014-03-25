@@ -14,10 +14,35 @@ chartApp.config(function($routeProvider) {
     .when('/admin',{templateUrl: '/app/views/admin.html', controller: "AdminController"})
 
 });
-chartApp.controller('DashboardController', function($scope, User){
-  $scope.users=User.get().then(function(user){
-    console.log("user",user.name);
+chartApp.controller('DashboardController', function($scope, $location, User){
+  console.log("DASHBOARD IS HERE");
+  $scope.user=null;
+  $scope.users=null;
+  User.getUsers().then(function(users){
+    console.log("users",users[0].name);
+    $scope.users=users;
   });
+  $scope.showTabs=false;
+  
+  $scope.showPatientDetails=function(id){
+    console.log("SHOWING INFO ABOUT PATIENT "+id);
+    $scope.showTabs=true;
+    $scope.user=$scope.users[0];// USER SHOULD BE EQUAL TO THE SELECTED USER FROM MENU
+    //$location.path('/patients/'+id);
+  };
+
+  $scope.showHealthData=function(id){
+    console.log("SHOWING HealthData FOR USER "+id);
+    //$location.path(/passport/);
+  };
+
+  $scope.showLikesDislikes=function(id){
+    console.log("SHOWING Likes/Dislikes FOR USER "+id);
+  };
+
+  $scope.showEmotions=function(id){
+    console.log("SHOWING Emotions FOR USER "+id);
+  };
 });
 
 chartApp.controller('PatientController', function($scope, $routeParams, User){

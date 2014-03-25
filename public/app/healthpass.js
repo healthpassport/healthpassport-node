@@ -252,6 +252,13 @@ healthpass.factory('User', function($http, Allergy, $req, Emotion, Contact, Even
     })
   }
   
+  //NEEDS APPROVAL!
+  Model.getUsers=function(){
+    return $req.get('/api/v1/users/').then(function(response){
+      return new Model(response.data);
+    });
+  }
+
   Model.getMe = function(uid) {
     return $req.get('/api/v1/me').then(function(response) {
       return new Model(response.data)

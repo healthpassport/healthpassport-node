@@ -1,8 +1,13 @@
 		<div>
 	<div class="checkbox" ng-repeat="user in users">
 		<label> 
-			<input type="checkbox" ng-click="displayChartForUser(user.id)" ng-show="user.name!=null&&user.role=='patient'">{{user.name}}
+		<a role="button" ng-click="showPatientDetails(user.id)">{{user.name}}
 		</label>
+	</div>
+	<div ng-show="showTabs">
+	<a role="button" ng-click="showHealthData(user.id)">HealthPass</a>
+	<a role="button" ng-click="showLikesDislikes(user.id)">Likes/Dislikes</a>
+	<a role="button" ng-click="showEmotions(user.id)">Emotions</a>
 	</div>
 </div>
 
