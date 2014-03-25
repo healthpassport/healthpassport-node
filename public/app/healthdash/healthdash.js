@@ -8,9 +8,9 @@ var chartApp=angular.module('chartApp',['ngRoute', 'healthpass.factories']);
 
 chartApp.config(function($routeProvider) {
   $routeProvider
-  .when('/', { templateUrl: '/app/views/dashboard.html', controller:"DashboardController" })
-  .when('/patients/:patientId',{templateUrl:'/app/views/patientDetails.html', controller: "PatientController"})
-  .when('/admin',{templateUrl: '/app/views/admin.html', controller: "AdminController"})
+  .when('/', { templateUrl: '/app/healthdash/views/dashboard.html', controller:"DashboardController" })
+  .when('/patients/:patientId',{templateUrl:'/app/healthdash/views/patientDetails.html', controller: "PatientController"})
+  .when('/admin',{templateUrl: '/app/healthdash/views/admin.html', controller: "AdminController"})
 
 });
 chartApp.controller('DashboardController', function($scope, $location, User) {
