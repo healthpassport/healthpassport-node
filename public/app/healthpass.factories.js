@@ -60,11 +60,10 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
     })
   }
   
-  Model.query=function(){
+  //NEEDS APPROVAL!
+  Model.getUsers=function(){
     return $req.get('/api/v1/users/').then(function(response){
-      return response.data.map(function(user){
-        return new Model(user);
-      })
+      return new Model(response.data);
     });
   }
 

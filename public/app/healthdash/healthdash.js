@@ -4,58 +4,32 @@ google.setOnLoadCallback(function () {
   console.log("LOADING");
 });
 
-var chartApp=angular.module('chartApp',['ngRoute', 'healthpass.factories']);
+var chartApp=angular.module('chartApp',['ngRoute', 'healthpass.factories', 'healthpass.controllers']);
 
 chartApp.config(function($routeProvider) {
   $routeProvider
-  .when('/', { templateUrl: '/app/healthdash/views/dashboard.html', controller:"DashboardController" })
+  .when('/', { templateUrl: '/app/healthdash/views/admin.html', controller:"AdminController" })
   .when('/patients/:patientId',{templateUrl:'/app/healthdash/views/patientDetails.html', controller: "PatientController"})
-  .when('/admin',{templateUrl: '/app/healthdash/views/admin.html', controller: "AdminController"})
+  .when('/patients',{templateUrl: '/app/healthdash/views/patients.html', controller: "PatientsController"})
 
 });
-chartApp.controller('DashboardController', function($scope, $location, User) {
-  console.log("DASHBOARD IS HERE");
-  $scope.user=null;
-  $scope.users=null;
-
-  User.getUsers().then(function(users){
-    console.log("users",users[0].name);
+chartApp.controller('PatientsController', function($scope, $location, User) {
+  $scope.users=[];
+  User.query().then(function(users){
+    console.log("users",users);
     $scope.users=users;
   });
-  
-  $scope.showTabs=false;
-  
-  $scope.showPatientDetails=function(id){
-    console.log("SHOWING INFO ABOUT PATIENT "+id);
-    $scope.showTabs=true;
-    $scope.user=$scope.users[0];// USER SHOULD BE EQUAL TO THE SELECTED USER FROM MENU
-    //$location.path('/patients/'+id);
-  };
 
-  $scope.showHealthData=function(id){
-    console.log("SHOWING HealthData FOR USER "+id);
-    //$location.path(/passport/);
-  };
-
-  $scope.showLikesDislikes=function(id){
-    console.log("SHOWING Likes/Dislikes FOR USER "+id);
-  };
-
-  $scope.showEmotions=function(id){
-    console.log("SHOWING Emotions FOR USER "+id);
-  };
 });
 
 chartApp.controller('PatientController', function($scope, $routeParams, User){
-  console.log($routeParams.patientId);
-  User.get($routeParams.patientId).then(function(user){
-    console.log("user",user.name);
-  });
+
 });
 
 chartApp.controller('AdminController', function($scope){
-  console.log("HELLO Admin");
+  
 });
+
 chartApp.controller('ChartController',function($scope,$http) {
   $scope.emotionData=[{type:1,location:'1,1', date: new Date(2014,2,3,13,49,24)}];
  
@@ -166,20 +140,4 @@ chartApp.controller('ChartController',function($scope,$http) {
     console.log(desiredDate.getMonth());
     console.log("Here" + desiredDate);
   };
-});
-chartApp.controller('MainController', function($scope, $http){
-  $scope.message="MAIN CONTROLLER";
-  $scope.bigArray=new Array([]);
-  // $scope.url="test.json";
-  // $scope.dataG=new Array([]);
-  // $http.get($scope.url)
-  // .success(function(data){
-    //   console.log(JSON.stringify(data));
-    // }).
-    // error(function(data){
-      //   console.log("Error" + JSON.stringify(data));
-      // });
-      // var record=[1,23,3];
-      // $scope.bigArray.push(record);
-      // console.log($scope.bigArray);
 });
