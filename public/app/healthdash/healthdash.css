@@ -9,12 +9,25 @@ body {
 }
 #healthpass,
 #emotions,
-#likes-dislikes {
+#likes_dislikes {
   width: 90%;
+  margin: auto;
+  margin-top: 5%;
 }
-#chart_div {
-  width: 915px;
-  height: 300px;
+#emotions #dashboard {
+  width: 100%;
+  height: auto;
+}
+#emotions #chart_div {
+  position: relative;
+  margin: auto;
+  width: inherit;
+}
+#emotions #control {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 50px;
 }
 .users {
   width: 70%;

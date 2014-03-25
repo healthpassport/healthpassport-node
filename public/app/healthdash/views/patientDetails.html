@@ -1,11 +1,10 @@
-
 <div class="patient-page">
 
 	<div class="bs-example">
 		<ul class="nav nav-tabs" id="tabs">
-			<li ng-class="{active:selected==1}"><a ng-click="showData(1)" data-toggle="tab"><span class="glyphicon glyphicon-book"></span>  HealthPassport</a></li>
-			<li ng-class="{active:selected==2}"><a ng-click="showData(2)" data-toggle="tab"><span class="glyphicon glyphicon-thumbs-up"></span> Likes/Dislikes <span class="glyphicon glyphicon-thumbs-down"></span></a></li>
-			<li ng-class="{active:selected==3}"><a ng-click="showData(3)" data-toggle="tab"><span class="glyphicon glyphicon-heart-empty"></span> Emotions</a></li>
+			<li ng-class="{active:selected==1}"><a ng-click="showData(1)"><span class="glyphicon glyphicon-book"></span>  HealthPassport</a></li>
+			<li ng-class="{active:selected==2}"><a ng-click="showData(2)"><span class="glyphicon glyphicon-thumbs-up"></span> Likes/Dislikes <span class="glyphicon glyphicon-thumbs-down"></span></a></li>
+			<li ng-class="{active:selected==3}"><a ng-click="showData(3)"><span class="glyphicon glyphicon-heart-empty"></span> Emotions</a></li>
 		</ul>
 	</div>
 
@@ -108,10 +107,11 @@
 
 		<div id="emotions" ng-show="selected==3">
 
-			<div id="dashboard" ng-controller="ChartController">
-				<div id="chart_div"></div>
-				<div id="control" style='width: 915px; height: 50px;'></div>
-			</div>
+      <div id="dashboard" ng-controller='ChartController'>
+        <div id="chart_div"></div>
+        <div id="control"></div>
+      </div>
+			
 		</div>
 
 

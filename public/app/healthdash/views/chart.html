@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>Chart for Patients</title>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <link rel="stylesheet" href="stylesheets/app.css"/>
- <script type="text/javascript" src="https://www.google.com/jsapi"></script>
- <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div ng-controller="MainController">
@@ -13,7 +13,7 @@
       <div id="dashboard">
         <div id="chart_div" style='width: 915px; height: 300px;'></div>
         <div id="control" style='width: 915px; height: 50px;'></div>
-    </div>
+      </div>
 
       <input type="date" ng-model="date">{{date}}
       <button ng-click="displayDate(date)">Display</button>
