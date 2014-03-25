@@ -1,15 +1,14 @@
-
 google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
 google.setOnLoadCallback(function () {
-    angular.bootstrap(document.body, ['chartApp','healthpass']);
+    angular.bootstrap(document.body, ['chartApp']);
     console.log("LOADING");
 });
 
-var chartApp=angular.module('chartApp',['ngRoute']);
+var chartApp=angular.module('chartApp',['ngRoute', 'healthpass.factories']);
 
 chartApp.config(function($routeProvider) {
   $routeProvider
-    .when('/dashboard', { templateUrl: '/app/views/dashboard.html', controller:"DashboardController" })
+    .when('/', { templateUrl: '/app/views/dashboard.html', controller:"DashboardController" })
     .when('/patients/:patientId',{templateUrl:'/app/views/patientDetails.html', controller: "PatientController"})
     .when('/admin',{templateUrl: '/app/views/admin.html', controller: "AdminController"})
 
