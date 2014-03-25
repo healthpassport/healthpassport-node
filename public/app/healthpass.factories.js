@@ -1,5 +1,14 @@
 var factories = angular.module('healthpass.factories', []);
 
+
+factories.service('Me', function(User) {
+  this.user = new User();
+  this.promise = User.getMe()
+  this.promise.then(function(value) {
+      this.user = value;
+    })
+})
+
 factories.value('online', 1);
 
 factories.service("$local", function() {

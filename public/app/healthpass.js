@@ -174,11 +174,3 @@ healthpass.service('Location', function() {
     return "1,1";
   }
 })
-
-healthpass.service('Me', function(User) {
-  this.user = new User();
-  this.promise = User.getMe()
-  this.promise.then(function(value) {
-      this.user = value;
-    })
-})
