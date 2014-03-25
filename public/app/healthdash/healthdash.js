@@ -23,7 +23,9 @@ chartApp.controller('PatientsController', function($scope, $location, User) {
 });
 
 chartApp.controller('PatientController', function($scope, $routeParams, User){
-
+  User.get($routeParams.patientId).then(function(user){
+    $scope.user=user;
+  });
 });
 
 chartApp.controller('AdminController', function($scope){
