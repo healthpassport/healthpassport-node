@@ -81,17 +81,17 @@
   margin-top: 1%;
 }
 .doctor-page #bar {
-  background-color: #3e9994;
+  background-color: #565051;
 }
 .doctor-page .hp-key {
-  background-color: #3e9994;
+  background-color: #565051;
 }
 .doctor-page .hp-value {
-  background-color: #d9e8e8;
-  color: #3e9994;
+  background-color: #d1d0ce;
+  color: #565051;
 }
 .doctor-page .btn {
-  background-color: #3e9994;
+  background-color: #565051;
   font-size: 1.2em;
   color: #ffffff;
 }
