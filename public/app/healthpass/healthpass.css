@@ -80,6 +80,28 @@
   text-align: center;
   margin-top: 1%;
 }
+.doctor-page #bar {
+  background-color: #3e9994;
+}
+.doctor-page .hp-key {
+  background-color: #3e9994;
+}
+.doctor-page .hp-value {
+  background-color: #d9e8e8;
+  color: #3e9994;
+}
+.doctor-page .btn {
+  background-color: #3e9994;
+  font-size: 1.2em;
+  color: #ffffff;
+}
+.doctor-page .btn.one_allergy {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.doctor-page .btn.one_notselected {
+  background-color: #666;
+}
 .add-contact-page #bar {
   background-color: #dc663d;
 }

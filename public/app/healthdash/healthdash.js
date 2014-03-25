@@ -23,6 +23,14 @@ chartApp.controller('PatientsController', function($scope, $location, User) {
 });
 
 chartApp.controller('PatientController', function($scope, $routeParams, User){
+
+  $scope.selected = 1;
+  
+  $scope.showData = function(selected)
+  {
+    $scope.selected = selected;
+  }
+
   User.get($routeParams.patientId).then(function(user){
     $scope.user=user;
   });

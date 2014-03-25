@@ -1,4 +1,4 @@
-@passportColor: #3e9994;
+@passportColor: #3E9994;
 @passportColorLight: #D9E8E8;
 @eventColor: #331336;
 @eventColorLight: #C6BDC9;
@@ -50,6 +50,7 @@
 }
 
 .make-page(@strong, @light) {
+
   #bar {
     background-color: @strong;
   }
@@ -86,6 +87,11 @@
   margin-top:1%;
   }
 }
+
+.doctor-page {
+  .make-page(@passportColor, @passportColorLight);
+}
+
 .add-contact-page{
   .make-page(@contactColor,@contactColorLight);
 }

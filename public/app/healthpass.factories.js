@@ -268,6 +268,7 @@ factories.factory('Question', function($req) {
 
   Model.get = function(id) {
     return $req.get('/api/v1/questions/'+id).then(function(response) {
+      //return $req.get('/api/v1/patients/:patientId/questions/'+id).then(function(response) {
       return new Model(response.data)
     })
   }

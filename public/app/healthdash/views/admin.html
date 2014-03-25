@@ -1,3 +1,39 @@
-<div>
-Doctor {{me.name}} {{me.surname}}
+<div class="doctor-page">
+<div class="form-horizontal">
+
+	<div class="form-group">
+      
+        <div class="avatar">
+        	<img src="{{me.avatar}} || '../../../pictures/apple.jpg'">
+        </div>
+    </div>
+  
+    <div class="form-group">
+      <div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
+      <div class="col-sm-9 hp-value">
+        <div class="inside"> {{me.name}}</div>
+      </div>
+    </div>
+  
+  	<div class="form-group">
+      <div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Surname</span></div>
+      <div class="col-sm-9 hp-value">
+        <div class="inside"> {{me.surname}}</div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
+      <div class="col-sm-9 hp-value">
+        <div class="inside"> {{me.email}}</div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
+      <div class="col-sm-9 hp-value">
+        <div class="inside"> {{me.telephone || "&nbsp;"}}</div>
+      </div>
+    </div>
+ </div>
 </div>

@@ -1,6 +1,93 @@
-{{user.name}}
 
-<div id="dashboard" ng-controller="ChartController">
-  <div id="chart_div" style='width: 915px; height: 300px;'></div>
-  <div id="control" style='width: 915px; height: 50px;'></div>
+<div class="patient-page">
+
+	<div class="bs-example">
+		<ul class="nav nav-tabs" id="tabs">
+			<li ng-class="{active:selected==1}"><a ng-click="showData(1)" data-toggle="tab"><span class="glyphicon glyphicon-book"></span>  HealthPassport</a></li>
+			<li ng-class="{active:selected==2}"><a ng-click="showData(2)" data-toggle="tab"><span class="glyphicon glyphicon-thumbs-up"></span> Likes/Dislikes <span class="glyphicon glyphicon-thumbs-down"></span></a></li>
+			<li ng-class="{active:selected==3}"><a ng-click="showData(3)" data-toggle="tab"><span class="glyphicon glyphicon-heart-empty"></span> Emotions</a></li>
+		</ul>
+	</div>
+
+	<div class="tab-content">
+
+		<div id="healthpass" ng-show="selected==1">
+
+
+			<div class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.name}} {{me.surname}}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.email}}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.telephone || "&nbsp;"}}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.disability_level || "&nbsp;" }}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.understanding_level || "&nbsp;" }}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.communication_type || "&nbsp;" }}</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
+					<div class="col-sm-9 hp-value">
+						<div class="inside">{{me.support_hours || "&nbsp;"}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="likes_dislikes" ng-show="selected==2">
+			<div id="likes">
+			</div>
+			<div id="dislikes">
+			</div>
+			<div id="possible_choices">
+			</div>
+			<div id="add_remove">
+			</div>
+			
+		</div>
+
+		<div id="emotions" ng-show="selected==3">
+
+			emotions div
+
+			<div id="dashboard" ng-controller="ChartController">
+				<div id="chart_div"></div>
+				<div id="control" style='width: 915px; height: 50px;'></div>
+			</div>
+		</div>
+
+
+	</div>
 </div>

@@ -1,3 +1,21 @@
 body {
   padding-top: 60px;
+  width: 100%;
+}
+.avatar img {
+  width: 120px;
+  border: solid black 2px;
+}
+#healthpass,
+#emotions,
+#likes-dislikes {
+  width: 90%;
+}
+#dashboard {
+  width: 70%;
+  height: 1000px;
+}
+#chart_div {
+  width: 915px;
+  height: 300px;
 }
