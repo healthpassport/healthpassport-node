@@ -101,7 +101,7 @@ Routes.get = function(req, res, next) {
   console.log(req.params.userId);
   db.User.find({
     where: {id:req.params.userId},
-    include: [db.Allergy, db.Emotion, db.Contact, db.Event, db.Picture, db.Question, db.Address]
+    include: [db.Allergy, db.Emotion, db.Contact, db.Event, db.Picture, {model:db.Question, include: [db.Picture]}, db.Address]
   }).complete(function(err, user) {
     if (!!err) return res.json(500, {status:"Error in finding a user in DB"});
     if (!user) return res.json(500, {status:"User not found"});

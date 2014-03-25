@@ -98,8 +98,14 @@ db
       surname:"Greco",
       email:"email@example.org",
       role: "patient"
-    }).complete(function(err, msg) {
-      console.log("done");
+    }).complete(function(err, user) {
+      // console.log("done", err, user);
+      db.Picture.create({url:'/pictures/apple.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
     })
     
     if (err) {

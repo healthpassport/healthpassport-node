@@ -91,9 +91,14 @@
 			</div>
 			<div id="possible_choices">
 				<h4>Possible choises</h4>
+
 				<div class="answers" ng-repeat="question in user.questions">
 					<div class="answer"></div>
 				</div>
+        <div class="answers" ng-repeat="question in user.questions">
+          <div class="answer"><img ng-src="{{question.picture.url}}"/></div>
+        </div>
+
 			</div>
 			<div id="add_remove">
 				<i class="fa fa-plus"></i>
