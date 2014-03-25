@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
             .hasMany(models.Picture)
             .hasMany(models.Emotion)
             .hasMany(models.Contact)
-            .hasMany(models.Answer)
+            .hasMany(models.Question)
             .hasMany(models.Event)
             .hasOne(models.Address)
       }

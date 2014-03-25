@@ -14,68 +14,86 @@
 		<div id="healthpass" ng-show="selected==1">
 
 			<div class="passport-page">
+
 				<div class="form-horizontal">
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.name}} {{me.surname}}</div>
+							<div class="inside">{{user.name}}</div>
+						</div>
+					</div>
+
+						<div class="form-group">
+						<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Surname</span></div>
+						<div class="col-sm-9 hp-value">
+							<div class="inside">{{user.surname}}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.email}}</div>
+							<div class="inside">{{user.email}}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.telephone || "&nbsp;"}}</div>
+							<div class="inside">{{user.telephone || "&nbsp;"}}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.disability_level || "&nbsp;" }}</div>
+							<div class="inside">{{user.disability_level || "&nbsp;" }}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.understanding_level || "&nbsp;" }}</div>
+							<div class="inside">{{user.understanding_level || "&nbsp;" }}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.communication_type || "&nbsp;" }}</div>
+							<div class="inside">{{user.communication_type || "&nbsp;" }}</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
 						<div class="col-sm-9 hp-value">
-							<div class="inside">{{me.support_hours || "&nbsp;"}}</div>
+							<div class="inside">{{user.support_hours || "&nbsp;"}}</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 
 		<div id="likes_dislikes" ng-show="selected==2">
 			<div id="likes">
-				<p>Likes</p>
+				<h4>Likes</h4>
+				<div class="answers" ng-repeat="answer in user.questions | filter:{answer:2}">
+					<div class="answer"></div>
+				</div>
 			</div>
 			<div id="dislikes">
-				<p>Dislikes</p>
+				<h4>Dislikes</h4>
+				<div class="answers" ng-repeat="answer in user.questions | filter:{answer:1}">
+					<div class="answer"></div>
+				</div>
 			</div>
 			<div id="possible_choices">
-				<p>Possible choises</p>
+				<h4>Possible choises</h4>
+				<div class="answers" ng-repeat="question in user.questions">
+					<div class="answer"></div>
+				</div>
 			</div>
 			<div id="add_remove">
 				<i class="fa fa-plus"></i>
