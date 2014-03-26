@@ -45,18 +45,23 @@ healthpass.controller('ContactsController', function($scope, $location, Me) {
 healthpass.controller('EventsController', function($scope, $location, Me) {
 });
 
-healthpass.controller('QuestionsController',function($scope, Question){
-  $scope.questions=[];
-  Question.query().then(function(questions){
-    $scope.questions=questions;
-  })
+healthpass.controller('QuestionsController',function($scope, Me){
+  $scope.questions=$scope.me.questions;
+  
+  console.log("dsa",$scope.questions);
 });
 
-healthpass.controller('QuestionController',function($scope, Question){
+healthpass.controller('QuestionController',function($scope, Me, Question){
   $scope.answer=function(answer){
-    $scope.question.answer(answer).then(function(){
-
-    })
+    console.log("ANSWER "+answer);
+  console.log($scope.me.questions[0].answer);
+  $scope.me.questions[0].answer=2;
+  console.log($scope.me.id);
+    $scope.me.save($scope.me.id).then(function() {
+    console.log("saved");
+   })
+    
+    
   }
 })
 
