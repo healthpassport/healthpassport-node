@@ -6,6 +6,8 @@
 @contactColor: #DC663D;
 @contactColorLight: #F9E0CE;
 @allergyColor: #E9B937;
+@questionsColor: #E9B937;
+@questionsColorLight: #E9B937;
 @happyColor: #33CC66;
 @sadColor: #A00000; 
 @painColor: #003399;
@@ -161,6 +163,10 @@
 }
 
 .allergies-page {
+  .make-page(@questionsColor, @questionsColorLight);
+}
+
+.questions-page {
   .make-page(@allergyColor, @allergyColorLight);
 }
 

@@ -32,7 +32,7 @@ factories.service("$req", function(online, $remote, $local) {
   this.delete = online ? $remote.delete : $local.delete;
 });
 
-factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event) {
+factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event, Question) {
   
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
@@ -51,6 +51,7 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
     this.events = opts.emotions ? response_to_model(opts.events, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
+    this.questions = opts.questions ? response_to_model(opts.questions, Question) : [];
 
   }
   
@@ -264,7 +265,6 @@ factories.factory('Question', function($req) {
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
-    return Model;
   }
 
   Model.get = function(id) {
@@ -282,11 +282,12 @@ factories.factory('Question', function($req) {
 
   }
 
-  Model.prototype.answer = function(answer){
+  Model.prototype.saveAnswer = function(answer){
     var _model = this;
-    return $req.post('/api/v1/questions/'+this.id, answer).then(function(response){
+    return $req.post('/api/v1/questions/'+this.id, {answer:answer}).then(function(response){
       _model.answer = answer;
       return _model;
     });
   }
+  return Model;
 });

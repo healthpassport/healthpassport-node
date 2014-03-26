@@ -206,7 +206,7 @@
   background-color: #e9b937;
 }
 .allergies-page .hp-value {
-  background-color: #faf2d9;
+  background-color: #e9b937;
   color: #e9b937;
 }
 .allergies-page .btn {
@@ -219,6 +219,28 @@
   margin-bottom: 10px;
 }
 .allergies-page .btn.one_notselected {
+  background-color: #666;
+}
+.questions-page #bar {
+  background-color: #e9b937;
+}
+.questions-page .hp-key {
+  background-color: #e9b937;
+}
+.questions-page .hp-value {
+  background-color: #faf2d9;
+  color: #e9b937;
+}
+.questions-page .btn {
+  background-color: #e9b937;
+  font-size: 1.2em;
+  color: #ffffff;
+}
+.questions-page .btn.one_allergy {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.questions-page .btn.one_notselected {
   background-color: #666;
 }
 .contacts-page #bar {

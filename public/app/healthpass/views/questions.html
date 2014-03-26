@@ -3,12 +3,12 @@
     <a href="#/passport"><i class="fa fa-angle-left"></i> back</a>
   </header>
 
-  <div ng-repeat="question in questions">
+  <div ng-repeat="question in me.questions">
   	<div ng-controller="QuestionController">
   		<h1>{{question.title}}</h1>
   		<img class="img-responsive" style='width: 350px; height: 350px;' ng-src="{{question.picture.url}}"/>
-  		<button class="btn btn-success glyphicon glyphicon-thumbs-down" ng-click="answer(1)">Dislike</button>
-  		<button class="btn btn-success glyphicon glyphicon-thumbs-up" ng-click="answer(2)">Like</button>
+  		<button class="btn btn-success glyphicon glyphicon-thumbs-down" ng-click="saveAnswer(question, 1)">Dislike</button>
+  		<button class="btn btn-success glyphicon glyphicon-thumbs-up" ng-click="saveAnswer(question, 2)">Like</button>
   	</div>
   </div>
 

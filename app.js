@@ -16,6 +16,7 @@ var emotion = require('./routes/emotion');
 var contact = require('./routes/contact');
 var allergy = require('./routes/allergy');
 var passport = require("./classes/passport");
+var question = require('./routes/question');
 var RedisStore     = require("connect-redis")(express);
 var store = require('./classes/redis');
 
@@ -75,6 +76,8 @@ app.post('/api/v1/users', user.create, api.json);
 app.get('/api/v1/users/:userId', user.get, api.json);
 app.del('/api/v1/users/:userId', user.del, api.json);
 app.put('/api/v1/users/:userId', user.update, api.json);
+
+app.post('/api/v1/questions/:questionId', question.answer, api.json)
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
