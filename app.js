@@ -109,6 +109,13 @@ db
           user.addQuestion(question1);
         })
       });
+
+      db.Picture.create({url:'/pictures/bananas.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
     })
     
     if (err) {

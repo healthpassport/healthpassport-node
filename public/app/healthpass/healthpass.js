@@ -53,7 +53,7 @@ healthpass.controller('QuestionController',function($scope, Me, Question){
   
   $scope.saveAnswer=function(question, answer){
     console.log("IN SAVING");
-   
+ 
     toastr.options = {
       "closeButton": false,
       "debug": false,
@@ -69,7 +69,8 @@ healthpass.controller('QuestionController',function($scope, Me, Question){
       "hideMethod": "fadeOut"
     }
     toastr.success('Preference saved.');
-    //$scope.me.question.splice(0,1);
+    $scope.me.questions.splice(0,1);
+    console.log($scope.me.questions);
 
     question.saveAnswer(answer).then(function(data) {
     console.log("saved", data)   //NOT EXECUTED
