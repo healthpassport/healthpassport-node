@@ -1,5 +1,5 @@
+var api_server = "http://healthpassport.herokuapp.com"
 var factories = angular.module('healthpass.factories', []);
-
 
 factories.service('Me', function(User) {
   this.user = new User();
@@ -55,13 +55,13 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   }
   
   Model.get = function(id) {
-    return $req.get('/api/v1/users/'+ id).then(function(response) {
+    return $req.get(api_server+'/api/v1/users/'+ id).then(function(response) {
       return new Model(response.data)
     })
   }
   
   Model.query=function(){
-    return $req.get('/api/v1/users/').then(function(response){
+    return $req.get(api_server+'/api/v1/users/').then(function(response){
       return response.data.map(function(user){
         return new Model(user);
       })
@@ -69,7 +69,7 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   }
 
   Model.getMe = function(uid) {
-    return $req.get('/api/v1/me').then(function(response) {
+    return $req.get(api_server+'/api/v1/me').then(function(response) {
       return new Model(response.data)
     })
   }
@@ -77,20 +77,20 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   
   Model.prototype.create = function() {
     _model = this;
-    $req.post('/api/v1/users', _model).then(function(response) {
+    $req.post(api_server+'/api/v1/users', _model).then(function(response) {
       _model.id = response.data.id;
       return _model;
     })
   }
   
   Model.prototype.delete = function(id) {
-    $req.put('/api/v1/users/'+ (this.id || id)).then(function(response) {
+    $req.put(api_server+'/api/v1/users/'+ (this.id || id)).then(function(response) {
       return response.data
     })
   }
   
   Model.prototype.save = function(id) {
-    return $req.put('/api/v1/users/' + (this.id || id), this).then(function(response) {
+    return $req.put(api_server+'/api/v1/users/' + (this.id || id), this).then(function(response) {
       return response.data
     })
   }
@@ -152,14 +152,14 @@ factories.factory('Allergy', function($req) {
     })
   }
   Model.get = function(userId, id) {
-    return $req.get('/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
+    return $req.get(api_server+'/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
       return new Model(response.data)
     })
   }
   
   Model.prototype.create = function() {
     _model = this
-    return $req.post('/api/v1/allergies', _model).then(function(response) {
+    return $req.post(api_server+'/api/v1/allergies', _model).then(function(response) {
       _model.userId = response.data.userId;
       _model.id = response.data.id;
       console.log("created", _model, response.data.id)
@@ -168,13 +168,13 @@ factories.factory('Allergy', function($req) {
   }
   
   Model.prototype.delete = function() {
-    return $req.delete('/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
+    return $req.delete(api_server+'/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
       return response.data
     })
   }
   
   Model.prototype.save = function(userId) {
-    return $req.put('/api/v1/users/' + (this.userId || userId), this).then(function(response) {
+    return $req.put(api_server+'/api/v1/users/' + (this.userId || userId), this).then(function(response) {
       return response.data
     })
   }
@@ -195,20 +195,20 @@ factories.factory('Contact', function($req) {
   
   Model.prototype.create = function() {
     _model = this
-    return $req.post('/api/v1/contacts', _model).then(function(response) {
+    return $req.post(api_server+'/api/v1/contacts', _model).then(function(response) {
       _model.id = response.data.id;
       return new Model(_model);
     })
   }
 
   Model.prototype.save = function(userId) {
-    $req.put('/api/v1/users/' + (this.userId || userId) + '/contacts', this).then(function(response) {
+    $req.put(api_server+'/api/v1/users/' + (this.userId || userId) + '/contacts', this).then(function(response) {
       return response.data;
     })
   }
 
   Model.get = function(userId, id) {
-    return $req.get('/api/v1/users/'+userId+'/contacts/'+id).then(function(response) {
+    return $req.get(api_server+'/api/v1/users/'+userId+'/contacts/'+id).then(function(response) {
       return new Model(response.data);
     })
   }
@@ -228,7 +228,7 @@ factories.factory('Emotion', function($req) {
   
   Model.prototype.create = function() {
     _model = this
-    return $req.post('/api/v1/emotions', _model).then(function(response) {
+    return $req.post(api_server+'/api/v1/emotions', _model).then(function(response) {
       _model.userId = response.data.userId;
       return new Model(_model);
     })
@@ -248,7 +248,7 @@ factories.factory('Event', function($req) {
   
   Model.prototype.create = function() {
     _model = this
-    return $req.post('/api/v1/events', _model).then(function(response) {
+    return $req.post(api_server+'/api/v1/events', _model).then(function(response) {
       _model.userId = response.data.userId;
       _model.id = response.data.id;
       return new Model(_model);
@@ -268,13 +268,13 @@ factories.factory('Question', function($req) {
   }
 
   Model.get = function(id) {
-    return $req.get('/api/v1/questions/'+id).then(function(response) {
+    return $req.get(api_server+'/api/v1/questions/'+id).then(function(response) {
       return new Model(response.data)
     })
   }
 
   Model.query= function(){
-  return $req.get('/api/v1/questions').then(function(response) {
+  return $req.get(api_server+'/api/v1/questions').then(function(response) {
       return response.data.map(function(question){
         return new Model(question);
       })
@@ -284,7 +284,7 @@ factories.factory('Question', function($req) {
 
   Model.prototype.answer = function(answer){
     var _model = this;
-    return $req.post('/api/v1/questions/'+this.id, answer).then(function(response){
+    return $req.post(api_server+'/api/v1/questions/'+this.id, answer).then(function(response){
       _model.answer = answer;
       return _model;
     });
