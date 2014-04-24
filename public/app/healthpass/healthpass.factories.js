@@ -1,5 +1,27 @@
-var api_server = "http://healthpassport.herokuapp.com"
+var api_server = "http://127.0.0.1:3000"
 var factories = angular.module('healthpass.factories', []);
+
+factories.factory('cordovaReady', function() {
+  return function (fn) {
+
+    var queue = [];
+
+    var impl = function () {
+      queue.push(Array.prototype.slice.call(arguments));
+    };
+
+    document.addEventListener('deviceready', function () {
+      queue.forEach(function (args) {
+        fn.apply(this, args);
+      });
+      impl = fn;
+    }, false);
+
+    return function () {
+      return impl.apply(this, arguments);
+    };
+  };
+});
 
 factories.service('Me', function(User) {
   this.user = new User();
@@ -9,30 +31,37 @@ factories.service('Me', function(User) {
     })
 })
 
-factories.value('online', 1);
+factories.value('cordovaValue', 0);
 
-factories.service("$local", function() {
-  this.get = function() {};
-  this.post = function() {};
-  this.put = function() {};
-  this.delete = function() {};
+factories.factory("$local", function() {
+  var checkDB = function(model) {
+    console.log(typeof model);
+  }
+  return checkDB;
 });
 
-factories.service("$remote", function(online, $local, $http) {
+factories.service("$remote", function($local, $http, pouchdb) {
   this.get    = $http.get
   this.post   = $http.post
   this.put    = $http.put
   this.delete = $http.delete
 });
 
-factories.service("$req", function(online, $remote, $local) {
-  this.get    = online ? $remote.get    : $local.get;
-  this.post   = online ? $remote.post   : $local.post;
-  this.put    = online ? $remote.put    : $local.put;
-  this.delete = online ? $remote.delete : $local.delete;
+factories.service("$req", function(cordovaValue, $remote, $local, CordovaService) {
+
+  function isConnected () {
+
+    alert("checking")
+
+    if (navigator && navigator.network && navigator.connection) {
+      alert(navigator.network.connection.type)
+      return navigator.connection.type == Connection.NONE ? 0 : 1;
+    } else return 1;
+  }
+
 });
 
-factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event) {
+factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event) {
   
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
@@ -55,13 +84,13 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   }
   
   Model.get = function(id) {
-    return $req.get(api_server+'/api/v1/users/'+ id).then(function(response) {
+    return $remote.get(api_server+'/api/v1/users/'+ id).then(function(response) {
       return new Model(response.data)
     })
   }
   
   Model.query=function(){
-    return $req.get(api_server+'/api/v1/users/').then(function(response){
+    return $remote.get(api_server+'/api/v1/users/').then(function(response){
       return response.data.map(function(user){
         return new Model(user);
       })
@@ -69,7 +98,7 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   }
 
   Model.getMe = function(uid) {
-    return $req.get(api_server+'/api/v1/me').then(function(response) {
+    return $remote.get(api_server+'/api/v1/me').then(function(response) {
       return new Model(response.data)
     })
   }
@@ -77,20 +106,20 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   
   Model.prototype.create = function() {
     _model = this;
-    $req.post(api_server+'/api/v1/users', _model).then(function(response) {
+    $remote.post(api_server+'/api/v1/users', _model).then(function(response) {
       _model.id = response.data.id;
       return _model;
     })
   }
   
   Model.prototype.delete = function(id) {
-    $req.put(api_server+'/api/v1/users/'+ (this.id || id)).then(function(response) {
+    $remote.put(api_server+'/api/v1/users/'+ (this.id || id)).then(function(response) {
       return response.data
     })
   }
   
   Model.prototype.save = function(id) {
-    return $req.put(api_server+'/api/v1/users/' + (this.id || id), this).then(function(response) {
+    return $remote.put(api_server+'/api/v1/users/' + (this.id || id), this).then(function(response) {
       return response.data
     })
   }
@@ -141,103 +170,79 @@ factories.factory('User', function($http, Allergy, $req, Emotion, Contact, Event
   return Model;
 });
 
-factories.factory('Allergy', function($req) {
-  var Model = function(opts) {
+factories.factory('M', function($remote) {
+  var GenericModel = function(Model) {
+  }
+  GenericModel.init = function(opts) {
     opts || (opts = {});
-
-    // TODO improve this with _underscore
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
+    console.log(_this)
   }
-  Model.get = function(userId, id) {
-    return $req.get(api_server+'/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
+  GenericModel.get = function(route) {
+    var Model = this;
+    return $remote.get(api_server+route).then(function(response) {
       return new Model(response.data)
     })
   }
-  
-  Model.prototype.create = function() {
-    _model = this
-    return $req.post(api_server+'/api/v1/allergies', _model).then(function(response) {
+  GenericModel.delete = function(route) {
+    return $remote.delete(route).then(function(response) {
+      return response.data
+    })
+  }
+  GenericModel.save = function(route) {
+    return $remote.put(route, this).then(function(response) {
+      return response.data
+    })
+  }
+  GenericModel.createWithUser = function(route, Model) {
+    var _model = this
+    return $remote.post(route, _model).then(function(response) {
       _model.userId = response.data.userId;
       _model.id = response.data.id;
-      console.log("created", _model, response.data.id)
       return new Model(_model);
     })
   }
-  
-  Model.prototype.delete = function() {
-    return $req.delete(api_server+'/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
-      return response.data
-    })
-  }
-  
-  Model.prototype.save = function(userId) {
-    return $req.put(api_server+'/api/v1/users/' + (this.userId || userId), this).then(function(response) {
-      return response.data
-    })
-  }
-  return Model;
-});
-
-
-factories.factory('Contact', function($req) {
-  var Model = function(json) {
-    this.name = json.name;
-    this.surname = json.surname;
-    this.description = json.description;
-    this.kind = json.kind;
-    this.picture = json.picture;
-    this.username = json.username;
-    this.telephone = json.telephone;
-  }
-  
-  Model.prototype.create = function() {
-    _model = this
-    return $req.post(api_server+'/api/v1/contacts', _model).then(function(response) {
+  GenericModel.create = function(route, Model) {
+    var _model = this
+    return $remote.post(api_server+'/api/v1/contacts', _model).then(function(response) {
       _model.id = response.data.id;
       return new Model(_model);
     })
   }
+  return GenericModel
+})
 
-  Model.prototype.save = function(userId) {
-    $req.put(api_server+'/api/v1/users/' + (this.userId || userId) + '/contacts', this).then(function(response) {
-      return response.data;
-    })
-  }
+factories.factory('Allergy', function(M) {
+  var Model = function(opts) { M.init.call(this, opts) }
+  Model.get = function(userId, id) { return M.get.call(this, '/api/v1/users/'+userId+'/allergies/'+id) }
+  Model.prototype.create = function() { return M.createWithUser.call(this, '/api/v1/allergies', Model) }
+  Model.prototype.save = function(userId) { return M.save.apply(this, '/api/v1/users/' + (this.userId || userId)) }
+  Model.prototype.delete = function() { return M.delete.call(this, '/api/v1/users/'+ this.userId +'/allergies/'+this.id)}
+  return Model;
+});
 
-  Model.get = function(userId, id) {
-    return $req.get(api_server+'/api/v1/users/'+userId+'/contacts/'+id).then(function(response) {
-      return new Model(response.data);
-    })
-  }
-  
+
+factories.factory('Contact', function(M) {
+  var Model = function(opts) { M.init.call(this, opts) }
+  Model.get = function(userId, id) { return M.get.call(this, '/api/v1/users/'+userId+'/contacts/'+id) }
+  Model.prototype.create = function() { return M.create.call(this, '/api/v1/contacts', Model) }
+  Model.prototype.save = function(userId) { return M.save.apply(this, '/api/v1/users/' + (this.userId || userId) + '/contacts') }
   return Model;
 });
 
 
 
 
-factories.factory('Emotion', function($req) {
-  var Model = function(json) {
-    this.description = json.description;
-    this.emotion_type = json.emotion_type;
-    this.location = json.location;
-  }
-  
-  Model.prototype.create = function() {
-    _model = this
-    return $req.post(api_server+'/api/v1/emotions', _model).then(function(response) {
-      _model.userId = response.data.userId;
-      return new Model(_model);
-    })
-  }
-  
+factories.factory('Emotion', function(M) {
+  var Model = function(opts) { M.init.call(this, opts) }
+  Model.prototype.create = function() { return M.createWithUser.call(this, '/api/v1/emotions', Model) }
   return Model;
 });
 
-factories.factory('Event', function($req) {
+factories.factory('Event', function(M) {
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
@@ -248,7 +253,7 @@ factories.factory('Event', function($req) {
   
   Model.prototype.create = function() {
     _model = this
-    return $req.post(api_server+'/api/v1/events', _model).then(function(response) {
+    return $remote.post(api_server+'/api/v1/events', _model).then(function(response) {
       _model.userId = response.data.userId;
       _model.id = response.data.id;
       return new Model(_model);
@@ -257,7 +262,7 @@ factories.factory('Event', function($req) {
   
   return Model;
 });
-factories.factory('Question', function($req) {
+factories.factory('Question', function($remote) {
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
@@ -268,13 +273,13 @@ factories.factory('Question', function($req) {
   }
 
   Model.get = function(id) {
-    return $req.get(api_server+'/api/v1/questions/'+id).then(function(response) {
+    return $remote.get(api_server+'/api/v1/questions/'+id).then(function(response) {
       return new Model(response.data)
     })
   }
 
   Model.query= function(){
-  return $req.get(api_server+'/api/v1/questions').then(function(response) {
+  return $remote.get(api_server+'/api/v1/questions').then(function(response) {
       return response.data.map(function(question){
         return new Model(question);
       })
@@ -284,7 +289,7 @@ factories.factory('Question', function($req) {
 
   Model.prototype.answer = function(answer){
     var _model = this;
-    return $req.post(api_server+'/api/v1/questions/'+this.id, answer).then(function(response){
+    return $remote.post(api_server+'/api/v1/questions/'+this.id, answer).then(function(response){
       _model.answer = answer;
       return _model;
     });

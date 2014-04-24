@@ -1,4 +1,30 @@
-var healthpass = angular.module('healthpass', ['healthpass.routes', 'healthpass.factories']);
+var healthpass = angular.module('healthpass', ['healthpass.routes', 'healthpass.factories', 'healthpass.controllers']);
+
+healthpass.factory('pouchdb', function() {
+  PouchDB.enableAllDbs = true;
+  return new PouchDB('myPouch');
+});
+healthpass.service('CordovaService', ['$document', '$q',
+  function($document, $q) {
+
+    var d = $q.defer(),
+        resolved = false;
+
+    var _this = this;
+    this.ready = d.promise;
+
+    document.addEventListener('deviceready', function() {
+      resolved = true;
+      d.resolve(window.cordova);
+    });
+
+    setTimeout(function() {
+      if (!resolved) {
+        if (window.cordova) d.resolve(window.cordova);
+        else d.reject()
+      }
+    }, 3000);
+}]);
 
 healthpass.filter('pad', function() {
   return function(num) {
@@ -139,18 +165,6 @@ healthpass.controller('PassportEditController', function($scope) {
       console.log("saved");
     })
   }
-});
-
-healthpass.controller('MainController', function($scope, Me, $location) {
-  
-  Me.promise.then(function(user) {
-    $scope.me = user;
-  });
-  
-  $scope.isRoute = function(route) {
-    return $location.path() == route;
-  }
-
 });
 
 healthpass.controller('EmotionController', function($scope, Me, Location, $location) {
