@@ -1,5 +1,5 @@
 var api_server = "http://127.0.0.1:3000"
-var factories = angular.module('healthpass.factories', []);
+var factories = angular.module('healthpass.factories', ['pouchdb']);
 
 factories.factory('cordovaReady', function() {
   return function (fn) {
@@ -27,42 +27,98 @@ factories.service('Me', function(User) {
   this.user = new User();
   this.promise = User.getMe()
   this.promise.then(function(value) {
+    console.log(value)
       this.user = value;
     })
 })
 
 factories.value('cordovaValue', 0);
 
-factories.factory("$local", function() {
-  var checkDB = function(model) {
-    console.log(typeof model);
-  }
-  return checkDB;
+factories.factory("$sync", function(pouchdb) {
+  PouchDB.enableAllDbs = true;
+  var databases = {};
+
+  return function(model) {
+    if (!databases[model]) databases[model] = pouchdb.create(model);
+    var db = databases[model];
+    return {
+      local: {
+        upsert: function(doc) {
+          if (!doc._id) doc._id = doc.id+""
+          var json_doc = JSON.parse(JSON.stringify(doc));
+
+          return db.get(doc._id, function(err, prev) {
+            if (err && err.status == 404) {
+              console.log("not found")
+              return db.put(json_doc, function(err, result) {
+                console.log("upserting", doc._id, err, result)
+                return doc;
+              })
+            } else {
+              return db.put(json_doc, doc._id, function(err, result) {
+                console.log("updating", doc._id, doc, err, result)
+                return doc;
+              })
+            }
+
+          });
+
+        },
+        create: function(doc) {
+          return db.post(doc, function(err, result) {
+            console.log("inserting", doc, doc, err, result)
+            return doc;
+          })
+        },
+        delete: function(_id) {
+          console.log("before deletion", _id)
+          return db.get(_id+"", function(err, doc) {
+            return db.remove(doc, function(err, response) {
+              console.log("deleting", doc, doc, err, response)
+              return _id;
+            });
+          });
+        },
+        get: function(_id) {
+          return db.get(_id+"").then(function(doc) {
+            console.log("pdb getting: ", doc);
+            return doc;
+          })
+        }
+      },
+      remote: {
+        sync: function() {
+
+        }
+      }
+    }
+  };
 });
 
-factories.service("$remote", function($local, $http, pouchdb) {
+factories.service("$remote", function($http) {
   this.get    = $http.get
   this.post   = $http.post
   this.put    = $http.put
   this.delete = $http.delete
 });
 
-factories.service("$req", function(cordovaValue, $remote, $local, CordovaService) {
-
-  function isConnected () {
-
-    alert("checking")
-
-    if (navigator && navigator.network && navigator.connection) {
-      alert(navigator.network.connection.type)
-      return navigator.connection.type == Connection.NONE ? 0 : 1;
-    } else return 1;
+factories.factory("$req", function(cordovaValue, $remote, CordovaService) {
+  return {
+    isConnected: function () {
+      if (navigator && navigator.network && navigator.connection) {
+        alert(navigator.network.connection.type)
+        return navigator.connection.type == Connection.NONE ? 0 : 1;
+      } else return 1;
+    },
+    offline: function() {
+      return !this.isConnected();
+    }
   }
-
 });
 
-factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event) {
-  
+factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync) {
+  var sync = $sync('User')
+
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
   }
@@ -80,7 +136,6 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
     this.events = opts.emotions ? response_to_model(opts.events, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
-
   }
   
   Model.get = function(id) {
@@ -98,9 +153,24 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
   }
 
   Model.getMe = function(uid) {
-    return $remote.get(api_server+'/api/v1/me').then(function(response) {
-      return new Model(response.data)
-    })
+    var promise;
+    if (1) {
+      promise = sync.local.get('me').then(function(response) {
+        console.log("response", response)
+        return new Model(response);
+      });
+      promise.then(function(a){
+        console.log("a")
+      })
+    } else {
+      promise = $remote.get(api_server+'/api/v1/me').then(function(response) {
+        var model = new Model(response.data);
+        model._id = "me";
+        sync.local.upsert(model);
+        return model;
+      })
+    }
+    return promise;
   }
 
   
@@ -119,6 +189,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
   }
   
   Model.prototype.save = function(id) {
+    sync.local.upsert(this)
     return $remote.put(api_server+'/api/v1/users/' + (this.id || id), this).then(function(response) {
       return response.data
     })
@@ -129,6 +200,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     var allergy = new Allergy(json);
     return allergy.create().then(function() {
       _user.allergies.push(allergy);
+      sync.local.upsert(_user)
     })
   }
   
@@ -136,8 +208,16 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     var _user = this;
     
     return allergy.delete().then(function() {
-      var index = _user.allergies.indexOf(allergy);
+      var index;
+      for (var i=0; i < _user.allergies.length; i++) {
+        if (allergy.name == _user.allergies[i].name) {
+          index = i;
+          break
+        }
+      }
+      console.log("allergies", index)
       _user.allergies.splice(index,1)
+      sync.local.upsert(_user)
     });
   };
   
@@ -147,6 +227,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     var emotion = new Emotion(json);
     return emotion.create().then(function() {
       _user.emotions.push(emotion);
+      sync.local.upsert(_user)
     })
   }
   
@@ -155,6 +236,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     var _event = new Event(json);
     return _event.create().then(function() {
       _user.events.push(_event);
+      sync.local.upsert(_user)
     })
   }
 
@@ -164,91 +246,111 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     return contact.create().then(function(model) {
       console.log(model, _user);
       _user.contacts.push(model);
+      sync.local.upsert(_user)
     })
   }
 
   return Model;
 });
 
-factories.factory('M', function($remote) {
-  var GenericModel = function(Model) {
-  }
-  GenericModel.init = function(opts) {
-    opts || (opts = {});
-    var _this = this;
-    Object.keys(opts).map(function(key) {
-       _this[key] = opts[key];
-    })
-    console.log(_this)
-  }
-  GenericModel.get = function(route) {
-    var Model = this;
-    return $remote.get(api_server+route).then(function(response) {
-      return new Model(response.data)
-    })
-  }
-  GenericModel.delete = function(route) {
-    return $remote.delete(route).then(function(response) {
-      return response.data
-    })
-  }
-  GenericModel.save = function(route) {
-    return $remote.put(route, this).then(function(response) {
-      return response.data
-    })
-  }
-  GenericModel.createWithUser = function(route, Model) {
-    var _model = this
-    return $remote.post(route, _model).then(function(response) {
-      _model.userId = response.data.userId;
-      _model.id = response.data.id;
-      return new Model(_model);
-    })
-  }
-  GenericModel.create = function(route, Model) {
-    var _model = this
-    return $remote.post(api_server+'/api/v1/contacts', _model).then(function(response) {
-      _model.id = response.data.id;
-      return new Model(_model);
-    })
-  }
-  return GenericModel
-})
-
-factories.factory('Allergy', function(M) {
-  var Model = function(opts) { M.init.call(this, opts) }
-  Model.get = function(userId, id) { return M.get.call(this, '/api/v1/users/'+userId+'/allergies/'+id) }
-  Model.prototype.create = function() { return M.createWithUser.call(this, '/api/v1/allergies', Model) }
-  Model.prototype.save = function(userId) { return M.save.apply(this, '/api/v1/users/' + (this.userId || userId)) }
-  Model.prototype.delete = function() { return M.delete.call(this, '/api/v1/users/'+ this.userId +'/allergies/'+this.id)}
-  return Model;
-});
-
-
-factories.factory('Contact', function(M) {
-  var Model = function(opts) { M.init.call(this, opts) }
-  Model.get = function(userId, id) { return M.get.call(this, '/api/v1/users/'+userId+'/contacts/'+id) }
-  Model.prototype.create = function() { return M.create.call(this, '/api/v1/contacts', Model) }
-  Model.prototype.save = function(userId) { return M.save.apply(this, '/api/v1/users/' + (this.userId || userId) + '/contacts') }
-  return Model;
-});
-
-
-
-
-factories.factory('Emotion', function(M) {
-  var Model = function(opts) { M.init.call(this, opts) }
-  Model.prototype.create = function() { return M.createWithUser.call(this, '/api/v1/emotions', Model) }
-  return Model;
-});
-
-factories.factory('Event', function(M) {
+factories.factory('Allergy', function($remote, $sync, $req) {
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
+  }
+  Model.get = function(userId, id) {
+    return $remote.get(api_server+'/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
+      return new Model(response.data)
+    })
+  }
+  
+  Model.prototype.create = function() {
+    _model = this
+    return $remote.post(api_server+'/api/v1/allergies', _model).then(function(response) {
+      _model.userId = response.data.userId;
+      _model.id = response.data.id;
+      return new Model(_model);
+    })
+  }
+  
+  Model.prototype.delete = function() {
+    return $remote.delete(api_server+'/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
+      return response.data
+    })
+  }
+  
+  Model.prototype.save = function(userId) {
+    return $remote.put(api_server+'/api/v1/users/' + (this.userId || userId), this).then(function(response) {
+      return response.data
+    })
+  }
+  return Model;
+});
+
+
+factories.factory('Contact', function($remote, $sync, $req) {
+  var Model = function(opts) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+  }
+  
+  Model.prototype.create = function() {
+    _model = this;
+    return $remote.post(api_server+'/api/v1/contacts', _model).then(function(response) {
+      _model.id = response.data.id;
+      return new Model(_model);
+    })
+  }
+
+  Model.prototype.save = function(userId) {
+    $remote.put(api_server+'/api/v1/users/' + (this.userId || userId) + '/contacts', this).then(function(response) {
+      return response.data;
+    })
+  }
+
+  Model.get = function(userId, id) {
+    return $remote.get(api_server+'/api/v1/users/'+userId+'/contacts/'+id).then(function(response) {
+      return new Model(response.data);
+    })
+  }
+  
+  return Model;
+});
+
+factories.factory('Emotion', function($remote, $sync, $req) {
+  var Model = function(json) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+  }
+  
+  Model.prototype.create = function() {
+    _model = this
+    return $remote.post(api_server+'/api/v1/emotions', _model).then(function(response) {
+      _model.userId = response.data.userId;
+      return new Model(_model);
+    })
+  }
+  
+  return Model;
+});
+
+factories.factory('Event', function($remote, $sync, $req) {
+  var Model = function(opts) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+
   }
   
   Model.prototype.create = function() {
@@ -262,14 +364,14 @@ factories.factory('Event', function(M) {
   
   return Model;
 });
-factories.factory('Question', function($remote) {
+factories.factory('Question', function($remote, $sync, $req) {
+
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
-    return Model;
   }
 
   Model.get = function(id) {
@@ -288,9 +390,9 @@ factories.factory('Question', function($remote) {
   }
 
   Model.prototype.answer = function(answer){
+    this.answer = answer;
     var _model = this;
     return $remote.post(api_server+'/api/v1/questions/'+this.id, answer).then(function(response){
-      _model.answer = answer;
       return _model;
     });
   }

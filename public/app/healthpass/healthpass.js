@@ -1,9 +1,5 @@
 var healthpass = angular.module('healthpass', ['healthpass.routes', 'healthpass.factories', 'healthpass.controllers']);
 
-healthpass.factory('pouchdb', function() {
-  PouchDB.enableAllDbs = true;
-  return new PouchDB('myPouch');
-});
 healthpass.service('CordovaService', ['$document', '$q',
   function($document, $q) {
 
@@ -104,6 +100,7 @@ healthpass.controller('AddContactController', function($scope, $location, Me) {
 });
 
 healthpass.controller('AllergyController', function($scope, Me){
+  console.log("allergy controller")
   $scope.data={};
 
   $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}].map(function(one) { one.active = 0; return one;});
@@ -114,13 +111,10 @@ healthpass.controller('AllergyController', function($scope, Me){
   var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name)});
   
   Me.promise.then(function() {
-
-    console.log($scope.notSelectedAllergies)
     
     // iterate through all the existing allergies
     for (var i = 0; i < $scope.presetAllergies.length; i++) {
       var current_allergy = angular.copy($scope.presetAllergies[i]);
-      console.log("current:", current_allergy.name, i)
 
       // iterate through all the user allergies
       var found = false;
@@ -128,7 +122,7 @@ healthpass.controller('AllergyController', function($scope, Me){
         var current_user_allergy = $scope.me.allergies[j];
         if (current_allergy.name == current_user_allergy.name) {
           found = true;
-          break
+          break;
         }
       }
       if (!found) $scope.notSelectedAllergies.push(current_allergy);

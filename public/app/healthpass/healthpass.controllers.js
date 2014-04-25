@@ -3,7 +3,7 @@ var controllers = angular.module('healthpass.controllers', ['healthpass.factorie
 controllers.controller('MainController', function(cordovaValue, $scope, Me, $location, CordovaService) {
   
   Me.promise.then(function(user) {
-    $scope.me = user;
+    $scope.me = user
   });
 
   CordovaService.ready.then(function(c) {
