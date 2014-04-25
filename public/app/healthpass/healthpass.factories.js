@@ -27,7 +27,8 @@ factories.service('Me', function(User) {
   this.user = new User();
   this.promise = User.getMe()
   this.promise.then(function(value) {
-    console.log(value)
+      alert("value I get")
+      alert(value)
       this.user = value;
     })
 })
@@ -41,49 +42,51 @@ factories.factory("$sync", function(pouchdb) {
   return function(model) {
     if (!databases[model]) databases[model] = pouchdb.create(model);
     var db = databases[model];
+    var localError = function(err) {console.log(err)}
     return {
       local: {
         upsert: function(doc) {
           if (!doc._id) doc._id = doc.id+""
           var json_doc = JSON.parse(JSON.stringify(doc));
 
-          return db.get(doc._id, function(err, prev) {
-            if (err && err.status == 404) {
-              console.log("not found")
-              return db.put(json_doc, function(err, result) {
-                console.log("upserting", doc._id, err, result)
+          return db.get(doc._id).then(
+            function(prev) {
+              return db.put(json_doc, doc._id).then(function(result) {
+                console.log("updating", doc._id, doc, result)
                 return doc;
-              })
-            } else {
-              return db.put(json_doc, doc._id, function(err, result) {
-                console.log("updating", doc._id, doc, err, result)
-                return doc;
-              })
-            }
-
-          });
+              },localError)
+            },
+            function(err) {
+              if (err && err.status == 404) {
+                console.log("not found")
+                return db.put(json_doc).then(function(result) {
+                  console.log("upserting", doc._id, result)
+                  return doc;
+                },localError)
+              }
+            }, localError);
 
         },
         create: function(doc) {
-          return db.post(doc, function(err, result) {
-            console.log("inserting", doc, doc, err, result)
+          return db.post(doc).then(function(result) {
+            console.log("inserting", doc, doc, result)
             return doc;
-          })
+          }, localError)
         },
         delete: function(_id) {
           console.log("before deletion", _id)
-          return db.get(_id+"", function(err, doc) {
-            return db.remove(doc, function(err, response) {
-              console.log("deleting", doc, doc, err, response)
+          return db.get(_id+"").then(function(doc) {
+            return db.remove(doc).then(function(response) {
+              console.log("deleting", doc, doc, response)
               return _id;
-            });
-          });
+            }, localError);
+          }, localError);
         },
         get: function(_id) {
           return db.get(_id+"").then(function(doc) {
             console.log("pdb getting: ", doc);
             return doc;
-          })
+          }, localError)
         }
       },
       remote: {
@@ -100,14 +103,18 @@ factories.service("$remote", function($http) {
   this.post   = $http.post
   this.put    = $http.put
   this.delete = $http.delete
+  this.onlineOnly = function() {
+    alert("You can not do this operation if you are not connected to the internet!")
+  }
 });
 
-factories.factory("$req", function(cordovaValue, $remote, CordovaService) {
+factories.factory("$req", function($remote) {
   return {
     isConnected: function () {
-      if (navigator && navigator.network && navigator.connection) {
-        alert(navigator.network.connection.type)
-        return navigator.connection.type == Connection.NONE ? 0 : 1;
+      alert("isconnected")
+      if (navigator && navigator.network && navigator.network.connection) {
+              alert("isconnected 2")
+        return navigator.network.connection.type == Connection.NONE ? 0 : 1;
       } else return 1;
     },
     offline: function() {
@@ -154,16 +161,20 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
 
   Model.getMe = function(uid) {
     var promise;
-    if (1) {
+    alert("getMe")
+    if ($req.offline()) {
       promise = sync.local.get('me').then(function(response) {
         console.log("response", response)
-        return new Model(response);
+        if (response) return new Model(response);
+        else return false;
       });
       promise.then(function(a){
         console.log("a")
       })
     } else {
       promise = $remote.get(api_server+'/api/v1/me').then(function(response) {
+        alert("asked server who I am")
+        alert(response)
         var model = new Model(response.data);
         model._id = "me";
         sync.local.upsert(model);
@@ -254,12 +265,14 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
 });
 
 factories.factory('Allergy', function($remote, $sync, $req) {
+  var sync = $sync('Allergy');
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
+    if (this.id) sync.local.upsert(this)
   }
   Model.get = function(userId, id) {
     return $remote.get(api_server+'/api/v1/users/'+userId+'/allergies/'+id).then(function(response) {
@@ -269,6 +282,7 @@ factories.factory('Allergy', function($remote, $sync, $req) {
   
   Model.prototype.create = function() {
     _model = this
+    if ($req.offline()) return sync.local.create(this).then(function(a) { return new Model(_model)});
     return $remote.post(api_server+'/api/v1/allergies', _model).then(function(response) {
       _model.userId = response.data.userId;
       _model.id = response.data.id;
@@ -277,6 +291,7 @@ factories.factory('Allergy', function($remote, $sync, $req) {
   }
   
   Model.prototype.delete = function() {
+    if ($req.offline()) return sync.local.delete(this.id || this._id)
     return $remote.delete(api_server+'/api/v1/users/'+ this.userId +'/allergies/'+this.id).then(function(response) {
       return response.data
     })
@@ -324,16 +339,20 @@ factories.factory('Contact', function($remote, $sync, $req) {
 });
 
 factories.factory('Emotion', function($remote, $sync, $req) {
-  var Model = function(json) {
+  var sync = $sync('Emotion');
+  var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
+
+    if (this.id || this.id != undefined) sync.local.upsert(this)
   }
   
   Model.prototype.create = function() {
     _model = this
+    if ($req.offline()) return sync.local.create(this).then(function(a) { return new Model(_model); });
     return $remote.post(api_server+'/api/v1/emotions', _model).then(function(response) {
       _model.userId = response.data.userId;
       return new Model(_model);

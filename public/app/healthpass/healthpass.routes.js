@@ -3,6 +3,7 @@ var routes = angular.module('healthpass.routes', ['ngRoute']);
 routes.config(function($routeProvider) {
   $routeProvider
     .when('/', { templateUrl: 'app/healthpass/views/home.html', controller:"HomeController" })
+    .when('/login', { templateUrl: 'app/healthpass/views/login.html', controller:"LoginController" })
     .when('/passport', { templateUrl: 'app/healthpass/views/passport.html', controller:"PassportController" })
     .when('/passport/edit', { templateUrl: 'app/healthpass/views/passport-edit.html', controller:"PassportEditController" })
     .when('/events', { templateUrl: 'app/healthpass/views/events.html', controller:"EventsController" })

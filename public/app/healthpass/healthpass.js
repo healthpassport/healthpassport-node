@@ -29,7 +29,10 @@ healthpass.filter('pad', function() {
   };
 });
 
-healthpass.controller('HomeController', function($scope, Me, $req) {
+healthpass.controller('HomeController', function($scope, Me, $req, cordovaValue, $location, $window) {
+});
+
+healthpass.controller('LoginController', function($scope, Me, $req, cordovaValue, $location) {
 });
 
 
