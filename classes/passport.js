@@ -1,5 +1,6 @@
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
+var BasicStrategy = require('passport-http').BasicStrategy;
 var db = require('../models');
 var bcrypt = require('bcryptjs');
 
@@ -37,6 +38,24 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false, { message: 'Invalid password' });
     // }
     // });
+  });
+}));
+
+passport.use(new BasicStrategy(function(_id, password, done) {
+  db.User.find({where:{username: username}}).complete(function(err, user) {
+
+    console.log("passport: login", err, user);
+    if (!user) return done({error: "passport: no user"});
+    console.log("passport: THE USER", user.dataValues);
+    
+    if (user.password == password) {
+      return done(null, user.dataValues)
+    } else {
+      return done(err, false)
+    }
+
+    return done(null, false, { message: 'Invalid password' });
+
   });
 }));
 

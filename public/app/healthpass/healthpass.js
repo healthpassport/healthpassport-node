@@ -1,27 +1,5 @@
 var healthpass = angular.module('healthpass', ['healthpass.routes', 'healthpass.factories', 'healthpass.controllers']);
 
-healthpass.service('CordovaService', ['$document', '$q',
-  function($document, $q) {
-
-    var d = $q.defer(),
-        resolved = false;
-
-    var _this = this;
-    this.ready = d.promise;
-
-    document.addEventListener('deviceready', function() {
-      resolved = true;
-      d.resolve(window.cordova);
-    });
-
-    setTimeout(function() {
-      if (!resolved) {
-        if (window.cordova) d.resolve(window.cordova);
-        else d.reject()
-      }
-    }, 3000);
-}]);
-
 healthpass.filter('pad', function() {
   return function(num) {
     if(num < 10) return '0' + num;
@@ -32,7 +10,11 @@ healthpass.filter('pad', function() {
 healthpass.controller('HomeController', function($scope, Me, $req, cordovaValue, $location, $window) {
 });
 
-healthpass.controller('LoginController', function($scope, Me, $req, cordovaValue, $location) {
+healthpass.controller('LoginController', function($scope, Me, $http, cordovaValue, $location) {
+  $scope.login = function(data) {
+
+    // TODO IMPLEMENT HERE
+  }
 });
 
 

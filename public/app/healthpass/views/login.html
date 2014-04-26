@@ -1,22 +1,20 @@
 <div class="LoginContainer">
   
-<form class="login-form col-lg-4 col-lg-offset-4" form action="/login" method="post">
+<div class="login-form col-lg-4 col-lg-offset-4">
     <h4>Healthpass</h4>
   <div class="inside">
     <div class="form-group">
-      <input type="text" name="username" class="form-control" value="" placeholder="Username" id="login-name">
+      <input type="text" name="username" class="form-control" value="" placeholder="Username" id="login-name" ng-model="data.username">
       <label class="login-field-icon fui-user" for="login-name"></label>
     </div>
     <div class="form-group">
-      <input type="password" name="password" class="form-control" value="" placeholder="Uhh! Private!" id="login-pass">
+      <input ng-model="data.password" type="password" name="password" class="form-control" value="" placeholder="Uhh! Private!" id="login-pass">
       <label class="login-field-icon fui-lock" for="login-pass"></label>
     </div>
 
-    <button class="btn btn-primary btn-large btn-embossed btn-block" href="#">Login</button>
+    <button class="btn btn-primary btn-large btn-embossed btn-block" ng-click="login(data)">Login</button>
   </div>
 
-  <div>If you don't an account, <a href="/register">sign up</a></div>
-
-</form>
+</div>
   
 </div>

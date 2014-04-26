@@ -76,24 +76,24 @@ app.get('/dashboard', function(req,res){
   res.render('dashboard.html');
 });
 // Users
-app.get('/api/v1/users', user.query, api.json);
-app.get('/api/v1/me', api.only_loggedin, user.me, api.json);
-app.post('/api/v1/users', user.create, api.json);
+app.get('/api/v1/users', api.auth, user.query, api.json);
+app.get('/api/v1/me', api.auth, user.me, api.json);
+app.post('/api/v1/users', api.auth, user.create, api.json);
 
 // User
-app.get('/api/v1/users/:userId', user.get, api.json);
-app.del('/api/v1/users/:userId', user.del, api.json);
-app.put('/api/v1/users/:userId', user.update, api.json);
+app.get('/api/v1/users/:userId', api.auth, user.get, api.json);
+app.del('/api/v1/users/:userId', api.auth, user.del, api.json);
+app.put('/api/v1/users/:userId', api.auth, user.update, api.json);
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
-app.post('/api/v1/emotions', api.only_loggedin, emotion.create, api.json);
-app.post('/api/v1/allergies', api.only_loggedin, allergy.create, api.json);
-app.post('/api/v1/contacts', api.only_loggedin, contact.create, api.json);
-app.post('/api/v1/events', api.only_loggedin, _event.create, api.json);
-app.get('/api/v1/users/:userId/emotions', emotion.query, api.json);
-app.del('/api/v1/users/:userId/allergies/:allergyId', allergy.del, api.json);
+app.post('/api/v1/emotions', api.auth, emotion.create, api.json);
+app.post('/api/v1/allergies', api.auth, allergy.create, api.json);
+app.post('/api/v1/contacts', api.auth, contact.create, api.json);
+app.post('/api/v1/events', api.auth, _event.create, api.json);
+app.get('/api/v1/users/:userId/emotions', api.auth, emotion.query, api.json);
+app.del('/api/v1/users/:userId/allergies/:allergyId', api.auth, allergy.del, api.json);
 
-app.get('/api/v1/users/:userId/contacts', contact.query, api.json);
+app.get('/api/v1/users/:userId/contacts', api.auth, contact.query, api.json);
 
 db
   .sequelize

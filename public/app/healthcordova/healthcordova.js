@@ -1,24 +1,19 @@
-angular.module('healthcordova', [])
-.service('CordovaService', ['$document', '$q',
-  function($document, $q) {
+var healthcordova = angular.module('healthcordova', ['healthpass'])
 
-    var d = $q.defer(),
-        resolved = false;
+healthcordova.controller('CordovaMainController', function(cordovaValue, $scope, Me, $location) {
 
-    var _this = this;
-    this.ready = d.promise;
+  alert("CordovaMainController")
+  Me.promise.then(function(user) {
+    if (!user) $location.path("/login")
+    $scope.me = user;
+  }, function(err) {
+    alert("error when you")
+    console.log(err)
+    $location.path("/login")
+  });
+  
+  $scope.isRoute = function(route) {
+    return $location.path() == route;
+  }
 
-    document.addEventListener('deviceready', function() {
-      console.log("message received")
-      resolved = true;
-      d.resolve(window.cordova);
-    });
-
-    setTimeout(function() {
-      console.log("resolving")
-      if (!resolved) {
-        console.log("not resolved yet")
-        if (window.cordova) d.resolve(window.cordova);
-      }
-    }, 3000);
-}]);
+});
