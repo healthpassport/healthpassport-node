@@ -44,17 +44,35 @@ healthpass.controller('ContactsController', function($scope, $location, Me) {
 healthpass.controller('EventsController', function($scope, $location, Me) {
 });
 
-healthpass.controller('QuestionsController',function($scope, Question){
-  $scope.questions=[];
-  Question.query().then(function(questions){
-    $scope.questions=questions;
-  })
+healthpass.controller('QuestionsController',function($scope, Me){
+  
 });
 
-healthpass.controller('QuestionController',function($scope, Question){
-  $scope.answer=function(answer){
-    $scope.question.answer(answer).then(function(){
+healthpass.controller('QuestionController',function($scope, Me, Question){
+  
+  $scope.saveAnswer=function(question, answer){
+    console.log("IN SAVING");
+ 
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "positionClass": "toast-top-right",
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "2000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr.success('Preference saved.');
+    $scope.me.questions.splice(0,1);
+    console.log($scope.me.questions);
 
+    question.saveAnswer(answer).then(function(data) {
+    console.log("saved", data)   //NOT EXECUTED
     })
   }
 })

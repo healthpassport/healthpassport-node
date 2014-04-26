@@ -22,7 +22,7 @@
 						</div>
 					</div>
 
-						<div class="form-group">
+					<div class="form-group">
 						<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Surname</span></div>
 						<div class="col-sm-9 hp-value">
 							<div class="inside">{{user.surname}}</div>
@@ -78,42 +78,61 @@
 		<div id="likes_dislikes" ng-show="selected==2">
 			<div id="likes">
 				<h4>Likes</h4>
-				<div class="answers" ng-repeat="answer in user.questions | filter:{answer:2}">
-					<div class="answer"></div>
+				<div class="container">
+					<div class="row">
+						<div ng-repeat="question in user.questions|filter:{answer:2}">
+							<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+								<a class="thumbnail">
+									<img class="img-responsive" ng-src="{{question.picture.url}}"> {{question.title}}
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div id="dislikes">
-				<h4>Dislikes</h4>
-				<div class="answers" ng-repeat="answer in user.questions | filter:{answer:1}">
-					<div class="answer"></div>
-				</div>
-			</div>
-			<div id="possible_choices">
-				<h4>Possible choises</h4>
 
-				<div class="answers" ng-repeat="question in user.questions">
-					<div class="answer"></div>
-				</div>
-        <div class="answers" ng-repeat="question in user.questions">
-          <div class="answer"><img ng-src="{{question.picture.url}}"/></div>
+				<div id="dislikes">
+					<h4>Dislikes</h4>
+					<div class="container">
+						<div class="row">
+							<div ng-repeat="question in user.questions|filter:{answer:1}">
+								<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+									<a class="thumbnail">
+										<img class="img-responsive" ng-src="{{question.picture.url}}"> {{question.title}}
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="possible_choices">
+						<h4>Possible choises</h4>
+					<div class="container">
+        		<div class="row">
+            	<div ng-repeat="question in user.questions">
+            		<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                	<a class="thumbnail">
+                    <img class="img-responsive" ng-src="{{question.picture.url}}"> {{question.title}}
+                	</a>
+            		</div>
+        			</div>
+        		</div>
         </div>
 
+					</div>
+					<div id="add_remove">
+						<i class="fa fa-plus"></i>
+					</div>
+
+				</div>
+
+				<div id="emotions" ng-show="selected==3">
+
+					<div id="dashboard" ng-controller="ChartController">
+						<div id="chart_div"></div>
+						<div id="control" style='width: 915px; height: 50px;'></div>
+					</div>
+				</div>
+
+
 			</div>
-			<div id="add_remove">
-				<i class="fa fa-plus"></i>
-			</div>
-			
 		</div>
-
-		<div id="emotions" ng-show="selected==3">
-
-      <div id="dashboard" ng-controller='ChartController'>
-        <div id="chart_div"></div>
-        <div id="control"></div>
-      </div>
-			
-		</div>
-
-
-	</div>
-</div>

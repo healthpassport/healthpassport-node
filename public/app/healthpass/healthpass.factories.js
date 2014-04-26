@@ -127,7 +127,7 @@ factories.factory("$req", function($remote) {
   }
 });
 
-factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync) {
+factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync, Question) {
   var sync = $sync('User')
 
   var response_to_model = function (json, Model) {
@@ -147,6 +147,8 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     this.emotions = opts.emotions ? response_to_model(opts.emotions, Emotion) : [];
     this.events = opts.emotions ? response_to_model(opts.events, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
+    this.questions = opts.questions ? response_to_model(opts.questions, Question) : [];
+
   }
   
   Model.get = function(id) {
@@ -412,6 +414,7 @@ factories.factory('Question', function($remote, $sync, $req) {
 
   }
 
+/*
   Model.prototype.answer = function(answer){
     this.answer = answer;
     var _model = this;
@@ -419,4 +422,14 @@ factories.factory('Question', function($remote, $sync, $req) {
       return _model;
     });
   }
+  */
+
+  Model.prototype.saveAnswer = function(answer){
+    var _model = this;
+    return $remote.post(api_server+'/api/v1/questions/'+this.id, {answer:answer}).then(function(response){
+      _model.answer = answer;
+      return _model;
+    });
+  }
+  return Model;
 });

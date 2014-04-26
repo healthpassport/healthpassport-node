@@ -16,6 +16,7 @@ var emotion = require('./routes/emotion');
 var contact = require('./routes/contact');
 var allergy = require('./routes/allergy');
 var passport = require("./classes/passport");
+var question = require('./routes/question');
 var RedisStore     = require("connect-redis")(express);
 var store = require('./classes/redis');
 
@@ -85,6 +86,8 @@ app.get('/api/v1/users/:userId', api.auth, user.get, api.json);
 app.del('/api/v1/users/:userId', api.auth, user.del, api.json);
 app.put('/api/v1/users/:userId', api.auth, user.update, api.json);
 
+app.post('/api/v1/questions/:questionId', question.answer, api.json)
+
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.auth, emotion.create, api.json);
 app.post('/api/v1/allergies', api.auth, allergy.create, api.json);
@@ -110,6 +113,13 @@ db
     }).complete(function(err, user) {
       // console.log("done", err, user);
       db.Picture.create({url:'/pictures/apple.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
+
+      db.Picture.create({url:'/pictures/bananas.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);
           user.addQuestion(question1);
