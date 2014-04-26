@@ -1,4 +1,4 @@
-var api_server = "http://127.0.0.1:3000"
+var api_server = "http://nicolaretina.local:3000"
 var factories = angular.module('healthpass.factories', ['pouchdb']);
 
 factories.factory('cordovaReady', function() {
@@ -26,9 +26,13 @@ factories.factory('cordovaReady', function() {
 factories.service('Me', function(User) {
   this.user = new User();
   this.promise = User.getMe()
+  this.getMe = function() {
+    this.promise = User.getMe()
+    return this.promise;
+  }
   this.promise.then(function(value) {
-      alert("value I get")
-      alert(value)
+      //alert("value I get")
+      // alert(value)
       this.user = value;
     })
 })
@@ -111,9 +115,9 @@ factories.service("$remote", function($http) {
 factories.factory("$req", function($remote) {
   return {
     isConnected: function () {
-      alert("isconnected")
+      // alert("isconnected")
       if (navigator && navigator.network && navigator.network.connection) {
-              alert("isconnected 2")
+              // alert("isconnected 2")
         return navigator.network.connection.type == Connection.NONE ? 0 : 1;
       } else return 1;
     },
@@ -161,7 +165,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
 
   Model.getMe = function(uid) {
     var promise;
-    alert("getMe")
+    // alert("getMe")
     if ($req.offline()) {
       promise = sync.local.get('me').then(function(response) {
         console.log("response", response)
@@ -173,8 +177,8 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
       })
     } else {
       promise = $remote.get(api_server+'/api/v1/me').then(function(response) {
-        alert("asked server who I am")
-        alert(response)
+        // alert("asked server who I am")
+        // alert(response)
         var model = new Model(response.data);
         model._id = "me";
         sync.local.upsert(model);

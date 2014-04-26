@@ -113,6 +113,7 @@ Routes.get = function(req, res, next) {
 };
 
 Routes.me = function(req, res, next) {
+  console.log("want to know me")
   req.params.userId = req.user.id;
   Routes.get(req, res, next)
 };

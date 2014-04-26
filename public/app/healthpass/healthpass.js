@@ -10,14 +10,6 @@ healthpass.filter('pad', function() {
 healthpass.controller('HomeController', function($scope, Me, $req, cordovaValue, $location, $window) {
 });
 
-healthpass.controller('LoginController', function($scope, Me, $http, cordovaValue, $location) {
-  $scope.login = function(data) {
-
-    // TODO IMPLEMENT HERE
-  }
-});
-
-
 healthpass.controller('WebcamController', function($scope) {
 
   $scope.nStre

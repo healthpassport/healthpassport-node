@@ -41,7 +41,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 }));
 
-passport.use(new BasicStrategy(function(_id, password, done) {
+passport.use(new BasicStrategy(function(username, password, done) {
   db.User.find({where:{username: username}}).complete(function(err, user) {
 
     console.log("passport: login", err, user);

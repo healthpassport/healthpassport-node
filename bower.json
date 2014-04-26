@@ -8,9 +8,7 @@
   ],
   "dependencies": {
     "angular-touch": "~1.2.16",
-    "angular-pouchdb": "~0.1.5"
-  },
-  "resolutions": {
-    "pouchdb": "2.1.0"
+    "angular-pouchdb": "~0.1.5",
+    "angular-cookies": "~1.2.16"
   }
 }
