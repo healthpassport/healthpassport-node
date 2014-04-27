@@ -125,10 +125,10 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
 })
 
 // PassportEditController: Handle logic for editing passport
-.controller('PassportEditController', function($scope) {
+.controller('PassportEditController', function($scope, $location) {
   $scope.saveMe = function(me) {
     me.save(me._id).then(function() {
-      console.log("saved");
+      $location.path("/passport")
     })
   }
 })
