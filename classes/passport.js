@@ -5,7 +5,7 @@ var db = require('../models');
 var bcrypt = require('bcryptjs');
 
 // Deserialise a connected user by lookin his ID into DB
-// and storing hi session in Redis
+// and storing a session in Redis
 passport.deserializeUser(function (id, done) {
   console.log("passport: THE ID",id)
   db.User.find(id).complete(function(err, result) {

@@ -9,6 +9,16 @@
   "dependencies": {
     "angular-touch": "~1.2.16",
     "angular-pouchdb": "~0.1.5",
-    "angular-cookies": "~1.2.16"
+    "angular-cookies": "~1.2.16",
+    "angular": "~1.2.16",
+    "pouchdb": "~2.1.2",
+    "bootstrap": "~3.1.1",
+    "font-awesome": "~4.0.3",
+    "jquery": "~2.1.0",
+    "angular-route": "~1.2.16"
+  },
+  "resolutions": {
+    "pouchdb": "2.1.0",
+    "bootstrap": "~3.0.3"
   }
 }
