@@ -47,12 +47,11 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
       "hideMethod": "fadeOut"
     }
     toastr.success('Preference saved.');
-    $scope.me.questions.splice(0,1);
-    console.log($scope.me.questions);
 
     question.saveAnswer(answer).then(function(data) {
-    console.log("saved", data)   //NOT EXECUTED
-    })
+      console.log("ANSWERED", data)   //NOT EXECUTED
+    });
+
   }
 })
 

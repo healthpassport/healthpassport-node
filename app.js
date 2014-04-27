@@ -86,7 +86,7 @@ app.get('/api/v1/users/:userId', api.auth, user.get, api.json);
 app.del('/api/v1/users/:userId', api.auth, user.del, api.json);
 app.put('/api/v1/users/:userId', api.auth, user.update, api.json);
 
-app.post('/api/v1/questions/:questionId', question.answer, api.json)
+app.post('/api/v1/questions/:questionId', api.auth, question.answer, api.json)
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.auth, emotion.create, api.json);

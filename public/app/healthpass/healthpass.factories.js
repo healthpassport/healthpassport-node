@@ -365,7 +365,9 @@ angular.module('healthpass.factories', [
 
   Model.prototype.saveAnswer = function(answer){
     var _model = this;
+    console.log("save answer", answer)
     return $remote.post(api_server+'/api/v1/questions/'+this.id, {answer:answer}).then(function(response){
+      console.log("remote save answer", answer)
       _model.answer = answer;
       return _model;
     });

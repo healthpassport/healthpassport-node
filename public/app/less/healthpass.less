@@ -75,7 +75,7 @@
 // Make emotion pages
 .make-emotion(@color) {
   height: 100%;
-  .gradient(top, lighten(@color, 20%), darken(@color, 10%));
+  .gradient(top, @color, darken(@color, 10%));
   #bar {
     background-color: @color;
   }

@@ -3,22 +3,28 @@
     <a href="#/passport"><i class="fa fa-angle-left"></i> back</a>
   </header>
 
-  <!--<div ng-repeat="question in me.questions | filter:{answer:0}">
+  <!--<div ng-repeat="question in me.questions | filter:{answer:null}">
 -->
 
 <div class="container">
 
-  <div class="row" ng-controller="QuestionController">
+  <div class="row" ng-controller="QuestionController" ng-repeat="question in me.questions | filter:{answer:null} | limitTo:1">
     <div class="text-center picture thumbnail">
-      <img class="img-responsive" style='width: 450px; height: 4  50px;' ng-src="{{me.questions[0].picture.url}}" alt="{{me.questions[0].picture.url}}"/>
+      <img class="img-responsive" style='width: 450px; height: 4  50px;' ng-src="{{question.picture.url}}" alt="{{question.picture.url}}"/>
     </div>
     <div class="caption text-center">
-      {{me.questions[0].title}}
+      {{question.title}}
         <div class="caption">
-          <p><a class="btn btn-success glyphicon glyphicon-thumbs-up" role="button" ng-click="saveAnswer(me.questions[0], 2)">Like</a> <a class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button" ng-click="saveAnswer(me.questions[0], 1)">Dislike</a></p>
+          <p><a class="btn btn-success glyphicon glyphicon-thumbs-up" role="button" ng-click="saveAnswer(question, 2)">Like</a> <a class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button" ng-click="saveAnswer(question, 1)">Dislike</a></p>
         </div>
       </div>
     </div>
   </div>
+
+  <div ng-controller="QuestionController" ng-show="(me.questions | filter:{answer:null}).length == 0">
+    <h2 class="aligncenter">No more questions for you today, come back later!</h2>
+  </div>
+
+
 </div>
 

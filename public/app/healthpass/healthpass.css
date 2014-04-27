@@ -161,12 +161,12 @@
 }
 .emotions-page.sad {
   height: 100%;
-  background-color: #ff0707;
-  background-image: -webkit-linear-gradient(top, #ff0707, #6d0000);
-  background-image: -moz-linear-gradient(top, #ff0707, #6d0000);
-  background-image: -o-linear-gradient(top, #ff0707, #6d0000);
-  background-image: -ms-linear-gradient(top, #ff0707, #6d0000);
-  background-image: linear-gradient(top, #ff0707, #6d0000);
+  background-color: #a00000;
+  background-image: -webkit-linear-gradient(top, #a00000, #6d0000);
+  background-image: -moz-linear-gradient(top, #a00000, #6d0000);
+  background-image: -o-linear-gradient(top, #a00000, #6d0000);
+  background-image: -ms-linear-gradient(top, #a00000, #6d0000);
+  background-image: linear-gradient(top, #a00000, #6d0000);
 }
 .emotions-page.sad #bar {
   background-color: #a00000;
@@ -182,12 +182,12 @@
 }
 .emotions-page.pain {
   height: 100%;
-  background-color: #0055ff;
-  background-image: -webkit-linear-gradient(top, #0055ff, #002266);
-  background-image: -moz-linear-gradient(top, #0055ff, #002266);
-  background-image: -o-linear-gradient(top, #0055ff, #002266);
-  background-image: -ms-linear-gradient(top, #0055ff, #002266);
-  background-image: linear-gradient(top, #0055ff, #002266);
+  background-color: #003399;
+  background-image: -webkit-linear-gradient(top, #003399, #002266);
+  background-image: -moz-linear-gradient(top, #003399, #002266);
+  background-image: -o-linear-gradient(top, #003399, #002266);
+  background-image: -ms-linear-gradient(top, #003399, #002266);
+  background-image: linear-gradient(top, #003399, #002266);
 }
 .emotions-page.pain #bar {
   background-color: #003399;
@@ -203,12 +203,12 @@
 }
 .emotions-page.happy {
   height: 100%;
-  background-color: #85e0a3;
-  background-image: -webkit-linear-gradient(top, #85e0a3, #29a352);
-  background-image: -moz-linear-gradient(top, #85e0a3, #29a352);
-  background-image: -o-linear-gradient(top, #85e0a3, #29a352);
-  background-image: -ms-linear-gradient(top, #85e0a3, #29a352);
-  background-image: linear-gradient(top, #85e0a3, #29a352);
+  background-color: #33cc66;
+  background-image: -webkit-linear-gradient(top, #33cc66, #29a352);
+  background-image: -moz-linear-gradient(top, #33cc66, #29a352);
+  background-image: -o-linear-gradient(top, #33cc66, #29a352);
+  background-image: -ms-linear-gradient(top, #33cc66, #29a352);
+  background-image: linear-gradient(top, #33cc66, #29a352);
 }
 .emotions-page.happy #bar {
   background-color: #33cc66;

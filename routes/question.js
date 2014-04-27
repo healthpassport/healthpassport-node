@@ -10,6 +10,7 @@ Routes.answer = function(req, res, next) {
     if (!!err) return res.json(500, {status:"Error updating the user"});
     if (!question) return res.json(404,{status:"User not found"});
     res.locals.json =  {status: "OK"};
+    next();
   })
 
 };
