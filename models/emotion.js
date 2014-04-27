@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Emotion.belongsTo(models.User)
-        Emotion.belongsTo(models.Picture)
+        Emotion.hasOne(models.Picture)
       }
     }
   })

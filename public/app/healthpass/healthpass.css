@@ -148,9 +148,10 @@
 }
 .emotions-page textarea {
   width: 90%;
-  height: 25%;
+  height: 10%;
   max-height: 400px;
-  min-height: 100px;
+  min-height: 80px;
+  font-size: 2em;
 }
 .emotions-page #cameraDiv {
   height: 10%;
@@ -162,11 +163,11 @@
 .emotions-page.sad {
   height: 100%;
   background-color: #a00000;
-  background-image: -webkit-linear-gradient(top, #a00000, #6d0000);
-  background-image: -moz-linear-gradient(top, #a00000, #6d0000);
-  background-image: -o-linear-gradient(top, #a00000, #6d0000);
-  background-image: -ms-linear-gradient(top, #a00000, #6d0000);
-  background-image: linear-gradient(top, #a00000, #6d0000);
+  background-image: -webkit-linear-gradient(top, #a00000, #3a0000);
+  background-image: -moz-linear-gradient(top, #a00000, #3a0000);
+  background-image: -o-linear-gradient(top, #a00000, #3a0000);
+  background-image: -ms-linear-gradient(top, #a00000, #3a0000);
+  background-image: linear-gradient(top, #a00000, #3a0000);
 }
 .emotions-page.sad #bar {
   background-color: #a00000;
@@ -180,14 +181,17 @@
   width: 200px;
   color: #a00000;
 }
+.emotions-page.sad textarea {
+  padding: 10px;
+}
 .emotions-page.pain {
   height: 100%;
   background-color: #003399;
-  background-image: -webkit-linear-gradient(top, #003399, #002266);
-  background-image: -moz-linear-gradient(top, #003399, #002266);
-  background-image: -o-linear-gradient(top, #003399, #002266);
-  background-image: -ms-linear-gradient(top, #003399, #002266);
-  background-image: linear-gradient(top, #003399, #002266);
+  background-image: -webkit-linear-gradient(top, #003399, #001133);
+  background-image: -moz-linear-gradient(top, #003399, #001133);
+  background-image: -o-linear-gradient(top, #003399, #001133);
+  background-image: -ms-linear-gradient(top, #003399, #001133);
+  background-image: linear-gradient(top, #003399, #001133);
 }
 .emotions-page.pain #bar {
   background-color: #003399;
@@ -201,14 +205,17 @@
   width: 200px;
   color: #003399;
 }
+.emotions-page.pain textarea {
+  padding: 10px;
+}
 .emotions-page.happy {
   height: 100%;
   background-color: #33cc66;
-  background-image: -webkit-linear-gradient(top, #33cc66, #29a352);
-  background-image: -moz-linear-gradient(top, #33cc66, #29a352);
-  background-image: -o-linear-gradient(top, #33cc66, #29a352);
-  background-image: -ms-linear-gradient(top, #33cc66, #29a352);
-  background-image: linear-gradient(top, #33cc66, #29a352);
+  background-image: -webkit-linear-gradient(top, #33cc66, #1f7a3d);
+  background-image: -moz-linear-gradient(top, #33cc66, #1f7a3d);
+  background-image: -o-linear-gradient(top, #33cc66, #1f7a3d);
+  background-image: -ms-linear-gradient(top, #33cc66, #1f7a3d);
+  background-image: linear-gradient(top, #33cc66, #1f7a3d);
 }
 .emotions-page.happy #bar {
   background-color: #33cc66;
@@ -221,6 +228,9 @@
   font-size: 1.7em;
   width: 200px;
   color: #33cc66;
+}
+.emotions-page.happy textarea {
+  padding: 10px;
 }
 .questions-page #bar {
   background-color: #e9b937;

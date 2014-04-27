@@ -75,7 +75,7 @@
 // Make emotion pages
 .make-emotion(@color) {
   height: 100%;
-  .gradient(top, @color, darken(@color, 10%));
+  .gradient(top, @color, darken(@color, 20%));
   #bar {
     background-color: @color;
   }
@@ -88,6 +88,9 @@
     font-size: 1.7em;
     width: 200px;
     color: @color;
+  }
+  textarea {
+    padding: 10px;
   }
 }
 
@@ -171,9 +174,10 @@
   
   textarea {
     width: 90%;
-    height: 25%;
+    height: 10%;
     max-height: 400px;
-    min-height: 100px;
+    min-height: 80px;
+    font-size: 2em;
   }
 
   #cameraDiv{
