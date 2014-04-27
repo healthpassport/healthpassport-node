@@ -15,6 +15,7 @@ routes.config(function($routeProvider) {
     .when('/add_contact', { templateUrl: 'app/healthpass/views/add_contact.html', controller:"AddContactController"})
     .when('/add_event', { templateUrl: 'app/healthpass/views/add_event.html', controller:"AddEventController"})
     .when('/allergies',{templateUrl:'app/healthpass/views/allergies.html', controller:"AllergyController"})
+    .when('/webcam',{templateUrl:'app/healthpass/views/webcam.html', controller:"WebcamController"})
     .when('/questions',{templateUrl:'app/healthpass/views/questions.html', controller:"QuestionsController"})
 
 });
