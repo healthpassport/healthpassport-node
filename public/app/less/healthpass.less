@@ -4,6 +4,8 @@
  * Main LESS file to compile (and minimize) into healthpass.css 
  */
 
+/* Variables */
+
 // App colors
 @passportColor: #3E9994;
 @passportColorLight: #D9E8E8;
@@ -22,6 +24,8 @@
 @doctorColor: #565051;
 @doctorColorLight: #D1D0CE;
 @clockColor: #a47272;
+
+/* Functions */
 
 // Setting icon color
 .setFaColor(@color){
@@ -58,6 +62,36 @@
   }
   
 }
+
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+    background-color: @start;
+    background-image: -webkit-linear-gradient(@origin, @start, @stop);
+    background-image: -moz-linear-gradient(@origin, @start, @stop);
+    background-image: -o-linear-gradient(@origin, @start, @stop);
+    background-image: -ms-linear-gradient(@origin, @start, @stop);
+    background-image: linear-gradient(@origin, @start, @stop);
+}
+
+// Make emotion pages
+.make-emotion(@color) {
+  height: 100%;
+  .gradient(top, lighten(@color, 20%), darken(@color, 10%));
+  #bar {
+    background-color: @color;
+  }
+  .hp-key {
+    background-color: @color;
+  }
+
+  .btn { 
+    background-color: #fff;
+    font-size: 1.7em;
+    width: 200px;
+    color: @color;
+  }
+}
+
+/* Less code */
 
 .avatar {
   border-radius: 999px;
@@ -116,23 +150,6 @@
 
 .add-contact-page{
   .make-page(@contactColor,@contactColorLight);
-}
-.make-emotion(@color) {
-  height: 100%;
-  background-color: @color;
-  #bar {
-    background-color: @color;
-  }
-  .hp-key {
-    background-color: @color;
-  }
-
-  .btn { 
-    background-color: #fff;
-    font-size: 1.7em;
-    width: 200px;
-    color: @color;
-  }
 }
 
 .emotions-page {

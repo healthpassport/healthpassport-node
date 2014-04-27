@@ -1,3 +1,11 @@
+/*
+ * healthpass.less
+ *
+ * Main LESS file to compile (and minimize) into healthpass.css 
+ */
+/* Variables */
+/* Functions */
+/* Less code */
 .avatar {
   border-radius: 999px;
   width: 80px;
@@ -153,7 +161,12 @@
 }
 .emotions-page.sad {
   height: 100%;
-  background-color: #a00000;
+  background-color: #ff0707;
+  background-image: -webkit-linear-gradient(top, #ff0707, #6d0000);
+  background-image: -moz-linear-gradient(top, #ff0707, #6d0000);
+  background-image: -o-linear-gradient(top, #ff0707, #6d0000);
+  background-image: -ms-linear-gradient(top, #ff0707, #6d0000);
+  background-image: linear-gradient(top, #ff0707, #6d0000);
 }
 .emotions-page.sad #bar {
   background-color: #a00000;
@@ -169,7 +182,12 @@
 }
 .emotions-page.pain {
   height: 100%;
-  background-color: #003399;
+  background-color: #0055ff;
+  background-image: -webkit-linear-gradient(top, #0055ff, #002266);
+  background-image: -moz-linear-gradient(top, #0055ff, #002266);
+  background-image: -o-linear-gradient(top, #0055ff, #002266);
+  background-image: -ms-linear-gradient(top, #0055ff, #002266);
+  background-image: linear-gradient(top, #0055ff, #002266);
 }
 .emotions-page.pain #bar {
   background-color: #003399;
@@ -185,7 +203,12 @@
 }
 .emotions-page.happy {
   height: 100%;
-  background-color: #33cc66;
+  background-color: #85e0a3;
+  background-image: -webkit-linear-gradient(top, #85e0a3, #29a352);
+  background-image: -moz-linear-gradient(top, #85e0a3, #29a352);
+  background-image: -o-linear-gradient(top, #85e0a3, #29a352);
+  background-image: -ms-linear-gradient(top, #85e0a3, #29a352);
+  background-image: linear-gradient(top, #85e0a3, #29a352);
 }
 .emotions-page.happy #bar {
   background-color: #33cc66;
@@ -199,28 +222,6 @@
   width: 200px;
   color: #33cc66;
 }
-.allergies-page #bar {
-  background-color: #e9b937;
-}
-.allergies-page .hp-key {
-  background-color: #e9b937;
-}
-.allergies-page .hp-value {
-  background-color: #e9b937;
-  color: #e9b937;
-}
-.allergies-page .btn {
-  background-color: #e9b937;
-  font-size: 1.2em;
-  color: #ffffff;
-}
-.allergies-page .btn.one_allergy {
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-.allergies-page .btn.one_notselected {
-  background-color: #666;
-}
 .questions-page #bar {
   background-color: #e9b937;
 }
@@ -228,7 +229,7 @@
   background-color: #e9b937;
 }
 .questions-page .hp-value {
-  background-color: #faf2d9;
+  background-color: #e9b937;
   color: #e9b937;
 }
 .questions-page .btn {
@@ -241,6 +242,28 @@
   margin-bottom: 10px;
 }
 .questions-page .btn.one_notselected {
+  background-color: #666;
+}
+.allergies-page #bar {
+  background-color: #e9b937;
+}
+.allergies-page .hp-key {
+  background-color: #e9b937;
+}
+.allergies-page .hp-value {
+  background-color: #faf2d9;
+  color: #e9b937;
+}
+.allergies-page .btn {
+  background-color: #e9b937;
+  font-size: 1.2em;
+  color: #ffffff;
+}
+.allergies-page .btn.one_allergy {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.allergies-page .btn.one_notselected {
   background-color: #666;
 }
 .contacts-page #bar {
