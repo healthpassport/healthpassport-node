@@ -1,9 +1,9 @@
 var models = require('./index')
 module.exports = function(sequelize, DataTypes) {
   var Patient = sequelize.define('Patient', {
-    disability_level: DataTypes.STRING,
-    understanding_level: DataTypes.STRING,
-    communication_type: DataTypes.STRING,
+    disability_level: DataTypes.INTEGER, 
+    understanding_level: DataTypes.INTEGER,
+    communication_type: DataTypes.INTEGER,
     support_hours: DataTypes.INTEGER
   }, {
     timestamps: false,

@@ -1,4 +1,4 @@
-<div class="passport-page">
+<div class="passport-page" ng-controller="PassportController">
   <header id="bar">
     <a href="#/"><i class="fa fa-angle-left"></i> back</a>
   </header>
@@ -44,9 +44,21 @@
       <div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
       <div class="col-sm-9 hp-value">
         <div class="inside">
-          <button class="btn btn-default" ng-click="me.disability_level=1" ng-class="{active:me.disability_level==1}">1</button>
-          <button class="btn btn-default" ng-click="me.disability_level=2" ng-class="{active:me.disability_level==2}">2</button>
-          <button class="btn btn-default" ng-click="me.disability_level=3" ng-class="{active:me.disability_level==3}">3</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.disability_level=1"
+                  ng-class="{active:me.patient.disability_level==1}">
+            {{disability_level(1)}}
+          </button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.disability_level=2"
+                  ng-class="{active:me.patient.disability_level==2}">
+            {{disability_level(2)}}
+          </button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.disability_level=3"
+                  ng-class="{active:me.patient.disability_level==3}">
+            {{disability_level(3)}}
+          </button>
         </div>
       </div>
     </div>
@@ -55,9 +67,18 @@
       <div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
       <div class="col-sm-9 hp-value">
         <div class="inside">
-          <button class="btn btn-default" ng-click="me.understanding_level=1" ng-class="{active:me.understanding_level==1}">1</button>
-          <button class="btn btn-default" ng-click="me.understanding_level=2" ng-class="{active:me.understanding_level==2}">2</button>
-          <button class="btn btn-default" ng-click="me.understanding_level=3" ng-class="{active:me.understanding_level==3}">3</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.understanding_level=1"
+                  ng-class="{active:me.patient.understanding_level==1}">
+                {{understanding_level(1)}}</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.understanding_level=2"
+                  ng-class="{active:me.patient.understanding_level==2}">
+                {{understanding_level(2)}}</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.understanding_level=3"
+                  ng-class="{active:me.patient.understanding_level==3}">
+                {{understanding_level(3)}}</button>
         </div>
       </div>
     </div>
@@ -66,9 +87,22 @@
       <div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
       <div class="col-sm-9 hp-value">
         <div class="inside">
-          <button class="btn btn-default" ng-click="me.communication_type=1" ng-class="{active:me.communication_type==1}">1</button>
-          <button class="btn btn-default" ng-click="me.communication_type=2" ng-class="{active:me.communication_type==2}">2</button>
-          <button class="btn btn-default" ng-click="me.communication_type=3" ng-class="{active:me.communication_type==3}">3</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.communication_type=1"
+                  ng-class="{active:me.patient.communication_type==1}">
+                {{communication_type(1)}}</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.communication_type=2"
+                  ng-class="{active:me.patient.communication_type==2}">
+                {{communication_type(2)}}</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.communication_type=3"
+                  ng-class="{active:me.patient.communication_type==3}">
+                {{communication_type(3)}}</button>
+          <button class="btn btn-default"
+                  ng-click="me.patient.communication_type=4"
+                  ng-class="{active:me.patient.communication_type==4}">
+                {{communication_type(4)}}</button>
         </div>
       </div>
     </div>
@@ -76,7 +110,9 @@
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside"><input type="text" ng-model="me.support_hours"></div>
+        <div class="inside">
+          <input type="text" ng-model="me.patient.support_hours">
+        </div>
       </div>
     </div>
 

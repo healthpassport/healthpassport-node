@@ -43,28 +43,28 @@
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.disability_level || "&nbsp;" }}</div>
+        <div class="inside">{{me.patient.disability_level || "&nbsp;" }}</div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.understanding_level || "&nbsp;" }}</div>
+        <div class="inside">{{me.patient.understanding_level || "&nbsp;" }}</div>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.communication_type || "&nbsp;" }}</div>
+        <div class="inside">{{me.patient.communication_type || "&nbsp;" }}</div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.support_hours || "&nbsp;"}}</div>
+        <div class="inside">{{me.patient.support_hours || "&nbsp;"}}</div>
       </div>
     </div>
 

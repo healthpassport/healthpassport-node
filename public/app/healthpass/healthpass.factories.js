@@ -307,6 +307,46 @@ angular.module('healthpass.factories', [
   
   return Model;
 })
+.factory('Patient', function($remote, $sync, $req) {
+  return {
+    disability_level: function(value) {
+      if (+value == 1) {
+        return "Low"
+      } else
+      if (+value == 2) {
+        return "Medium"
+      } else
+      if (+value == 3) {
+        return "High"
+      }
+    },
+    understanding_level: function(value) {
+      if (+value == 1) {
+        return "Easily"
+      } else
+      if (+value == 2) {
+        return "Moderate"
+      } else
+      if (+value == 3) {
+        return "Very difficult"
+      }
+    },
+    communication_type: function(value) {
+      if (+value == 1) {
+        return "Read and write"
+      } else
+      if (+value == 2) {
+        return "Talking and visual"
+      } else
+      if (+value == 3) {
+        return "Only visual"
+      } else
+      if (+value == 4) {
+        return "Need external help"
+      }
+    }
+  }
+})
 .factory('Event', function($remote, $sync, $req) {
   var Model = function(opts) {
     opts || (opts = {});

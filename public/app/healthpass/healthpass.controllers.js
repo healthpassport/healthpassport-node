@@ -146,7 +146,11 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
   }
 
 })
-
+.controller('PassportController', function($scope, Patient) {
+  $scope.disability_level = Patient.disability_level
+  $scope.understanding_level = Patient.understanding_level
+  $scope.communication_type = Patient.communication_type
+})
 // Placeholder controllers
 .controller('WebcamController', function($scope) {
   // Webcam controller for Web
@@ -156,4 +160,3 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
 .controller('ContactsController', function($scope, $location, Me) {})
 .controller('EventsController', function($scope, $location, Me) {})
 .controller('QuestionsController',function($scope, Me){})
-.controller('PassportController', function($scope) {});

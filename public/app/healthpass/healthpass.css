@@ -18,6 +18,10 @@
 #bar a {
   color: #fff;
 }
+.form-group {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
 .form-group .hp-key {
   padding-top: 10px;
   padding-bottom: 10px;
