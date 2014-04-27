@@ -64,7 +64,7 @@ app.get('/test', function(req, res) {
   res.render('test.html')
 });
 
-app.get('/api', function(req, res){
+app.get('/api/v1', function(req, res){
   console.log(app.routes);
   res.json(__.map(app.routes, function(routeSet){
     return __.map(routeSet, function(route) {
