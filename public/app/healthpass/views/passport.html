@@ -29,42 +29,42 @@
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.email}}</div>
+        <div class="inside">{{me.email || "Not stated yet"}}</div>
       </div>
     </div>
   
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.telephone || "&nbsp;"}}</div>
+        <div class="inside">{{me.telephone || "Not stated yet"}}</div>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.patient.disability_level || "&nbsp;" }}</div>
+        <div class="inside">{{disability_level(me.patient.disability_level) || "Not stated yet" }}</div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.patient.understanding_level || "&nbsp;" }}</div>
+        <div class="inside">{{understanding_level(me.patient.understanding_level) || "Not stated yet" }}</div>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.patient.communication_type || "&nbsp;" }}</div>
+        <div class="inside">{{communication_type(me.patient.communication_type) || "Not stated yet" }}</div>
       </div>
     </div>
 
      <div class="form-group">
       <div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
       <div class="col-sm-9 hp-value">
-        <div class="inside">{{me.patient.support_hours || "&nbsp;"}}</div>
+        <div class="inside">{{me.patient.support_hours || "I didn't define the number of"}} hours</div>
       </div>
     </div>
 

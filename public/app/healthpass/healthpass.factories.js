@@ -318,6 +318,8 @@ angular.module('healthpass.factories', [
       } else
       if (+value == 3) {
         return "High"
+      } else {
+        return false;
       }
     },
     understanding_level: function(value) {
@@ -329,6 +331,8 @@ angular.module('healthpass.factories', [
       } else
       if (+value == 3) {
         return "Very difficult"
+      } else {
+        return false;
       }
     },
     communication_type: function(value) {
@@ -343,6 +347,8 @@ angular.module('healthpass.factories', [
       } else
       if (+value == 4) {
         return "Need external help"
+      } else {
+        return false;
       }
     }
   }
