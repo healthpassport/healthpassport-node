@@ -1,3 +1,10 @@
+/*
+ * healthpass.less
+ *
+ * Main LESS file to compile (and minimize) into healthpass.css 
+ */
+
+// App colors
 @passportColor: #3E9994;
 @passportColorLight: #D9E8E8;
 @eventColor: #331336;
@@ -14,6 +21,43 @@
 @painColor: #003399;
 @doctorColor: #565051;
 @doctorColorLight: #D1D0CE;
+@clockColor: #a47272;
+
+// Setting icon color
+.setFaColor(@color){
+  & > .fa {
+    color: @color;
+  }
+}
+
+// Every page has its own colors,
+// this is a scheme that we reuse for all the pages
+.make-page(@strong, @light) {
+
+  #bar {
+    background-color: @strong;
+  }
+  .hp-key {
+    background-color: @strong;
+  }
+  .hp-value {
+    background-color: @light;
+    color: @strong;
+  }
+  .btn {
+    background-color:@strong;
+    font-size: 1.2em;
+    color: #fff
+  }
+  .btn.one_allergy {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .btn.one_notselected {
+    background-color: #666;
+  }
+  
+}
 
 .avatar {
   border-radius: 999px;
@@ -53,32 +97,6 @@
   } 
 }
 
-.make-page(@strong, @light) {
-
-  #bar {
-    background-color: @strong;
-  }
-  .hp-key {
-    background-color: @strong;
-  }
-  .hp-value {
-    background-color: @light;
-    color: @strong;
-  }
-  .btn {
-    background-color:@strong;
-    font-size: 1.2em;
-    color: #fff
-  }
-  .btn.one_allergy {
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  .btn.one_notselected {
-    background-color: #666;
-  }
-  
-}
 .passport-page {
   .make-page(@passportColor, @passportColorLight);
 }
@@ -188,14 +206,7 @@
 }
 
 
-.setFaColor(@color){
-  & > .fa {
-    color: @color;
-  }
-}
-
-
-.eventbuttons, .emotions, .clock, .passport, .camera{
+.eventbuttons, .emotions, .clock, .passport, .camera {
   a {
     color: #fff; 
   }
@@ -213,7 +224,7 @@
     }
 }
 
-.camera{
+.camera {
   .setFaColor(@eventColor);
    height: 20%;
    a{
@@ -221,29 +232,28 @@
    }
 }
 
-@clockColor: #a47272;
-.clock{
+.clock {
   background-color: @clockColor;
 }
 
-.eventbuttons{
+.eventbuttons {
   background-color: @eventColor;
 }
 
 
-.passport{
+.passport {
   background-color: @passportColor;
 }
 
-.happy{
+.happy {
   .setFaColor(@happyColor);
 }
 
-.sad{
+.sad {
   .setFaColor(@sadColor);
 }
 
-.pain{
+.pain {
   .setFaColor(@painColor);
 }
 .menu {

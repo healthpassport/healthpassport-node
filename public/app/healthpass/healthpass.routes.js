@@ -1,6 +1,11 @@
-var routes = angular.module('healthpass.routes', ['ngRoute']);
-
-routes.config(function($routeProvider) {
+/*
+ * healthpass.routes.js
+ *
+ * All the routes of the main app
+ *
+ */
+angular.module('healthpass.routes', ['ngRoute'])
+.config(function($routeProvider) {
   $routeProvider
     .when('/', { templateUrl: 'app/healthpass/views/home.html', controller:"HomeController" })
     .when('/login', { templateUrl: 'app/healthpass/views/login.html', controller:"LoginController" })

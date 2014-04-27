@@ -1,13 +1,160 @@
-var controllers = angular.module('healthpass.controllers', ['healthpass.factories']);
+angular.module('healthpass.controllers', ['healthpass.factories'])
 
-controllers.controller('MainController', function(cordovaValue, $scope, Me, $location) {
+// MainController: Wraps the ngView for web app
+.controller('MainController', function(cordovaValue, $scope, Me, $location) {
   
+  // Get the user
   Me.promise.then(function(user) {
     $scope.me = user;
   });
   
+  // Helper to find what routes we are in
   $scope.isRoute = function(route) {
     return $location.path() == route;
   }
 
-});
+})
+
+// AddEventController: Adding new events
+.controller('AddEventController', function($scope, Me, $location) {
+
+  $scope.saveEvent = function(data) {
+    $scope.me.addEvent(data).then(function() {  
+      $location.path("/events");
+    });
+  }
+
+})
+
+// QuestionController: Answering doctor questions
+.controller('QuestionController',function($scope, Me, Question){
+  
+  // Save answer of a Question
+  $scope.saveAnswer=function(question, answer){
+ 
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "positionClass": "toast-top-right",
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "2000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr.success('Preference saved.');
+    $scope.me.questions.splice(0,1);
+    console.log($scope.me.questions);
+
+    question.saveAnswer(answer).then(function(data) {
+    console.log("saved", data)   //NOT EXECUTED
+    })
+  }
+})
+
+// AddContactController: Add contacts in contact list
+.controller('AddContactController', function($scope, $location, Me) {
+
+  $scope.data = {};
+
+  $scope.goBack = function(){
+    $location.path('/contacts');
+  }
+
+  // Save contact on profile
+  $scope.saveContact = function(data){
+    $scope.me.addContact(data).then(function(){
+      $location.path('/contacts');
+    });
+  }
+
+})
+
+// AllergyController: Select and deselect allergies
+.controller('AllergyController', function($scope, Me){
+  
+  $scope.data={};
+
+  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}].map(function(one) { one.active = 0; return one;});
+  var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name);});
+  $scope.presetAllergies=[{name: 'peanuts'}, {name: 'milk'},{name: 'dust'},{name: 'banana'}];
+  $scope.notSelectedAllergies = [];
+  
+  var preset_allergies = $scope.presetAllergies.map(function(allergy) {return angular.copy(allergy.name)});
+  
+  Me.promise.then(function() {
+    
+    // iterate through all the existing allergies
+    for (var i = 0; i < $scope.presetAllergies.length; i++) {
+      var current_allergy = angular.copy($scope.presetAllergies[i]);
+
+      // iterate through all the user allergies
+      var found = false;
+      for (var j = 0; j < $scope.me.allergies.length; j++) {
+        var current_user_allergy = $scope.me.allergies[j];
+        if (current_allergy.name == current_user_allergy.name) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) $scope.notSelectedAllergies.push(current_allergy);
+    }
+    
+  });
+  
+  $scope.addAllergy = function(allergy) {
+    $scope.me.addAllergy(allergy).then(function() {
+      for (var i=0; i < $scope.notSelectedAllergies.length; i++) {
+        if (allergy.name == $scope.notSelectedAllergies[i].name) {
+          $scope.notSelectedAllergies.splice(i, 1);
+          break;
+        }
+      }
+    })
+  }
+  
+  $scope.removeAllergy = function(allergy) {
+    $scope.me.removeAllergy(allergy).then(function() {
+      $scope.notSelectedAllergies.push(allergy)
+    })
+  }
+
+})
+
+// PassportEditController: Handle logic for editing passport
+.controller('PassportEditController', function($scope) {
+  $scope.saveMe = function(me) {
+    me.save(me._id).then(function() {
+      console.log("saved");
+    })
+  }
+})
+// EmotionController: Handle logic for adding emotions
+.controller('EmotionController', function($scope, Me, Location, $location) {
+  $scope.data = {}
+  $scope.data.emotion_type = $location.path().substr(1)
+
+  $scope.saveEmotion = function(data) {
+    data.location = Location.get();
+    
+    Me.user.addEmotion(data).then(function() {
+      $location.path('/');
+    });
+  }
+
+})
+
+// Placeholder controllers
+.controller('WebcamController', function($scope) {
+  // Webcam controller for Web
+})
+.controller('HomeController', function($scope, Me, $req, cordovaValue, $location, $window) {})
+.controller('SignupController', function($scope) {})
+.controller('ContactsController', function($scope, $location, Me) {})
+.controller('EventsController', function($scope, $location, Me) {})
+.controller('QuestionsController',function($scope, Me){})
+.controller('PassportController', function($scope) {});

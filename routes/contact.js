@@ -4,7 +4,6 @@ var __ = require('underscore');
 var async = require('async');
 var bcrypt = require('bcryptjs');
 
-
 Routes.create = function(req, res, next) {
 
   db.Contact.create({

@@ -1,143 +1,72 @@
+/* healthpass.factories.js
+ *
+ * This file contains all the Models used in the app:
+ * Allergy, Contact, User, Emotion, Event..
+ *
+ * Each model has a constructor that can be used:
+ * var model = new ModelName(json)
+ *
+ * For example: 
+ * var user = new User({name:"Nicola Greco"})
+ *
+ * Each model has its own CRUD methods
+ * user.save() // updates user
+ * user.delete() // delete user
+ * user.create() // create user
+ *
+ * When saving a model $sync ensures that it is saved offline
+ *
+ */
+
 var api_server = "http://nicolaretina.local:3000"
-var factories = angular.module('healthpass.factories', ['pouchdb']);
+angular.module('healthpass.factories', [
+  'healthpass.sync' // Synchronisation helpers for online/offline database
+])
 
-factories.factory('cordovaReady', function() {
-  return function (fn) {
-
-    var queue = [];
-
-    var impl = function () {
-      queue.push(Array.prototype.slice.call(arguments));
-    };
-
-    document.addEventListener('deviceready', function () {
-      queue.forEach(function (args) {
-        fn.apply(this, args);
-      });
-      impl = fn;
-    }, false);
-
-    return function () {
-      return impl.apply(this, arguments);
-    };
-  };
-});
-
-factories.service('Me', function(User) {
+// Me: Promise with current user
+.service('Me', function(User) {
+  var _this = this;
+  // Default empty user before request
   this.user = new User();
+
+  // Getting user
   this.promise = User.getMe()
+  this.promise.then(function(value) {
+      // reset the user
+      _this.user = value;
+    })
+
+  // Get another promise if requested
   this.getMe = function() {
     this.promise = User.getMe()
+    this.promise.then(function(value) {
+      _this.user = value
+    })
     return this.promise;
   }
-  this.promise.then(function(value) {
-      //alert("value I get")
-      // alert(value)
-      this.user = value;
-    })
+
 })
 
-factories.value('cordovaValue', 0);
+// cordovaValue: Ensure that the platform is web and not cordova
+.value('cordovaValue', 0)
 
-factories.factory("$sync", function(pouchdb) {
-  PouchDB.enableAllDbs = true;
-  var databases = {};
+// User: model of user
+.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync, Question) {
 
-  return function(model) {
-    if (!databases[model]) databases[model] = pouchdb.create(model);
-    var db = databases[model];
-    var localError = function(err) {console.log(err)}
-    return {
-      local: {
-        upsert: function(doc) {
-          if (!doc._id) doc._id = doc.id+""
-          var json_doc = JSON.parse(JSON.stringify(doc));
-
-          return db.get(doc._id).then(
-            function(prev) {
-              return db.put(json_doc, doc._id).then(function(result) {
-                console.log("updating", doc._id, doc, result)
-                return doc;
-              },localError)
-            },
-            function(err) {
-              if (err && err.status == 404) {
-                console.log("not found")
-                return db.put(json_doc).then(function(result) {
-                  console.log("upserting", doc._id, result)
-                  return doc;
-                },localError)
-              }
-            }, localError);
-
-        },
-        create: function(doc) {
-          return db.post(doc).then(function(result) {
-            console.log("inserting", doc, doc, result)
-            return doc;
-          }, localError)
-        },
-        delete: function(_id) {
-          console.log("before deletion", _id)
-          return db.get(_id+"").then(function(doc) {
-            return db.remove(doc).then(function(response) {
-              console.log("deleting", doc, doc, response)
-              return _id;
-            }, localError);
-          }, localError);
-        },
-        get: function(_id) {
-          return db.get(_id+"").then(function(doc) {
-            console.log("pdb getting: ", doc);
-            return doc;
-          }, localError)
-        }
-      },
-      remote: {
-        sync: function() {
-
-        }
-      }
-    }
-  };
-});
-
-factories.service("$remote", function($http) {
-  this.get    = $http.get
-  this.post   = $http.post
-  this.put    = $http.put
-  this.delete = $http.delete
-  this.onlineOnly = function() {
-    alert("You can not do this operation if you are not connected to the internet!")
-  }
-});
-
-factories.factory("$req", function($remote) {
-  return {
-    isConnected: function () {
-      // alert("isconnected")
-      if (navigator && navigator.network && navigator.network.connection) {
-              // alert("isconnected 2")
-        return navigator.network.connection.type == Connection.NONE ? 0 : 1;
-      } else return 1;
-    },
-    offline: function() {
-      return !this.isConnected();
-    }
-  }
-});
-
-factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync, Question) {
+  // Get offline database
   var sync = $sync('User')
 
+  // Functional programming hack: to each Model in the Ajax response json, map their corrispective Model,
+  // so that the javascript object is now instance of Model (e.g. a allergy in json becomes new Allergy(json))
   var response_to_model = function (json, Model) {
     return json.map(function(element) { return new Model(element) });
   }
   
+  // Model constructor
   var Model = function(opts) {
     opts || (opts = {});
 
-    // TODO improve this with _underscore
+    // Functional programming hack: for each field in the json, create a field in the instance
     var _this = this;
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
@@ -167,7 +96,8 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
 
   Model.getMe = function(uid) {
     var promise;
-    // alert("getMe")
+
+    // Get the offline version if offline
     if ($req.offline()) {
       promise = sync.local.get('me').then(function(response) {
         console.log("response", response)
@@ -177,12 +107,14 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
       promise.then(function(a){
         console.log("a")
       })
-    } else {
+    }
+    // Load from server if connected
+    else {
       promise = $remote.get(api_server+'/api/v1/me').then(function(response) {
-        // alert("asked server who I am")
-        // alert(response)
         var model = new Model(response.data);
         model._id = "me";
+
+        // Update offline database
         sync.local.upsert(model);
         return model;
       })
@@ -190,7 +122,6 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     return promise;
   }
 
-  
   Model.prototype.create = function() {
     _model = this;
     $remote.post(api_server+'/api/v1/users', _model).then(function(response) {
@@ -206,6 +137,7 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
   }
   
   Model.prototype.save = function(id) {
+    // update the local database with the changes
     sync.local.upsert(this)
     return $remote.put(api_server+'/api/v1/users/' + (this.id || id), this).then(function(response) {
       return response.data
@@ -226,12 +158,14 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
     
     return allergy.delete().then(function() {
       var index;
+
       for (var i=0; i < _user.allergies.length; i++) {
         if (allergy.name == _user.allergies[i].name) {
           index = i;
           break
         }
       }
+
       console.log("allergies", index)
       _user.allergies.splice(index,1)
       sync.local.upsert(_user)
@@ -242,35 +176,42 @@ factories.factory('User', function($http, Allergy, $remote, Emotion, Contact, Ev
   Model.prototype.addEmotion = function(json) {
     var _user = this;
     var emotion = new Emotion(json);
+
     return emotion.create().then(function() {
       _user.emotions.push(emotion);
       sync.local.upsert(_user)
-    })
+    });
+
   }
   
   Model.prototype.addEvent = function(json) {
     var _user = this;
     var _event = new Event(json);
+
     return _event.create().then(function() {
       _user.events.push(_event);
       sync.local.upsert(_user)
-    })
+    });
+
   }
 
     Model.prototype.addContact = function(json) {
     var _user = this;
     var contact = new Contact(json);
+
     return contact.create().then(function(model) {
       console.log(model, _user);
       _user.contacts.push(model);
       sync.local.upsert(_user)
-    })
+    });
+
   }
 
   return Model;
-});
+})
 
-factories.factory('Allergy', function($remote, $sync, $req) {
+// All the other models follow what happens in User
+.factory('Allergy', function($remote, $sync, $req) {
   var sync = $sync('Allergy');
   var Model = function(opts) {
     opts || (opts = {});
@@ -309,10 +250,9 @@ factories.factory('Allergy', function($remote, $sync, $req) {
     })
   }
   return Model;
-});
+})
 
-
-factories.factory('Contact', function($remote, $sync, $req) {
+.factory('Contact', function($remote, $sync, $req) {
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
@@ -342,9 +282,9 @@ factories.factory('Contact', function($remote, $sync, $req) {
   }
   
   return Model;
-});
+})
 
-factories.factory('Emotion', function($remote, $sync, $req) {
+.factory('Emotion', function($remote, $sync, $req) {
   var sync = $sync('Emotion');
   var Model = function(opts) {
     opts || (opts = {});
@@ -366,9 +306,8 @@ factories.factory('Emotion', function($remote, $sync, $req) {
   }
   
   return Model;
-});
-
-factories.factory('Event', function($remote, $sync, $req) {
+})
+.factory('Event', function($remote, $sync, $req) {
   var Model = function(opts) {
     opts || (opts = {});
     var _this = this;
@@ -388,8 +327,8 @@ factories.factory('Event', function($remote, $sync, $req) {
   }
   
   return Model;
-});
-factories.factory('Question', function($remote, $sync, $req) {
+})
+.factory('Question', function($remote, $sync, $req) {
 
   var Model = function(opts) {
     opts || (opts = {});
@@ -432,4 +371,4 @@ factories.factory('Question', function($remote, $sync, $req) {
     });
   }
   return Model;
-});
+})

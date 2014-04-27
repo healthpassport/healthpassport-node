@@ -21,6 +21,8 @@ Routes.create = function(req, res, next) {
   }
   async.waterfall([
     function(cb) {
+
+      // If the password is updated, we have to generete a new hash in bcrypt
       bcrypt.genSalt(10, function(err, salt) {
         if (!!err) return cb(err, "Cannot update password");
         bcrypt.hash(values.password, salt, function(err, hash) {
