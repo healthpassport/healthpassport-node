@@ -89,6 +89,9 @@
 .passport-page .btn.one_notselected {
   background-color: #666;
 }
+.passport-page .hp-value .btn {
+  font-size: 1em;
+}
 .events-page {
   padding-top: 70px;
   height: 100%;
