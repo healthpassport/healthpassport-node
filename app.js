@@ -132,6 +132,49 @@ db
         })
       });
 
+      db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/apple.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
+
+      db.Contact.create({
+        "name": "Enrico",
+        "surname": "Greco",
+        "telephone": "07707760897",
+        "description": "The father",
+        "picture": null,
+        "nickname": "Daddy",
+        "kind": "relative"
+      }).success(function(contact) {
+        user.addContact(contact);
+      });
+
+      db.Contact.create({
+        "name": "Vittoria",
+        "surname": "Pasceri",
+        "telephone": "3286154544",
+        "description": "The mother",
+        "picture": null,
+        "nickname": "Mommy",
+        "kind": "doctor"
+      }).success(function(contact) {
+        user.addContact(contact);
+      });
+
+      db.Contact.create({
+        "name": "Raluca",
+        "surname": "Cocioban",
+        "telephone": "07766554433",
+        "description": "School friend",
+        "picture": null,
+        "nickname": "Raluca",
+        "kind": "friend"
+      }).success(function(contact) {
+        user.addContact(contact);
+      });
+
       db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/bananas.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);

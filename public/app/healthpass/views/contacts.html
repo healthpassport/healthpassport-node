@@ -5,27 +5,42 @@
   </header>
 
 <div class="actions">
-
   <div><a href="#/add_contact" class="btn" role="button"><i class="fa fa-plus fa-2x"></i><p>Add People</p></a></div>
 </div>
 
 <div class="contacts">
-  <div ng-repeat="contact in me.contacts" class="contact">
+  <div ng-repeat="contact in me.contacts" class="contact row">
 
 
-    <div class="contact_name">
-      <h3>
-        <strong>{{contact.name}} {{contact.surname}}</strong>
-      <i class="fa fa-smile-o fa-1x" ng-show="contact.kind=='friend'"></i>
-      <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='doctor'"></i>
-      <i class="fa fa-user fa-1x" ng-show="contact.kind=='relative'"></i>
-      <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='assistant'"></i>
-       </h3>
-     </div>
-    <div class="nickname" ng-show="contact.nickname"></strong>{{contact.nickname}}</div>
-    <div class="description"><em>{{contact.description}}</em></div>
-    <div class="telephone"><abbr>{{contact.telephone}}</abbr></div>
-    <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
+    <div class="contact_name col-xs-8">
+      <div class="col-md-6">
+        <h3>
+          <strong>{{contact.name}} {{contact.surname}}</strong>
+          <i class="fa fa-smile-o fa-1x" ng-show="contact.kind=='friend'"></i>
+          <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='doctor'"></i>
+          <i class="fa fa-user fa-1x" ng-show="contact.kind=='relative'"></i>
+          <i class="fa fa-user-md fa-1x" ng-show="contact.kind=='assistant'"></i>
+        </h3>
+        <div class="nickname" ng-show="contact.nickname"></strong>{{contact.nickname}}</div>
+        <div class="description"><em>{{contact.description}}</em></div>
+        <div class="picture" ng-show="contact.picture">{{contact.picture}}</div>
+      </div>
+      <div class="col-md-6 hidden-xs">
+        <div class="telephone"><h3><a ng-href="tel:{{contact.telephone}}">{{contact.telephone}}</a></h3></div>
+      </div>
+    </div>
+
+    <div class="call col-xs-4">
+      <span class="">
+        <a ng-href="tel:{{contact.telephone}}">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-phone fa-stack-1x fa-inverse"></i>
+          </span>
+        </a>
+      </span>
+    </div>
+
     <hr>
   </div>
 </div>

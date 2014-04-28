@@ -359,6 +359,9 @@
   text-align: center;
   height: 80px;
 }
+.questions-page .noquestions {
+  margin-top: 60px;
+}
 .allergies-page {
   padding-top: 70px;
   height: 100%;
@@ -404,6 +407,7 @@
 .contacts-page {
   padding-top: 70px;
   height: 100%;
+  color: #fff;
 }
 .contacts-page .background {
   background-color: #dc663d;
@@ -444,6 +448,25 @@
 .contacts-page .contacts {
   text-align: center;
   margin-top: 1%;
+}
+.contacts-page .contacts {
+  margin-top: 20px;
+}
+.contacts-page .contact {
+  border-top: 1px solid #f9e0ce;
+  padding-bottom: 20px;
+}
+.contacts-page .contact .telephone a {
+  color: #fff;
+  font-size: 1em;
+  font-weight: 600;
+}
+.contacts-page .contact .call {
+  margin-top: 15px;
+}
+.contacts-page .contact .call a {
+  font-size: 2em;
+  color: green;
 }
 .HomeContainer {
   text-align: center;

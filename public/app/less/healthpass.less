@@ -229,6 +229,9 @@
     text-align: center;
     height: 80px;
   }
+  .noquestions {
+    margin-top: 60px;
+  }
 }
 
 .allergies-page {
@@ -240,11 +243,30 @@
 
 .contacts-page {
   .make-page(@contactColor, @contactColorLight);
-
+  color:#fff;
   .actions, .contacts {
     text-align:center;
     margin-top: 1%;
 
+  }
+  .contacts {
+    margin-top: 20px;
+  }
+  .contact {
+    border-top: 1px solid @contactColorLight;
+    padding-bottom: 20px;
+    .telephone a {
+      color: #fff;
+      font-size:1em;
+      font-weight: 600;
+    }
+    .call {
+      margin-top: 15px;
+      a {
+        font-size: 2em;
+        color: green;
+      }
+    }
   }
 }
 .HomeContainer {
