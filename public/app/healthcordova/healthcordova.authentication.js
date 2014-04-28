@@ -21,11 +21,14 @@ angular.module('healthcordova.authentication', [])
 })
 
 // Auth: setCredentials in the cookies when you login and ensure HTTP Basic Authentication
-.factory('Auth', function(Base64, $http) {
+.factory('Auth', function(Base64, $http, $location) {
 
   var authdata = localStorage.getItem('authdata')
   console.log("Auth gives:", authdata)
   if (authdata) $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+  else {
+    $location.path('/login')
+  }
   return {
 
     // setCredentials: encode username:password and store in cookies

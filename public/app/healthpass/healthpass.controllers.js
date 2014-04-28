@@ -31,22 +31,6 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
   
   // Save answer of a Question
   $scope.saveAnswer=function(question, answer){
- 
-    toastr.options = {
-      "closeButton": false,
-      "debug": false,
-      "positionClass": "toast-top-right",
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "2000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
-    toastr.success('Preference saved.');
 
     question.saveAnswer(answer).then(function(data) {
       console.log("ANSWERED", data)   //NOT EXECUTED
