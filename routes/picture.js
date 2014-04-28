@@ -2,9 +2,7 @@ var db = require('../models');
 
 module.exports = exports = {
   create: function(req, res, next) {
-    console.log("HELP ME")
-    //var file = req.files.pic.path.split("/").slice(-2).join("/")
-    var file = req.files['pic'].path.replace(__dirname+'/public', '')
+    var file = "/"+req.files.pic.path.split("/").slice(-2).join("/")
     db.Picture.create({
       userId: req.user.id,
       url: file

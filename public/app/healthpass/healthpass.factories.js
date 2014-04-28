@@ -20,7 +20,8 @@
 
 var api_server = "http://nicolaretina.local:3000"
 angular.module('healthpass.factories', [
-  'healthpass.sync' // Synchronisation helpers for online/offline database
+  'healthpass.sync', // Synchronisation helpers for online/offline database
+  'ngCookies'
 ])
 
 // Me: Promise with current user
@@ -174,9 +175,10 @@ angular.module('healthpass.factories', [
   };
   
   
-  Model.prototype.addEmotion = function(json) {
+  Model.prototype.addEmotion = function(json, localurl) {
     var _user = this;
     var emotion = new Emotion(json);
+    if (localurl) emotion.localurl = localurl;
 
     return emotion.create().then(function() {
       _user.emotions.push(emotion);
@@ -263,48 +265,52 @@ angular.module('healthpass.factories', [
   }
   return Model;
 })
-.factory('Picture', function($remote, $sync, $req, $q, $cookieStore) {
+.factory('Uploader', function($q, $cookieStore) {
+  return {
+    uploadPhoto: function (url, imageURI, params, success) {
+      var deferred = $q.defer();
 
-  function uploadPhoto(url, imageURI, params, success) {
-    var deferred = $q.defer();
+      var options = new FileUploadOptions(); 
+      options.chunkedMode = false;
+      options.fileKey = "pic"; 
+      var imagefilename = imageURI; 
+      options.fileName = imagefilename; 
+      options.mimeType = "image/jpeg"; 
+      options.params = params;
+      options.headers = {'Authorization': $cookieStore.get('authdata')}
+      console.log(options.headers)
+      var ft = new FileTransfer();
 
-    var options = new FileUploadOptions(); 
-    options.chunkedMode = false;
-    options.fileKey = "pic"; 
-    var imagefilename = imageURI; 
-    options.fileName = imagefilename; 
-    options.mimeType = "image/jpeg"; 
-    //options.params = params;
-    options.headers = {'Authorization': $cookieStore.get('authdata')}
-    console.log(options.headers)
-    var ft = new FileTransfer();
+      ft.upload(
+        imageURI,
+        url,
+        function(r) {
+          response = {data: JSON.parse(r.response)}
+          deferred.resolve(response);
+        },
+        function(error) {
+          var r;
+          switch (error.code) {  
+           case FileTransferError.FILE_NOT_FOUND_ERR: 
+            r = "Photo file not found"; 
+            break; 
+           case FileTransferError.INVALID_URL_ERR: 
+            r = "Bad Photo URL"; 
+            break; 
+           case FileTransferError.CONNECTION_ERR: 
+            r = "Connection error"; 
+            break; 
+          } 
+          deferred.reject(r);
+        },
+        options
+      );
 
-    ft.upload(
-      imageURI,
-      url,
-      function(r) {
-        deferred.resolve(r);
-      },
-      function(error) {
-        var r;
-        switch (error.code) {  
-         case FileTransferError.FILE_NOT_FOUND_ERR: 
-          r = "Photo file not found"; 
-          break; 
-         case FileTransferError.INVALID_URL_ERR: 
-          r = "Bad Photo URL"; 
-          break; 
-         case FileTransferError.CONNECTION_ERR: 
-          r = "Connection error"; 
-          break; 
-        } 
-        deferred.reject(r);
-      },
-      options
-    );
-
-    return deferred.promise;
+      return deferred.promise;
+    }
   }
+})
+.factory('Picture', function($remote, $sync, $req, $q, Uploader) {
 
   var Model = function(opts) {
     opts || (opts = {});
@@ -315,7 +321,7 @@ angular.module('healthpass.factories', [
   }
   Model.prototype.create = function() {
     _model = this;
-    return uploadPhoto(api_server+'/api/v1/pictures', this.localurl, _model).then(function(response) {
+    return Uploader.uploadPhoto(api_server+'/api/v1/pictures', this.localurl, _model).then(function(response) {
       _model.id = response.data.id;
       return new Model(_model);
     })
@@ -355,7 +361,7 @@ angular.module('healthpass.factories', [
   return Model;
 })
 
-.factory('Emotion', function($remote, $sync, $req) {
+.factory('Emotion', function($remote, $sync, $req, Uploader) {
   var sync = $sync('Emotion');
   var Model = function(opts) {
     opts || (opts = {});
@@ -370,10 +376,22 @@ angular.module('healthpass.factories', [
   Model.prototype.create = function() {
     _model = this
     if ($req.offline()) return sync.local.create(this).then(function(a) { return new Model(_model); });
-    return $remote.post(api_server+'/api/v1/emotions', _model).then(function(response) {
-      _model.userId = response.data.userId;
-      return new Model(_model);
-    })
+
+    console.log("the current emotion",this.localurl)
+    var promise;
+    if (this.localurl) {
+      promise = Uploader.uploadPhoto(api_server+'/api/v1/pictures', this.localurl, _model).then(function(response) {
+
+        _model.id = response.data.id;
+        return new Model(_model);
+      })
+    } else {
+      promise = $remote.post(api_server+'/api/v1/emotions', _model).then(function(response) {
+        _model.id = response.data.id;
+        return new Model(_model);
+      });
+    }
+    return promise;
   }
   
   return Model;

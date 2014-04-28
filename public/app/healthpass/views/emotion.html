@@ -16,9 +16,12 @@
     </div>
     
     <textarea class="desctiptionCls" ng-model="data.description" placeholder="Write to us why"></textarea>
-    <div id="cameraDiv"><i class="fa fa-camera fa-5x"></i></div>
+    <span camera ng-model='myPicture' class="camera">
+        <i class="fa fa-camera fa-2x"></i>
+        <img ng-show="myPicture" ng-src="{{myPicture}}" width="80%">
+      </span>
     <div class="choice">
-      <button ng-click="saveEmotion(data)" class="btn">Save</button>
+      <button ng-click="saveEmotion(data, localurl)" class="btn">Save</button>
     </div>
   </div>
 </div>

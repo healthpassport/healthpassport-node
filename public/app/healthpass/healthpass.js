@@ -20,7 +20,7 @@ angular.module('healthpass', [
 // Location: mock user location for testing
 .service('Location', function() {
   this.get = function() {
-    return "1,1";
+    return {lon:1, lat:1};
   }
 })
 

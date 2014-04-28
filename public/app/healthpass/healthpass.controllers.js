@@ -137,13 +137,22 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
   $scope.data = {}
   $scope.data.emotion_type = $location.path().substr(1)
 
-  $scope.saveEmotion = function(data) {
-    data.location = Location.get();
+  $scope.saveEmotion = function(data, localurl) {
+    var location = Location.get();
+    data.lon = location.lon;
+    data.lat = location.lat;
+    if (localurl) data.localurl = localurl;
     
-    Me.user.addEmotion(data).then(function() {
+    Me.user.addEmotion(data, localurl).then(function() {
       $location.path('/');
     });
   }
+
+  $scope.$watch('myPicture', function(data) {
+    if (data) {
+      $scope.localurl = data;
+    }
+  }, true);
 
 })
 .controller('PassportController', function($scope, Patient) {
@@ -155,7 +164,6 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
 .controller('WebcamController', function($scope, Picture, Me) {
 
   $scope.$watch('myPicture', function(data) {
-    console.log(data)
     if (data) {
       Me.user.addPicture(data)
     }

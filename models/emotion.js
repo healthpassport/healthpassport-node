@@ -3,6 +3,9 @@ module.exports = function(sequelize, DataTypes) {
     emotion_type: DataTypes.STRING,
     location: DataTypes.STRING,
     description: DataTypes.STRING,
+    url: DataTypes.STRING,
+    lon: DataTypes.FLOAT,
+    lat: DataTypes.FLOAT
   }, {
     tableName: 'emotions',
     updatedAt: 'update_time',
