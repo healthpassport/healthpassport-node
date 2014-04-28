@@ -139,6 +139,41 @@ db
         })
       });
     })
+
+    db.User.findOrCreate({
+      username:"martin",
+      password:"pass",
+      name:"Martin",
+      surname:"Lazarov",
+      email:"email@example.org",
+      role: "patient",
+      telephone:"07707760897"
+    }).complete(function(err, user) {
+      
+      db.Patient.create({
+        disability_level:1,
+        understanding_level:2,
+        communication_type:3,
+        support_hours: 12
+      }).success(function(patient) {
+        patient.setUser(user);
+        user.setPatient(patient)
+      })
+
+      db.Picture.create({url:'/pictures/apple.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
+
+      db.Picture.create({url:'/pictures/bananas.jpg'}).success(function(picture1) {
+        db.Question.create({title:"This is question one"}).success(function(question1) {
+          question1.setPicture(picture1);
+          user.addQuestion(question1);
+        })
+      });
+    })
     
     if (err) {
       throw err
