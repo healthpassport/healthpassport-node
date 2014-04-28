@@ -395,6 +395,9 @@
 .allergies-page .btn.one_notselected {
   background-color: #666;
 }
+.allergies-page .my_allergies .btn {
+  background-color: #e9b937;
+}
 .contacts-page {
   padding-top: 70px;
   height: 100%;
