@@ -1,9 +1,11 @@
 <div class="HomeContainer">
   
   <div class="header">
-    <div class="camera">
+    <div class="top">
       <img src="pictures/three.jpg" class="avatar"/>
-      <a href="#/webcam"><i class="fa fa-camera fa-2x"></i></a>
+      <span camera ng-model='myPicture' class="camera" ng-controller="WebcamController">
+        <i class="fa fa-camera fa-2x"></i>
+      </span>
       <div ng-click="showLogout()">{{user.avatar}}</div>
     </div>
   </div>

@@ -5,6 +5,8 @@ angular.module('healthcordova.directives', [])
     require: 'ngModel',
     link: function(scope, elm, attrs, ctrl) {
 
+      elm.css('display', 'block')
+
       elm.on('click', function() {
 
         // Start camera
@@ -18,8 +20,10 @@ angular.module('healthcordova.directives', [])
             ctrl.$setValidity('error', false);
           },
           {
-            quality: 50, 
-            destinationType: Camera.DestinationType.FILE_URI
+            quality: 49, 
+            destinationType: Camera.DestinationType.FILE_URI,
+            saveToPhotoAlbum: true,
+            allowEdit: false
           });
 
       });

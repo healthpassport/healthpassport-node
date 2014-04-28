@@ -352,6 +352,10 @@
 .questions-page .btn.one_notselected {
   background-color: #666;
 }
+.questions-page .answer {
+  text-align: center;
+  height: 80px;
+}
 .allergies-page {
   padding-top: 70px;
   height: 100%;
@@ -469,6 +473,7 @@
   vertical-align: middle;
 }
 .camera {
+  display: none;
   height: 20%;
 }
 .camera > .fa {

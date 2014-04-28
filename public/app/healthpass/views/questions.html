@@ -6,25 +6,32 @@
   <!--<div ng-repeat="question in me.questions | filter:{answer:null}">
 -->
 
-<div class="container">
 
-  <div class="row" ng-controller="QuestionController" ng-repeat="question in me.questions | filter:{answer:null} | limitTo:1">
-    <div class="text-center picture thumbnail">
-      <img class="img-responsive" style='width: 450px; height: 4  50px;' ng-src="{{question.picture.url}}" alt="{{question.picture.url}}"/>
-    </div>
-    <div class="caption text-center">
-      {{question.title}}
-        <div class="caption">
-          <p><a class="btn btn-success glyphicon glyphicon-thumbs-up" role="button" ng-click="saveAnswer(question, 2)">Like</a> <a class="btn btn-danger glyphicon glyphicon-thumbs-down" role="button" ng-click="saveAnswer(question, 1)">Dislike</a></p>
-        </div>
+    <div class="row"
+          ng-controller="QuestionController"
+          ng-repeat="question in me.questions | filter:{answer:null} | limitTo:1">
+      <div class="text-center picture thumbnail">
+        <img class="img-responsive"
+              style='width: 450px; height: 4  50px;'
+              ng-src="{{question.picture.url}}"
+              alt="{{question.picture.url}}"/>
+      </div>
+      <div class="caption text-center">
+        {{question.title}}
+      </div>
+      <div class="">
+        
+          <button class="col-xs-6 answer btn btn-success glyphicon glyphicon-thumbs-up" role="button" ng-click="saveAnswer(question, 2)">Like</button> 
+        
+        
+          <button class="col-xs-6 answer btn btn-danger glyphicon glyphicon-thumbs-down" role="button" ng-click="saveAnswer(question, 1)">Dislike</button>
+        
       </div>
     </div>
-  </div>
 
-  <div ng-controller="QuestionController" ng-show="(me.questions | filter:{answer:null}).length == 0">
-    <h2 class="aligncenter">No more questions for you today, come back later!</h2>
-  </div>
-
+    <div ng-controller="QuestionController" ng-show="(me.questions | filter:{answer:null}).length == 0">
+      <h2 class="aligncenter">No more questions for you today, come back later!</h2>
+    </div>
 
 </div>
 

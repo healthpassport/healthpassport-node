@@ -18,7 +18,7 @@
  *
  */
 
-var api_server = "http://healthpassport.herokuapp.com"
+var api_server = "http://nicolaretina.local:3000"
 angular.module('healthpass.factories', [
   'healthpass.sync' // Synchronisation helpers for online/offline database
 ])
@@ -51,7 +51,7 @@ angular.module('healthpass.factories', [
 .value('cordovaValue', 0)
 
 // User: model of user
-.factory('User', function($http, Allergy, $remote, Emotion, Contact, Event, $req, $sync, Question) {
+.factory('User', function($http, Allergy, Picture, $remote, Emotion, Contact, Event, $req, $sync, Question) {
 
   // Get offline database
   var sync = $sync('User')
@@ -77,6 +77,7 @@ angular.module('healthpass.factories', [
     this.events = opts.emotions ? response_to_model(opts.events, Event) : [];
     this.contacts = opts.contacts ? response_to_model(opts.contacts, Contact) : [];
     this.questions = opts.questions ? response_to_model(opts.questions, Question) : [];
+    this.pictures = opts.pictures ? response_to_model(opts.pictures, Picture) : [];
 
   }
   
@@ -183,6 +184,17 @@ angular.module('healthpass.factories', [
     });
 
   }
+
+  Model.prototype.addPicture = function(localurl) {
+    var _user = this;
+    var pic = new Picture({localurl: localurl});
+
+    return pic.create().then(function() {
+      _user.pictures.push(pic);
+      sync.local.upsert(_user)
+    });
+
+  }
   
   Model.prototype.addEvent = function(json) {
     var _user = this;
@@ -251,7 +263,66 @@ angular.module('healthpass.factories', [
   }
   return Model;
 })
+.factory('Picture', function($remote, $sync, $req, $q, $cookieStore) {
 
+  function uploadPhoto(url, imageURI, params, success) {
+    var deferred = $q.defer();
+
+    var options = new FileUploadOptions(); 
+    options.chunkedMode = false;
+    options.fileKey = "pic"; 
+    var imagefilename = imageURI; 
+    options.fileName = imagefilename; 
+    options.mimeType = "image/jpeg"; 
+    //options.params = params;
+    options.headers = {'Authorization': $cookieStore.get('authdata')}
+    console.log(options.headers)
+    var ft = new FileTransfer();
+
+    ft.upload(
+      imageURI,
+      url,
+      function(r) {
+        deferred.resolve(r);
+      },
+      function(error) {
+        var r;
+        switch (error.code) {  
+         case FileTransferError.FILE_NOT_FOUND_ERR: 
+          r = "Photo file not found"; 
+          break; 
+         case FileTransferError.INVALID_URL_ERR: 
+          r = "Bad Photo URL"; 
+          break; 
+         case FileTransferError.CONNECTION_ERR: 
+          r = "Connection error"; 
+          break; 
+        } 
+        deferred.reject(r);
+      },
+      options
+    );
+
+    return deferred.promise;
+  }
+
+  var Model = function(opts) {
+    opts || (opts = {});
+    var _this = this;
+    Object.keys(opts).map(function(key) {
+       _this[key] = opts[key];
+    })
+  }
+  Model.prototype.create = function() {
+    _model = this;
+    return uploadPhoto(api_server+'/api/v1/pictures', this.localurl, _model).then(function(response) {
+      _model.id = response.data.id;
+      return new Model(_model);
+    })
+  }
+
+  return Model;
+})
 .factory('Contact', function($remote, $sync, $req) {
   var Model = function(opts) {
     opts || (opts = {});

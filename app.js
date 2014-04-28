@@ -13,6 +13,7 @@ var api = require('./routes/api');
 var user = require('./routes/user');
 var _event = require('./routes/event');
 var emotion = require('./routes/emotion');
+var picture = require('./routes/picture')
 var contact = require('./routes/contact');
 var allergy = require('./routes/allergy');
 var passport = require("./classes/passport");
@@ -21,7 +22,7 @@ var RedisStore     = require("connect-redis")(express);
 var store = require('./classes/redis');
 
 app.configure(function(){
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({keepExtensions: true, uploadDir: __dirname + "/public/pictures"}));
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
   app.set("view engine", "ejs");
@@ -29,7 +30,6 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.cookieParser("This is the answer you are looking for %&$!$%$"));
   app.use(express.session({ store: new RedisStore({client: store}) }));
-  app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(passport.initialize());
@@ -90,6 +90,8 @@ app.post('/api/v1/questions/:questionId', api.auth, question.answer, api.json)
 
 //app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
 app.post('/api/v1/emotions', api.auth, emotion.create, api.json);
+app.get('/api/v1/pictures', api.auth, picture.query, api.json);
+app.post('/api/v1/pictures', api.auth, picture.create, api.json);
 app.post('/api/v1/allergies', api.auth, allergy.create, api.json);
 app.post('/api/v1/contacts', api.auth, contact.create, api.json);
 app.post('/api/v1/events', api.auth, _event.create, api.json);

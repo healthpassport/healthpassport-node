@@ -152,8 +152,14 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
   $scope.communication_type = Patient.communication_type
 })
 // Placeholder controllers
-.controller('WebcamController', function($scope) {
-  // Webcam controller for Web
+.controller('WebcamController', function($scope, Picture, Me) {
+
+  $scope.$watch('myPicture', function(data) {
+    console.log(data)
+    if (data) {
+      Me.user.addPicture(data)
+    }
+  }, true);
 })
 .controller('HomeController', function($scope, Me, $req, cordovaValue, $location, $window) {})
 .controller('SignupController', function($scope) {})
