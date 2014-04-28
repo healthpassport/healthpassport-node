@@ -6,5 +6,7 @@ var healthcordova = angular.module('healthcordova', [
 ])
 .config(function ($routeProvider, $locationProvider, $httpProvider) {
   // makes sure that healthcordova.authentication#httpInterceptor is added
+  var authdata = localStorage.getItem('authdata')
+  if (authdata) $httpProvider.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
   $httpProvider.responseInterceptors.push('httpInterceptor');
 });

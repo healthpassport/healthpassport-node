@@ -1,4 +1,4 @@
-angular.module('healthcordova.authentication', ['ngCookies'])
+angular.module('healthcordova.authentication', [])
 // httpInterceptor: redirects all the Unathorised 401 to /login again that we get with AngularJS $http
 .factory('httpInterceptor', function httpInterceptor ($q, $window, $location) {
   return function (promise) {
@@ -21,22 +21,24 @@ angular.module('healthcordova.authentication', ['ngCookies'])
 })
 
 // Auth: setCredentials in the cookies when you login and ensure HTTP Basic Authentication
-.factory('Auth', function(Base64, $http, $cookieStore) {
+.factory('Auth', function(Base64, $http) {
 
-  $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
+  var authdata = localStorage.getItem('authdata')
+  console.log("Auth gives:", authdata)
+  if (authdata) $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
   return {
 
     // setCredentials: encode username:password and store in cookies
     setCredentials: function (username, password) {
       var encoded = Base64.encode(username + ':' + password);
       $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-      $cookieStore.put('authdata', encoded);
+      localStorage.setItem('authdata', encoded);
     },
 
     // clearCredentials: delete username and password on request
     clearCredentials: function () {
       document.execCommand("ClearAuthenticationCache");
-      $cookieStore.remove('authdata');
+      localStorage.removeItem('authdata');
       $http.defaults.headers.common.Authorization = 'Basic ';
     }
   }

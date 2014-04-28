@@ -1,7 +1,7 @@
 angular.module('healthcordova.controllers', ['healthcordova.authentication', 'healthpass.factories'])
 // CordovaMainController: Main controller that wraps the ngView
-.controller('CordovaMainController', function($scope, Me, $location, $rootScope, Auth) {
-  
+.controller('CordovaMainController', function($scope, Me, $location, $rootScope, Auth) {  
+
   // Get the user, if no user, login
   Me.promise.then(
     function(user) {

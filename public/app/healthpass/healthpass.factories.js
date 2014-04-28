@@ -20,8 +20,7 @@
 
 var api_server = "http://nicolaretina.local:3000"
 angular.module('healthpass.factories', [
-  'healthpass.sync', // Synchronisation helpers for online/offline database
-  'ngCookies'
+  'healthpass.sync' // Synchronisation helpers for online/offline database
 ])
 
 // Me: Promise with current user
@@ -98,7 +97,6 @@ angular.module('healthpass.factories', [
 
   Model.getMe = function(uid) {
     var promise;
-
     // Get the offline version if offline
     if ($req.offline()) {
       promise = sync.local.get('me').then(function(response) {
@@ -106,9 +104,6 @@ angular.module('healthpass.factories', [
         if (response) return new Model(response);
         else return false;
       });
-      promise.then(function(a){
-        console.log("a")
-      })
     }
     // Load from server if connected
     else {
@@ -265,7 +260,7 @@ angular.module('healthpass.factories', [
   }
   return Model;
 })
-.factory('Uploader', function($q, $cookieStore) {
+.factory('Uploader', function($q) {
   return {
     uploadPhoto: function (url, imageURI, params, success) {
       var deferred = $q.defer();
@@ -277,7 +272,8 @@ angular.module('healthpass.factories', [
       options.fileName = imagefilename; 
       options.mimeType = "image/jpeg"; 
       options.params = params;
-      options.headers = {'Authorization': $cookieStore.get('authdata')}
+      var authdata = localStorage.getItem('authdata')
+      options.headers = {'Authorization': authdata}
       console.log(options.headers)
       var ft = new FileTransfer();
 
