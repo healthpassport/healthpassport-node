@@ -21,7 +21,7 @@ body {
 #emotions #chart_div {
   position: relative;
   margin: auto;
-  width: inherit;
+  width: 100%;
 }
 #emotions #control {
   position: relative;

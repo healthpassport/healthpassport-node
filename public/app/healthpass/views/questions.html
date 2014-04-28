@@ -1,4 +1,5 @@
 <div class="questions-page">
+  <div class="background"></div>
   <header id="bar" class="bar-questions">
     <a href="#/passport"><i class="fa fa-angle-left"></i> back</a>
   </header>
@@ -7,26 +8,30 @@
 -->
 
 
-    <div class="row"
-          ng-controller="QuestionController"
-          ng-repeat="question in me.questions | filter:{answer:null} | limitTo:1">
+    <div ng-controller="QuestionController"
+         ng-repeat="question in me.questions | filter:{answer:null} | limitTo:1">
+
       <div class="text-center picture thumbnail">
+
         <img class="img-responsive"
               style='width: 450px; height: 4  50px;'
               ng-src="{{question.picture.url}}"
               alt="{{question.picture.url}}"/>
+
       </div>
+
       <div class="caption text-center">
         {{question.title}}
       </div>
-      <div class="">
+
+      <div class="answers">
         
           <button class="col-xs-6 answer btn btn-success glyphicon glyphicon-thumbs-up" role="button" ng-click="saveAnswer(question, 2)">Like</button> 
-        
         
           <button class="col-xs-6 answer btn btn-danger glyphicon glyphicon-thumbs-down" role="button" ng-click="saveAnswer(question, 1)">Dislike</button>
         
       </div>
+
     </div>
 
     <div ng-controller="QuestionController" ng-show="(me.questions | filter:{answer:null}).length == 0">

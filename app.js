@@ -125,14 +125,14 @@ db
         user.setPatient(patient)
       })
 
-      db.Picture.create({url:'/pictures/apple.jpg'}).success(function(picture1) {
+      db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/apple.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);
           user.addQuestion(question1);
         })
       });
 
-      db.Picture.create({url:'/pictures/bananas.jpg'}).success(function(picture1) {
+      db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/bananas.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);
           user.addQuestion(question1);
@@ -160,14 +160,14 @@ db
         user.setPatient(patient)
       })
 
-      db.Picture.create({url:'/pictures/apple.jpg'}).success(function(picture1) {
+      db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/apple.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);
           user.addQuestion(question1);
         })
       });
 
-      db.Picture.create({url:'/pictures/bananas.jpg'}).success(function(picture1) {
+      db.Picture.create({url:'http://healthpassport.herokuapp.com/pictures/bananas.jpg'}).success(function(picture1) {
         db.Question.create({title:"This is question one"}).success(function(question1) {
           question1.setPicture(picture1);
           user.addQuestion(question1);
