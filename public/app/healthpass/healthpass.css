@@ -510,6 +510,8 @@
 .menu .btn {
   margin: 1%;
   padding: 10px 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .btn-transparent {
   background-color: rgba(0, 0, 0, 0);
