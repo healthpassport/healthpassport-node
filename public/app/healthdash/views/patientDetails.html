@@ -10,68 +10,59 @@
 
 	<div class="tab-content">
 
-		<div id="healthpass" ng-show="selected==1">
+		<div id="healthpass" ng-show="selected==1" ng-controller="PassportController">
 
 			<div class="passport-page">
 
 				<div class="form-horizontal">
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.name}}</div>
-						</div>
-					</div>
+				    <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Name</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{me.name}} {{me.surname}}</div>
+				      </div>
+				    </div>
+				  
+				    <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{me.email || "Not stated yet"}}</div>
+				      </div>
+				    </div>
+				  
+				    <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{me.telephone || "Not stated yet"}}</div>
+				      </div>
+				    </div>
 
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-angle-right fa-2x"></i> <span class="title">Surname</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.surname}}</div>
-						</div>
-					</div>
+				    <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{disability_level(me.patient.disability_level) || "Not stated yet" }}</div>
+				      </div>
+				    </div>
 
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-envelope-o fa-2x"></i> <span class="title">Email</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.email}}</div>
-						</div>
-					</div>
+				     <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{understanding_level(me.patient.understanding_level) || "Not stated yet" }}</div>
+				      </div>
+				    </div>
 
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-phone fa-2x"></i> <span class="title">Telephone</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.telephone || "&nbsp;"}}</div>
-						</div>
-					</div>
+				    <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{communication_type(me.patient.communication_type) || "Not stated yet" }}</div>
+				      </div>
+				    </div>
 
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-wheelchair fa-2x"></i> <span class="disability_level">Disability Level</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.disability_level || "&nbsp;" }}</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-book fa-2x"></i> <span class="understanding">Understanding</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.understanding_level || "&nbsp;" }}</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-bullhorn fa-2x"></i> <span class="communication">Communication</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.communication_type || "&nbsp;" }}</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
-						<div class="col-sm-9 hp-value">
-							<div class="inside">{{user.support_hours || "&nbsp;"}}</div>
-						</div>
-					</div>
-
-				</div>
+				     <div class="form-group">
+				      <div class="col-sm-3 hp-key"><i class="fa fa-user-md fa-2x"></i> <span class="title">Support hours</span></div>
+				      <div class="col-sm-9 hp-value">
+				        <div class="inside">{{me.patient.support_hours || "I didn't define the number of"}} hours</div>
+				      </div>
+				    </div>
 			</div>
 		</div>
 
