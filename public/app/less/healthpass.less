@@ -85,7 +85,13 @@
 .make-emotion(@color) {
   padding-top: 70px;
   height: 100%;
-  .gradient(top, @color, darken(@color, 20%));
+  .background {
+    .gradient(top, @color, darken(@color, 20%)); 
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+  }
   #bar {
     background-color: @color;
   }
