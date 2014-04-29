@@ -18,7 +18,7 @@
  *
  */
 
-var api_server = "http://nicolaretina.local:3000"
+var api_server = "http://healthpassport.herokuapp.com"
 angular.module('healthpass.factories', [
   'healthpass.sync' // Synchronisation helpers for online/offline database
 ])
