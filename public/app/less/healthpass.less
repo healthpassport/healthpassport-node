@@ -24,6 +24,25 @@
 @doctorColor: #565051;
 @doctorColorLight: #D1D0CE;
 @clockColor: #a47272;
+@homeColor: #ecf0f1;
+@homeColorLight: #ddd;
+
+.passport-color {
+  background-color: @passportColor;
+}
+.event-color {
+  background-color: @eventColor;
+}
+.contact-color {
+  background-color: @contactColor;
+}
+.allergy-color {
+  background-color: @allergyColor;
+}
+.questions-color {
+  background-color: @questionsColor;
+}
+
 
 /* Functions */
 
@@ -159,6 +178,26 @@
   } 
 }
 
+.home-page {
+  padding-top: 0px !important;
+  .make-page(@homeColor, @homeColorLight);
+  .gradient(top, darken(@homeColor, 20%), @homeColor); 
+  .btn {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    width: 80%;
+    line-height: 1;
+  }
+  .btns .fa {
+    vertical-align: middle;
+    font-size: 1.7em;
+  }
+  .top {
+    padding-bottom: 20px;
+    padding-top: 30px;
+  }
+}
+
 .passport-page {
   .make-page(@passportColor, @passportColorLight);
   .hp-value .btn {
@@ -204,8 +243,9 @@
     width: 90%;
     height: 10%;
     max-height: 400px;
-    min-height: 80px;
+    min-height: 70px;
     font-size: 2em;
+    margin-bottom: 15px;
   }
 
   #cameraDiv{
@@ -303,13 +343,13 @@
 }
 
 .camera {
-  display: none;
   .setFaColor(@eventColor);
    height: 20%;
    a{
     color: @eventColor;
    }
 }
+
 
 .clock {
   background-color: @clockColor;
@@ -363,4 +403,7 @@
     background-color: lighten(@painColor, 60%);
   }
 
+}
+.hidden {
+  display: none;
 }

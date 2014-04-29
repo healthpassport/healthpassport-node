@@ -1,5 +1,5 @@
 <div class="HomeContainer">
-  
+  <!-- 
   <div class="header">
     <div class="top">
       <img src="pictures/three.jpg" class="avatar"/>
@@ -28,6 +28,41 @@
     <a class="happy" href="#/happy"><i class="fa fa-smile-o fa-2x"></i></a>
     <a class="sad" href="#/sad"><i class="fa fa-frown-o fa-2x"></i></a>
     <a class="pain" href="#/pain"><i class="fa fa-meh-o fa-2x"></i></a>
+  </div> -->
+
+  <div class="home-page">
+    <div class="background"></div>
+
+    <div class="header">
+      <div class="top">
+        <img src="pictures/three.jpg" class="avatar"/>
+        <span camera ng-model='myPicture' class="camera hidden" ng-controller="WebcamController">
+          <i class="fa fa-camera fa-2x"></i>
+        </span>
+        <div ng-click="showLogout()">{{user.avatar}}</div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <div class="">
+        <a href="#/passport" class="btn passport-color" role="button"><i class="fa  fa-h-square"></i> Passport</a>
+      </div>
+      <div class="">
+        <a href="#/questions" class="btn questions-color" role="button"><i class="fa fa-thumbs-up"></i> Likes/Dislike</a>
+      </div>
+      <div class="">
+        <a href="#/contacts" class="btn contact-color" role="button"><i class="fa fa-users"></i> Contacts</a>
+      </div>
+      <div class="">
+        <a href="#/events" class="btn event-color" role="button"><i class="fa fa-clock-o"></i> Events</a>
+      </div>
+    </div>
+    <div class="emotions">
+      <a class="happy" href="#/happy"><i class="fa fa-smile-o fa-2x"></i></a>
+      <a class="sad" href="#/sad"><i class="fa fa-frown-o fa-2x"></i></a>
+      <a class="pain" href="#/pain"><i class="fa fa-meh-o fa-2x"></i></a>
+    </div>
+
   </div>
   
 </div>

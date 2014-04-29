@@ -4,6 +4,21 @@
  * Main LESS file to compile (and minimize) into healthpass.css 
  */
 /* Variables */
+.passport-color {
+  background-color: #3e9994;
+}
+.event-color {
+  background-color: #331336;
+}
+.contact-color {
+  background-color: #dc663d;
+}
+.allergy-color {
+  background-color: #e9b937;
+}
+.questions-color {
+  background-color: #e9b937;
+}
 /* Functions */
 /* Less code */
 .avatar {
@@ -49,6 +64,66 @@
 }
 .form-group .hp-value input {
   padding: 10px;
+}
+.home-page {
+  padding-top: 0px !important;
+  padding-top: 70px;
+  height: 100%;
+  background-color: #b1c2c6;
+  background-image: -webkit-linear-gradient(top, #b1c2c6, #ecf0f1);
+  background-image: -moz-linear-gradient(top, #b1c2c6, #ecf0f1);
+  background-image: -o-linear-gradient(top, #b1c2c6, #ecf0f1);
+  background-image: -ms-linear-gradient(top, #b1c2c6, #ecf0f1);
+  background-image: linear-gradient(top, #b1c2c6, #ecf0f1);
+}
+.home-page .background {
+  background-color: #ecf0f1;
+  background-image: -webkit-linear-gradient(top, #ecf0f1, #b1c2c6);
+  background-image: -moz-linear-gradient(top, #ecf0f1, #b1c2c6);
+  background-image: -o-linear-gradient(top, #ecf0f1, #b1c2c6);
+  background-image: -ms-linear-gradient(top, #ecf0f1, #b1c2c6);
+  background-image: linear-gradient(top, #ecf0f1, #b1c2c6);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+}
+.home-page #bar {
+  background-color: #ecf0f1;
+  box-shadow: 0px 0px 20px #94aab0;
+}
+.home-page .hp-key {
+  background-color: #ecf0f1;
+}
+.home-page .hp-value {
+  background-color: #dddddd;
+  color: #cfd9db;
+}
+.home-page .btn {
+  font-size: 2em;
+  color: #FFF;
+  border: 4px solid;
+}
+.home-page .btn.one_allergy {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.home-page .btn.one_notselected {
+  background-color: #666;
+}
+.home-page .btn {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  width: 80%;
+  line-height: 1;
+}
+.home-page .btns .fa {
+  vertical-align: middle;
+  font-size: 1.7em;
+}
+.home-page .top {
+  padding-bottom: 20px;
+  padding-top: 30px;
 }
 .passport-page {
   padding-top: 70px;
@@ -231,8 +306,9 @@
   width: 90%;
   height: 10%;
   max-height: 400px;
-  min-height: 80px;
+  min-height: 70px;
   font-size: 2em;
+  margin-bottom: 15px;
 }
 .emotions-page #cameraDiv {
   height: 10%;
@@ -520,7 +596,6 @@
   vertical-align: middle;
 }
 .camera {
-  display: none;
   height: 20%;
 }
 .camera > .fa {
@@ -568,4 +643,7 @@
 }
 #emotion_table .pain {
   background-color: #ccddff;
+}
+.hidden {
+  display: none;
 }

@@ -5,7 +5,7 @@ angular.module('healthcordova.directives', [])
     require: 'ngModel',
     link: function(scope, elm, attrs, ctrl) {
 
-      elm.css('display', 'block')
+      elm.removeClass('hidden')
 
       elm.on('click', function() {
 
