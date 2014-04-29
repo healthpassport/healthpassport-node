@@ -376,7 +376,7 @@ angular.module('healthpass.factories', [
     console.log("the current emotion",this.localurl)
     var promise;
     if (this.localurl) {
-      promise = Uploader.uploadPhoto(api_server+'/api/v1/pictures', this.localurl, _model).then(function(response) {
+      promise = Uploader.uploadPhoto(api_server+'/api/v1/emotions', this.localurl, _model).then(function(response) {
 
         _model.id = response.data.id;
         return new Model(_model);
@@ -504,4 +504,12 @@ angular.module('healthpass.factories', [
     });
   }
   return Model;
+})
+.factory('Position', function($req) {
+  var Position = {
+    create: function(lat, lon) {
+      if (req.offline()) return;
+      return $http.post(api_server+'/api/v1/positions', {lat:lat, lon:lon});
+    }
+  }
 })

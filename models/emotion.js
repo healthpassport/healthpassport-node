@@ -1,7 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   var Emotion = sequelize.define('Emotion', {
     emotion_type: DataTypes.STRING,
-    location: DataTypes.STRING,
     description: DataTypes.STRING,
     url: DataTypes.STRING,
     lon: DataTypes.FLOAT,

@@ -122,14 +122,25 @@ angular.module('healthpass.controllers', ['healthpass.factories'])
   $scope.data.emotion_type = $location.path().substr(1)
 
   $scope.saveEmotion = function(data, localurl) {
-    var location = Location.get();
-    data.lon = location.lon;
-    data.lat = location.lat;
-    if (localurl) data.localurl = localurl;
-    
-    Me.user.addEmotion(data, localurl).then(function() {
-      $location.path('/');
+
+    // First get location
+    Location.get(function(location){
+
+      // assign coordinates
+      data.lon = location.lon;
+      data.lat = location.lat;
+
+      // localurl will contain an image in case added
+      if (localurl) data.localurl = localurl;
+      
+      // add the emotion
+      Me.user.addEmotion(data, localurl).then(function() {
+
+        // back to main page
+        $location.path('/');
+      });
     });
+
   }
 
   $scope.$watch('myPicture', function(data) {

@@ -1,14 +1,20 @@
+// App dependencies
 var express = require('express');
 var async = require('async');
 var http = require('http');
 var path = require('path');
 var __ = require('underscore');
 var ejs = require("ejs");
+
+// Models
 var db = require('./models')
 
-var app = express();
-
+// Classes
 var db_mysql = require('./classes/mysql');
+var passport = require('./classes/passport');
+var store = require('./classes/redis');
+
+// Routes
 var api = require('./routes/api');
 var user = require('./routes/user');
 var _event = require('./routes/event');
@@ -16,10 +22,12 @@ var emotion = require('./routes/emotion');
 var picture = require('./routes/picture')
 var contact = require('./routes/contact');
 var allergy = require('./routes/allergy');
-var passport = require("./classes/passport");
 var question = require('./routes/question');
-var RedisStore     = require("connect-redis")(express);
-var store = require('./classes/redis');
+var position = require('./routes/position')
+
+// Setting the app
+var app = express();
+var RedisStore = require("connect-redis")(express);
 
 app.configure(function(){
   app.use(express.bodyParser({keepExtensions: true, uploadDir: __dirname + "/public/pictures"}));
@@ -50,20 +58,29 @@ app.configure(function(){
 });
 
 
-app.get("/login", function (req, res) { return res.render("login.html"); });
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
-app.get('/logout', function (req, res) { req.logout(); res.redirect('/'); });
-
+/*
+ * Static routes
+ */
 
 app.get('/', function(req, res) {
   if (req.isAuthenticated()) return res.render('index.html');
   res.redirect('/login');
 });
 
-app.get('/test', function(req, res) {
-  res.render('test.html')
+app.get("/login", function (req, res) { return res.render("login.html"); });
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+app.get('/logout', function (req, res) { req.logout(); res.redirect('/'); });
+
+
+app.get('/dashboard', function(req,res){
+  res.render('dashboard.html');
 });
 
+/*
+ * API Endpoints
+ */
+
+// API listing
 app.get('/api/v1', function(req, res){
   console.log(app.routes);
   res.json(__.map(app.routes, function(routeSet){
@@ -73,32 +90,45 @@ app.get('/api/v1', function(req, res){
   }));
 });
 
-app.get('/dashboard', function(req,res){
-  res.render('dashboard.html');
-});
+
 // Users
 app.get('/api/v1/users', api.auth, user.query, api.json);
 app.get('/api/v1/me', api.auth, user.me, api.json);
 app.post('/api/v1/users', api.auth, user.create, api.json);
 
-// User
+// User with id
 app.get('/api/v1/users/:userId', api.auth, user.get, api.json);
 app.del('/api/v1/users/:userId', api.auth, user.del, api.json);
 app.put('/api/v1/users/:userId', api.auth, user.update, api.json);
 
+// Questions
 app.post('/api/v1/questions/:questionId', api.auth, question.answer, api.json)
 
-//app.post('/api/v1/users/:username/emotions', emotion.create, api.json);
+// Emotions
 app.post('/api/v1/emotions', api.auth, emotion.create, api.json);
+app.get('/api/v1/users/:userId/emotions', api.auth, emotion.query, api.json);
+
+// Pictures
 app.get('/api/v1/pictures', api.auth, picture.query, api.json);
 app.post('/api/v1/pictures', api.auth, picture.create, api.json);
+
+// Allergies
 app.post('/api/v1/allergies', api.auth, allergy.create, api.json);
-app.post('/api/v1/contacts', api.auth, contact.create, api.json);
-app.post('/api/v1/events', api.auth, _event.create, api.json);
-app.get('/api/v1/users/:userId/emotions', api.auth, emotion.query, api.json);
 app.del('/api/v1/users/:userId/allergies/:allergyId', api.auth, allergy.del, api.json);
 
+// Contacts
+app.post('/api/v1/contacts', api.auth, contact.create, api.json);
 app.get('/api/v1/users/:userId/contacts', api.auth, contact.query, api.json);
+
+// Events
+app.post('/api/v1/events', api.auth, _event.create, api.json);
+
+// Position
+app.post('/api/v1/positions', api.auth, position.create, api.json)
+
+/*
+ * Setting up the database and adding mock data
+ */
 
 db
   .sequelize
@@ -218,6 +248,8 @@ db
       });
     })
     
+
+    // Finally running the server
     if (err) {
       throw err
     } else {

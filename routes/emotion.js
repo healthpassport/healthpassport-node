@@ -12,7 +12,9 @@ Routes.create = function(req, res, next) {
     userId: req.user.id,
     emotion_type: req.body.emotion_type,
     location: req.body.location,
-    description: req.body.description
+    description: req.body.description,
+    lon: req.body.lon,
+    lat: req.body.lat
   }
 
   if (req.files && req.files.pic) {

@@ -122,10 +122,34 @@
 
     <div id="emotions" ng-show="selected==3">
 
-      <div id="dashboard" ng-controller="ChartController">
-        <div id="chart_div"></div>
-        <div id="control" style='width: 915px; height: 50px;'></div>
+      <h2>Emotion records</h2>
+      <table id="emotion_table" class="table table-hover" ng-show="user.emotions.length > 0">
+        <thead>
+          <tr>
+            <th>Emotion</th>
+            <th>Time</th>
+            <th>Notes</th>
+            <th>Picture</th>
+            <th>Lat</th>
+            <th>Lon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="emotion in user.emotions" class="{{emotion.emotion_type}}">
+            <td>{{emotion.emotion_type}}</td>
+            <td>{{emotion.creation_time}}</td>
+            <td>{{emotion.description}}</td>
+            <td><img ng-show="emotion.url" ng-src="{{emotion.url}}" width="60px"/></td>
+            <td>{{emotion.lon}}</td>
+            <td>{{emotion.lat}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="alert alert-warning"
+        ng-hide="user.emotions.length > 0">
+        <h2>No record on emotions</h2>
       </div>
+
     </div>
 
 

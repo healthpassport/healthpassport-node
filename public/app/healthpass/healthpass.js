@@ -19,8 +19,23 @@ angular.module('healthpass', [
 
 // Location: mock user location for testing
 .service('Location', function() {
-  this.get = function() {
-    return {lon:1, lat:1};
+  this.get = function(callback) {
+    
+    if (!navigator) callback({lon:null, lat:null});
+
+    navigator.geolocation.getCurrentPosition(
+      function(position){
+        console.log(position.coords.longitude)
+        callback({
+          lon:position.coords.longitude,
+          lat:position.coords.latitude
+        })
+      },
+      function(err){
+        console.log(err);
+      }
+    );
+
   }
 })
 
