@@ -1,6 +1,6 @@
 google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
 google.setOnLoadCallback(function () {
-  angular.bootstrap(document.body, ['chartApp']);
+  angular.bootstrap(document.body, ['chartApp', 'google-maps']);
   console.log("LOADING");
 });
 
@@ -11,6 +11,7 @@ chartApp.config(function($routeProvider) {
   .when('/', { templateUrl: '/app/healthdash/views/admin.html', controller:"AdminController" })
   .when('/patients/:patientId',{templateUrl:'/app/healthdash/views/patientDetails.html', controller: "PatientController"})
   .when('/patients',{templateUrl: '/app/healthdash/views/patients.html', controller: "PatientsController"})
+  .when('/patients/:patientId/graph',{templateUrl: '/app/healthdash/views/chart.html', controller: "ChartController"})
 
 });
 chartApp.controller('PatientsController', function($scope, $location, User) {

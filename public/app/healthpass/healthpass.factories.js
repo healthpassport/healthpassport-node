@@ -358,6 +358,7 @@ angular.module('healthpass.factories', [
 })
 
 .factory('Emotion', function($remote, $sync, $req, Uploader) {
+
   var sync = $sync('Emotion');
   var Model = function(opts) {
     opts || (opts = {});
@@ -461,9 +462,14 @@ angular.module('healthpass.factories', [
 })
 .factory('Question', function($remote, $sync, $req) {
 
+  // Model contructor
   var Model = function(opts) {
+
+    // Overloading, I can pass an object or nothing
     opts || (opts = {});
     var _this = this;
+
+    // Functional programming hack: for each field in the json, create a field in the instance
     Object.keys(opts).map(function(key) {
        _this[key] = opts[key];
     })
@@ -484,21 +490,9 @@ angular.module('healthpass.factories', [
 
   }
 
-/*
-  Model.prototype.answer = function(answer){
-    this.answer = answer;
-    var _model = this;
-    return $remote.post(api_server+'/api/v1/questions/'+this.id, answer).then(function(response){
-      return _model;
-    });
-  }
-  */
-
   Model.prototype.saveAnswer = function(answer){
     var _model = this;
-    console.log("save answer", answer)
     return $remote.post(api_server+'/api/v1/questions/'+this.id, {answer:answer}).then(function(response){
-      console.log("remote save answer", answer)
       _model.answer = answer;
       return _model;
     });
