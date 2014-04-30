@@ -25,6 +25,9 @@ Routes.create = function(req, res, next) {
     if (!!err) return res.json(500, {status:"Error creating the user"});
     res.locals.json = {status: "OK"};
     next();
+  }, function(err) {
+    console.log("error creating emotion")
+    return res.json(500, err);
   })
 }
 
